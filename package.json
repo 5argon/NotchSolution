@@ -1,0 +1,8 @@
+{
+    "name": "com.e7.notch-solution",
+    "author": "Sirawat Pitaksarit / 5argon - Exceed7 Experiments",
+    "displayName": "Notch Solution",
+    "version": "1.0.0",
+    "unity": "2018.3",
+    "description": "A set of tools to fight with notched/cutout phones for Unity uGUI."
+}

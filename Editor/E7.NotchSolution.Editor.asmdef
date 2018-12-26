@@ -1,0 +1,16 @@
+{
+    "name": "E7.NotchSolution.Editor",
+    "references": [
+        "E7.NotchSolution"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": []
+}
