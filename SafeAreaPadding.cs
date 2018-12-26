@@ -17,13 +17,17 @@ namespace E7.NotchSolution
     [RequireComponent(typeof(RectTransform))]
     public class SafeAreaPadding : UIBehaviour, ILayoutSelfController, INotchSimulatorTarget
     {
+
+#if UNITY_EDITOR
+        public static Rect SimulateSafeAreaRelative { private get; set; }
+#endif
+
         private Rect GetScreenSafeAreaRelative()
         {
             //Debug.Log($"{Screen.width} {Screen.height} {Screen.currentResolution.width} {Screen.currentResolution.height}");
 #if UNITY_EDITOR
-            return NotchSolutionUtility.enableSimulation ? NotchSolutionUtility.SimulatorSafeArea : new Rect(0, 0, 1, 1);
+            return SimulateSafeAreaRelative;
 #else
-            var screen = new Rect(0, 0, Screen.width, Screen.height);
             var pixelSafeArea = Screen.safeArea;
             return new Rect(
                 pixelSafeArea.x / screen.width,
