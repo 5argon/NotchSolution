@@ -35,8 +35,8 @@ public class MockupCanvas : MonoBehaviour
 
             mockupImage.sprite = sprite;
             mockupImage.transform.localScale = new Vector3(
-                orientation == ScreenOrientation.Landscape ? (flipped ? -1 : 1) : 1,
-                orientation == ScreenOrientation.Portrait ? (flipped ? -1 : 1) : 1,
+                flipped ? -1 : 1,
+                flipped ? -1 : 1,
                 1
             );
         }

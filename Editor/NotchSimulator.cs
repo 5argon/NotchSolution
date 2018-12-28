@@ -56,8 +56,16 @@ namespace E7.NotchSolution
             GameObject mockupCanvas = GameObject.Find(mockupCanvasName);
             if (enableSimulation)
             {
-                var guids = AssetDatabase.FindAssets($"{prefix}-{simDevice.ToString()}-{NotchSimulatorUtility.GetGameViewOrientation().ToString()}");
-                Sprite mockupSprite = AssetDatabase.LoadAssetAtPath<Sprite>(AssetDatabase.GUIDToAssetPath(guids.First()));
+                //Landscape has an alias that turns ToString into LandscapeLeft lol
+                var orientationString = NotchSimulatorUtility.GetGameViewOrientation() == ScreenOrientation.Landscape ? nameof(ScreenOrientation.Landscape) : nameof(ScreenOrientation.Portrait);
+                var name = $"{prefix}-{simDevice.ToString()}-{orientationString}";
+                var guids = AssetDatabase.FindAssets(name);
+                var first = guids.FirstOrDefault();
+                if(first == default(string))
+                {
+                    throw new InvalidOperationException($"No mockup image named {name} in NotchSolution/Editor/Mockups folder!");
+                }
+                Sprite mockupSprite = AssetDatabase.LoadAssetAtPath<Sprite>(AssetDatabase.GUIDToAssetPath(first));
                 if (mockupCanvas == null)
                 {
                     var prefabGuids = AssetDatabase.FindAssets(mockupCanvasName);
