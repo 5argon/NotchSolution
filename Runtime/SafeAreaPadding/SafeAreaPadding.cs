@@ -1,9 +1,15 @@
-﻿using System.Collections;
+﻿//#define DEBUG_NOTCH_SOLUTION
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Linq;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace E7.NotchSolution
 {
@@ -17,16 +23,13 @@ namespace E7.NotchSolution
     [RequireComponent(typeof(RectTransform))]
     public class SafeAreaPadding : UIBehaviour, ILayoutSelfController, INotchSimulatorTarget
     {
-
-#if UNITY_EDITOR
-        public static Rect SimulateSafeAreaRelative { private get; set; }
-#endif
-
         private Rect GetScreenSafeAreaRelative()
         {
-            //Debug.Log($"{Screen.width} {Screen.height} {Screen.currentResolution.width} {Screen.currentResolution.height}");
+#if DEBUG_NOTCH_SOLUTION
+            Debug.Log($"{Screen.width} {Screen.height} {Screen.currentResolution.width} {Screen.currentResolution.height}");
+#endif
 #if UNITY_EDITOR
-            return SimulateSafeAreaRelative;
+            return NotchSolutionUtility.SimulateSafeAreaRelative;
 #else
             var pixelSafeArea = Screen.safeArea;
             return new Rect(
@@ -44,9 +47,11 @@ namespace E7.NotchSolution
             return new Rect(Vector2.zero, topRectSize);
         }
 
+#pragma warning disable 0649
         [SerializeField] SafeAreaPaddingOrientationType orientationType;
         [SerializeField] SafeAreaPaddingSides portraitOrDefaultPaddings;
         [SerializeField] SafeAreaPaddingSides landscapePaddings;
+#pragma warning restore 0649
 
         [System.NonSerialized]
         private RectTransform m_Rect;
@@ -89,7 +94,7 @@ namespace E7.NotchSolution
         {
             if (!IsActive()) return;
 
-            SafeAreaPaddingSides selectedOrientation = 
+            SafeAreaPaddingSides selectedOrientation =
             orientationType == SafeAreaPaddingOrientationType.DualOrientation ?
             NotchSolutionUtility.GetCurrentOrientation() == ScreenOrientation.Landscape ?
             landscapePaddings : portraitOrDefaultPaddings
@@ -127,7 +132,9 @@ namespace E7.NotchSolution
             var topRect = GetTopLevelRect();
             var safeAreaRelative = GetScreenSafeAreaRelative();
 
-            //Debug.Log($"Top {topRect} safe {safeAreaRelative} min {safeAreaRelative.xMin} {safeAreaRelative.yMin}");
+#if DEBUG_NOTCH_SOLUTION
+            Debug.Log($"Top {topRect} safe {safeAreaRelative} min {safeAreaRelative.xMin} {safeAreaRelative.yMin}");
+#endif
 
             var safeAreaPaddingsRelativeLDUR = new float[4]
             {
@@ -137,7 +144,9 @@ namespace E7.NotchSolution
                 1 - (safeAreaRelative.xMin + safeAreaRelative.width),
             };
 
-            //Debug.Log($"SafeLDUR {string.Join(" ", safeAreaPaddingsRelativeLDUR.Select(x => x.ToString()))}");
+#if DEBUG_NOTCH_SOLUTION
+            Debug.Log($"SafeLDUR {string.Join(" ", safeAreaPaddingsRelativeLDUR.Select(x => x.ToString()))}");
+#endif
 
             var currentRect = rectTransform.rect;
 
@@ -195,7 +204,9 @@ namespace E7.NotchSolution
                     break;
             }
 
-            //Debug.Log($"FinalLDUR {string.Join(" ", finalPaddingsLDUR.Select(x => x.ToString()))}");
+#if DEBUG_NOTCH_SOLUTION
+            Debug.Log($"FinalLDUR {string.Join(" ", finalPaddingsLDUR.Select(x => x.ToString()))}");
+#endif
 
             //Combined padding becomes size delta.
             var sizeDelta = rectTransform.sizeDelta;
@@ -206,13 +217,17 @@ namespace E7.NotchSolution
             //The rect remaining after subtracted the size delta.
             Vector2 rectWidthHeight = new Vector2(topRect.width + sizeDelta.x, topRect.height + sizeDelta.y);
 
-            //Debug.Log($"RectWidthHeight {rectWidthHeight}");
+#if DEBUG_NOTCH_SOLUTION
+            Debug.Log($"RectWidthHeight {rectWidthHeight}");
+#endif
 
             //Anchor position's answer is depending on pivot too. Where the pivot point is defines where 0 anchor point is.
             Vector2 zeroPosition = new Vector2(rectTransform.pivot.x * topRect.width, rectTransform.pivot.y * topRect.height);
             Vector2 pivotInRect = new Vector2(rectTransform.pivot.x * rectWidthHeight.x, rectTransform.pivot.y * rectWidthHeight.y);
 
-            //Debug.Log($"zeroPosition {zeroPosition}");
+#if DEBUG_NOTCH_SOLUTION
+            Debug.Log($"zeroPosition {zeroPosition}");
+#endif
 
             //Calculate like zero position is at bottom left first, then diff with the real zero position.
             rectTransform.anchoredPosition3D = new Vector3(
@@ -233,7 +248,10 @@ namespace E7.NotchSolution
 #if UNITY_EDITOR
         protected override void OnValidate()
         {
-            StartCoroutine(DelayUpdate());
+            if (gameObject.activeInHierarchy)
+            {
+                StartCoroutine(DelayUpdate());
+            }
         }
 #endif
 

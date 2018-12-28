@@ -21,19 +21,57 @@ namespace E7.NotchSolution
         void OnGUI()
         {
             bool isEnableSimulation = NotchSimulatorUtility.enableSimulation;
+            EditorGUI.BeginChangeCheck();
             NotchSimulatorUtility.enableSimulation = EditorGUILayout.BeginToggleGroup("Simulate", NotchSimulatorUtility.enableSimulation);
+            EditorGUI.indentLevel++;
             NotchSimulatorUtility.selectedDevice = (SimulationDevice)EditorGUILayout.EnumPopup(NotchSimulatorUtility.selectedDevice);
+            NotchSimulatorUtility.flipOrientation = EditorGUILayout.Toggle("Flip Orientation", NotchSimulatorUtility.flipOrientation);
+            EditorGUI.indentLevel--;
             EditorGUILayout.EndToggleGroup();
+            bool changed = EditorGUI.EndChangeCheck();
+
+            if(changed)
+            {
+                UpdateMockup(NotchSimulatorUtility.selectedDevice);
+            }
 
             if (isEnableSimulation || (!isEnableSimulation && NotchSimulatorUtility.enableSimulation))
             {
-                SafeAreaPadding.SimulateSafeAreaRelative = NotchSimulatorUtility.enableSimulation ? NotchSimulatorUtility.SimulatorSafeAreaRelative : new Rect(0, 0, 1, 1);
+                NotchSolutionUtility.SimulateSafeAreaRelative = NotchSimulatorUtility.enableSimulation ? NotchSimulatorUtility.SimulatorSafeAreaRelative : new Rect(0, 0, 1, 1);
 
                 var nps = GameObject.FindObjectsOfType<UIBehaviour>().OfType<INotchSimulatorTarget>();
                 foreach (var np in nps)
                 {
                     np.SimulatorUpdate();
                 }
+            }
+        }
+
+        private const string prefix = "NoSo";
+        private const string mockupCanvasName = prefix + "-MockupCanvas";
+
+        private void UpdateMockup(SimulationDevice simDevice)
+        {
+            bool enableSimulation = NotchSimulatorUtility.enableSimulation;
+            GameObject mockupCanvas = GameObject.Find(mockupCanvasName);
+            if (enableSimulation)
+            {
+                var guids = AssetDatabase.FindAssets($"{prefix}-{simDevice.ToString()}-{NotchSimulatorUtility.GetGameViewOrientation().ToString()}");
+                Sprite mockupSprite = AssetDatabase.LoadAssetAtPath<Sprite>(AssetDatabase.GUIDToAssetPath(guids.First()));
+                if (mockupCanvas == null)
+                {
+                    var prefabGuids = AssetDatabase.FindAssets(mockupCanvasName);
+                    GameObject mockupCanvasPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(AssetDatabase.GUIDToAssetPath(prefabGuids.First()));
+                    mockupCanvas = (GameObject)PrefabUtility.InstantiatePrefab(mockupCanvasPrefab);
+                    mockupCanvas.hideFlags = HideFlags.HideAndDontSave | HideFlags.NotEditable | HideFlags.HideInInspector;
+                }
+                var mc = mockupCanvas.GetComponent<MockupCanvas>();
+
+                mc.SetMockupSprite(mockupSprite, NotchSimulatorUtility.GetGameViewOrientation(), simulate: enableSimulation, flipped: NotchSimulatorUtility.flipOrientation);
+            }
+            else
+            {
+                GameObject.DestroyImmediate(mockupCanvas);
             }
         }
     }

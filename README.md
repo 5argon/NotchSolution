@@ -50,8 +50,18 @@ Accessible from `Window > General > Notch Simulator`.
 
 Works together with all `SafeAreaPadding` in the current scene. Normally `Screen.safeArea` does not return a useful value in editor. Notch Simulator can simulate a safe area in editor for you even outside of play mode. You can toggle it on and off to see your UI reacts immediately.
 
+## How it works
+
+- The simulator maintains a `Canvas` game object with hide flags invisible and not save in any circumstance.
+- `AssetDatabase` search the plugin folder for the correct notch overlay image to put in that canvas. Portrait and landscape image is separated. (For example iPhoneX has a different bottom bar.)
+- This `Canvas` is on "Screen Space - Overlay". with high sort order.
+- You need to set the game view to match your simulation device choice or it would looks weird.
+- Portrait or landscape orientation is determined from width vs height of the current game view's size. (Not by `Screen.` API, since that does not work in editor.)
+
+This is also useful for aiming what can fit in the corner around the notch. Safe area do not cover such information. (Safe area is a rectangle)
+
 # Need help / TODO
 
-- Make the simulator creates a new `Canvas` game object with hide flags invisible and not save in any circumstance, to display an overlay notch + curved corner on the screen based on simulator profile selected. This is also useful for aiming what can fit in the corner around the notch. Safe area do not cover such information. (Safe area is a rectangle)
-- Add more profiles, but needed someone with notch/cutout phone and try calling `Screen.safeArea` on the phone.
+- Wait for 2019.1 then we can have the "eye" visibility toggle in the hierarchy. The simulator-created notch overlay should have this visibility as off so it is invisible in Scene view but visible in the game view.
+- Add more profiles, but need someone with notch/cutout phone and try calling `Screen.safeArea` on the phone.
 - Make an APK for grabbing `Screen.safeArea` for distribution. (Or even use some kind of web service to collect safe areas automatically.)

@@ -5,16 +5,15 @@ namespace E7.NotchSolution
 {
     public static class NotchSimulatorUtility
     {
-        const string prefix = "NotchSolution_";
-        const string enableSimulationKey = prefix + "enableSimulation";
-        const string simulationDeviceKey = prefix + "simulationDevice";
+        const string enableSimulationKey = NotchSolutionUtility.prefix + "enableSimulation";
+        const string simulationDeviceKey = NotchSolutionUtility.prefix + "simulationDevice";
+        const string flipOrientationKey = NotchSolutionUtility.prefix + "flipOrientation";
 
         internal static Rect SimulatorSafeAreaRelative
         {
             get
             {
-                var gameViewSize = GetMainGameViewSize();
-                var orientation = gameViewSize.x > gameViewSize.y ? ScreenOrientation.Landscape : ScreenOrientation.Portrait;
+                var orientation = GetGameViewOrientation();
                 var device = SimulationDatabase.db.ContainsKey(selectedDevice) ?  selectedDevice : default;
                 var safe = orientation == ScreenOrientation.Landscape ? SimulationDatabase.db[device].landscapeSafeArea : SimulationDatabase.db[device].portraitSafeArea;
                 var screenSize = SimulationDatabase.db[device].screenSize;
@@ -25,8 +24,27 @@ namespace E7.NotchSolution
                     screenSize.y = swap;
                 }
                 var relativeSafeArea = new Rect(safe.xMin / screenSize.x, safe.yMin / screenSize.y, safe.width / screenSize.x, safe.height / screenSize.y);
-                return relativeSafeArea;
+
+                if (NotchSimulatorUtility.flipOrientation)
+                {
+                    return new Rect(
+                        1 - (relativeSafeArea.width + relativeSafeArea.xMin),
+                        1 - (relativeSafeArea.height + relativeSafeArea.yMin),
+                        relativeSafeArea.width,
+                        relativeSafeArea.height
+                    );
+                }
+                else
+                {
+                    return relativeSafeArea;
+                }
             }
+        }
+
+        internal static ScreenOrientation GetGameViewOrientation()
+        {
+            var gameViewSize = GetMainGameViewSize();
+            return gameViewSize.x > gameViewSize.y ? ScreenOrientation.Landscape : ScreenOrientation.Portrait;
         }
 
         internal static Vector2 GetMainGameViewSize()
@@ -41,6 +59,12 @@ namespace E7.NotchSolution
         {
             get { return EditorPrefs.GetBool(enableSimulationKey); }
             set { EditorPrefs.SetBool(enableSimulationKey, value); }
+        }
+
+        internal static bool flipOrientation 
+        {
+            get { return EditorPrefs.GetBool(flipOrientationKey); }
+            set { EditorPrefs.SetBool(flipOrientationKey, value); }
         }
 
         internal static SimulationDevice selectedDevice
