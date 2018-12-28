@@ -1,6 +1,6 @@
 # Notch Solution
 
-![screenshot1](.ss1.png)
+![screenshot1](.ss1.gif)
 
 It is a set of tools to fight with notched/cutout phones for Unity uGUI.
 
@@ -10,11 +10,17 @@ Add this line `"com.e7.notch-solution": "git://github.com/5argon/NotchSolution.g
 
 It does not update automatically when I push fixes to this repo. You must remove the lock in your Packages folder.
 
+## Asset Store
+
+It will be on Unity Asset Store later. There are some weird glitches remaining...
+
 # SafeAreaPadding
 
 This script trust the return value of [`Screen.safeArea`](https://docs.unity3d.com/ScriptReference/Screen-safeArea.html) and pad the `RectTransform` accordingly.
 
-Meaning that for Android to work, your player's phone has to be on Android P AND also you have to use Unity 2019.1 or over. Otherwise I believe Android builds with black bar over the notch/cutout.
+## Android & `Screen.safeArea`
+
+For Android to work, your player's phone has to be on Android P AND also you have to use Unity 2019.1 or over. Otherwise I believe Android builds with black bar over the notch/cutout.
 
 ## How it works
 
@@ -45,6 +51,8 @@ If your application supports both portrait and landscape you could choose `DualO
 When you use `DualOrientation` your prior padding settings will become the portrait ones, and you will get a separated landscape paddings to setup. Your previous orientation will no longer applied to landscape orientation. If you switch back to `SingleOrientation` the portrait paddings works for both orientations again.
 
 # Notch Simulator
+
+![screenshot1](.ss2.png)
 
 Accessible from `Window > General > Notch Simulator`. 
 
