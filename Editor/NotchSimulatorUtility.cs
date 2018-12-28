@@ -47,12 +47,14 @@ namespace E7.NotchSolution
             return gameViewSize.x > gameViewSize.y ? ScreenOrientation.Landscape : ScreenOrientation.Portrait;
         }
 
+        static System.Type T = System.Type.GetType("UnityEditor.GameView,UnityEditor");
+        static System.Reflection.MethodInfo GetSizeOfMainGameView = T.GetMethod("GetMainGameViewTargetSizeNoBox", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
+
+        private static object[] argsForOut = new object[1];
         internal static Vector2 GetMainGameViewSize()
         {
-            System.Type T = System.Type.GetType("UnityEditor.GameView,UnityEditor");
-            System.Reflection.MethodInfo GetSizeOfMainGameView = T.GetMethod("GetSizeOfMainGameView", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
-            System.Object Res = GetSizeOfMainGameView.Invoke(null, null);
-            return (Vector2)Res;
+            System.Object Res = GetSizeOfMainGameView.Invoke(null, argsForOut);
+            return (Vector2)argsForOut[0];
         }
 
         internal static bool enableSimulation 

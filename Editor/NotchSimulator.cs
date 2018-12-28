@@ -20,12 +20,41 @@ namespace E7.NotchSolution
 
         void OnGUI()
         {
-            bool isEnableSimulation = NotchSimulatorUtility.enableSimulation;
+            bool enableSimulation = NotchSimulatorUtility.enableSimulation;
             EditorGUI.BeginChangeCheck();
             NotchSimulatorUtility.enableSimulation = EditorGUILayout.BeginToggleGroup("Simulate", NotchSimulatorUtility.enableSimulation);
             EditorGUI.indentLevel++;
+
             NotchSimulatorUtility.selectedDevice = (SimulationDevice)EditorGUILayout.EnumPopup(NotchSimulatorUtility.selectedDevice);
             NotchSimulatorUtility.flipOrientation = EditorGUILayout.Toggle("Flip Orientation", NotchSimulatorUtility.flipOrientation);
+
+            var simulationDevice = SimulationDatabase.db[NotchSimulatorUtility.selectedDevice];
+
+            //Draw warning about wrong aspect ratio
+            if (enableSimulation)
+            {
+                ScreenOrientation gameViewOrientation = NotchSimulatorUtility.GetGameViewOrientation();
+
+                Vector2 simSize = gameViewOrientation == ScreenOrientation.Portrait ?
+                 simulationDevice.screenSize : new Vector2(simulationDevice.screenSize.y, simulationDevice.screenSize.x);
+
+                Vector2 gameViewSize = NotchSimulatorUtility.GetMainGameViewSize();
+                if(gameViewOrientation == ScreenOrientation.Landscape)
+                {
+                    var flip = gameViewSize.x;
+                    gameViewSize.x = gameViewSize.y;
+                    gameViewSize.y = flip;
+                }
+
+                var simAspect = simulationDevice.screenSize.y / simulationDevice.screenSize.x;
+                var gameViewAspect = gameViewSize.y / gameViewSize.x;
+                var aspectDiff = Math.Abs(simAspect - gameViewAspect);
+                if (aspectDiff > 0.01f)
+                {
+                    EditorGUILayout.HelpBox($"The selected simulation device has an aspect ratio of {simAspect} ({simulationDevice.screenSize.y}x{simulationDevice.screenSize.x}) but your game view is currently in aspect {gameViewAspect} ({gameViewSize.y}x{gameViewSize.x}). The overlay mockup will be stretched from its intended ratio.", MessageType.Warning);
+                }
+            }
+
             EditorGUI.indentLevel--;
             EditorGUILayout.EndToggleGroup();
             bool changed = EditorGUI.EndChangeCheck();
@@ -35,10 +64,9 @@ namespace E7.NotchSolution
                 UpdateMockup(NotchSimulatorUtility.selectedDevice);
             }
 
-            if (isEnableSimulation || (!isEnableSimulation && NotchSimulatorUtility.enableSimulation))
+            if (enableSimulation || (!enableSimulation && NotchSimulatorUtility.enableSimulation))
             {
                 NotchSolutionUtility.SimulateSafeAreaRelative = NotchSimulatorUtility.enableSimulation ? NotchSimulatorUtility.SimulatorSafeAreaRelative : new Rect(0, 0, 1, 1);
-
                 var nps = GameObject.FindObjectsOfType<UIBehaviour>().OfType<INotchSimulatorTarget>();
                 foreach (var np in nps)
                 {
@@ -49,6 +77,8 @@ namespace E7.NotchSolution
 
         private const string prefix = "NoSo";
         private const string mockupCanvasName = prefix + "-MockupCanvas";
+
+        //TODO : Game view related reflection methods should be cached.
 
         private void UpdateMockup(SimulationDevice simDevice)
         {
