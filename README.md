@@ -8,11 +8,11 @@ It is a set of tools to fight with notched/cutout phones for Unity uGUI.
 
 Add this line `"com.e7.notch-solution": "git://github.com/5argon/NotchSolution.git",` to your packages.json
 
-It does not update automatically when I push fixes to this repo. You must remove the lock in your Packages folder.
+It does not update automatically when I push fixes to this repo. You must remove the lock in your Packages folder. Otherwise you would better use Asset Store.
 
 ## Asset Store
 
-It will be on Unity Asset Store later. There are some weird glitches remaining...
+It will be on Unity Asset Store for free later. There are some weird glitches remaining...
 
 # SafeAreaPadding
 
@@ -71,5 +71,12 @@ This is also useful for aiming what can fit in the corner around the notch. Safe
 # Need help / TODO
 
 - Wait for 2019.1 then we can have the "eye" visibility toggle in the hierarchy. The simulator-created notch overlay should have this visibility as off so it is invisible in Scene view but visible in the game view.
-- Add more profiles, but need someone with notch/cutout phone and try calling `Screen.safeArea` on the phone.
+- Wait for 2019.1 and add some shortcut keys to toggle the simulator.
 - Make an APK for grabbing `Screen.safeArea` for distribution. (Or even use some kind of web service to collect safe areas automatically.)
+- Add more profiles and mockup overlays, but I need someone with notch/cutout phone and try calling `Screen.safeArea` on the phone. Contribution of overlay image would be appreciated, see examples in `Editor/Mockups` folder. It can be in any resolution but needs to be aspect-correct as it will be stretched out to the `Canvas`.
+
+## How to add a new device
+
+- `Editor/SimulationDevice.cs` : Add a new `enum` to this file first. It would show up in the simulator with enum dropdown.
+- `Editor/SimulationDatabase.cs` : A mapping from that `enum` to various information required.
+- `Editor/Mockups` : Mockup overlay files are here. It should be named this pattern `NoSo-{enum}-{orientation}` and colored white.
