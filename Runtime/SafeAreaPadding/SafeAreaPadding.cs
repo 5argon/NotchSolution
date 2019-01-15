@@ -33,10 +33,10 @@ namespace E7.NotchSolution
 #else
             var pixelSafeArea = Screen.safeArea;
             return new Rect(
-                pixelSafeArea.x / screen.width,
-                pixelSafeArea.y / screen.height,
-                pixelSafeArea.width / screen.width,
-                pixelSafeArea.height / screen.height
+                pixelSafeArea.x / Screen.width,
+                pixelSafeArea.y / Screen.height,
+                pixelSafeArea.width / Screen.width,
+                pixelSafeArea.height / Screen.height
             );
 #endif
         }
@@ -234,9 +234,6 @@ namespace E7.NotchSolution
                 finalPaddingsLDUR[0] + pivotInRect.x - zeroPosition.x,
                 finalPaddingsLDUR[1] + pivotInRect.y - zeroPosition.y,
             rectTransform.anchoredPosition3D.z);
-
-            rectTransform.rotation = Quaternion.identity;
-            rectTransform.localScale = Vector3.one;
         }
 
         private IEnumerator DelayUpdate()
