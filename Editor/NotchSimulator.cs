@@ -46,12 +46,12 @@ namespace E7.NotchSolution
                     gameViewSize.y = flip;
                 }
 
-                var simAspect = simulationDevice.screenSize.y / simulationDevice.screenSize.x;
-                var gameViewAspect = gameViewSize.y / gameViewSize.x;
-                var aspectDiff = Math.Abs(simAspect - gameViewAspect);
+                var simAspect = ScreenRatio(simulationDevice.screenSize);
+                var gameViewAspect = ScreenRatio(gameViewSize);
+                var aspectDiff = Math.Abs((simAspect.x / simAspect.y) - (gameViewAspect.x / gameViewAspect.y));
                 if (aspectDiff > 0.01f)
                 {
-                    EditorGUILayout.HelpBox($"The selected simulation device has an aspect ratio of {simAspect} ({simulationDevice.screenSize.y}x{simulationDevice.screenSize.x}) but your game view is currently in aspect {gameViewAspect} ({gameViewSize.y}x{gameViewSize.x}). The overlay mockup will be stretched from its intended ratio.", MessageType.Warning);
+                    EditorGUILayout.HelpBox($"The selected simulation device has an aspect ratio of {simAspect.y}:{simAspect.x} ({simulationDevice.screenSize.y}x{simulationDevice.screenSize.x}) but your game view is currently in aspect {gameViewAspect.y}:{gameViewAspect.x} ({gameViewSize.y}x{gameViewSize.x}). The overlay mockup will be stretched from its intended ratio.", MessageType.Warning);
                 }
             }
 
@@ -73,6 +73,25 @@ namespace E7.NotchSolution
                     np.SimulatorUpdate();
                 }
             }
+        }
+        
+        private Vector2 ScreenRatio(Vector2 screen)
+        {
+            int a = (int)screen.x;
+            int b = (int)screen.y;
+
+            int gcd = 0;
+            while (a != 0 && b != 0)
+            {
+                if (a > b)
+                    a %= b;
+                else
+                    b %= a;
+            }
+            if (a == 0) gcd = b;
+            else gcd = a;
+            
+            return new Vector2(screen.x / gcd, screen.y / gcd);
         }
 
         private const string prefix = "NoSo";
