@@ -20,6 +20,13 @@ namespace E7.NotchSolution
 
         void OnGUI()
         {
+            //Keep play mode's changes
+            EditorApplication.playModeStateChanged += (state) =>
+            {
+                if (state == PlayModeStateChange.EnteredEditMode)
+                    UpdateMockup(NotchSimulatorUtility.selectedDevice);
+            };
+
             bool enableSimulation = NotchSimulatorUtility.enableSimulation;
             EditorGUI.BeginChangeCheck();
             NotchSimulatorUtility.enableSimulation = EditorGUILayout.BeginToggleGroup("Simulate", NotchSimulatorUtility.enableSimulation);
@@ -120,7 +127,7 @@ namespace E7.NotchSolution
                     var prefabGuids = AssetDatabase.FindAssets(mockupCanvasName);
                     GameObject mockupCanvasPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(AssetDatabase.GUIDToAssetPath(prefabGuids.First()));
                     mockupCanvas = (GameObject)PrefabUtility.InstantiatePrefab(mockupCanvasPrefab);
-                    mockupCanvas.hideFlags = HideFlags.HideAndDontSave | HideFlags.NotEditable | HideFlags.HideInInspector;
+                    mockupCanvas.hideFlags = HideFlags.HideInHierarchy;
                 }
                 var mc = mockupCanvas.GetComponent<MockupCanvas>();
 
