@@ -15,7 +15,7 @@ namespace E7.NotchSolution
         public static void ShowWindow()
         {
             var win = EditorWindow.GetWindow(typeof(NotchSimulator));
-            win.titleContent= new GUIContent("Notch Simulator");
+            win.titleContent = new GUIContent("Notch Simulator");
         }
 
         void OnGUI()
@@ -46,7 +46,7 @@ namespace E7.NotchSolution
                  simulationDevice.screenSize : new Vector2(simulationDevice.screenSize.y, simulationDevice.screenSize.x);
 
                 Vector2 gameViewSize = NotchSimulatorUtility.GetMainGameViewSize();
-                if(gameViewOrientation == ScreenOrientation.Landscape)
+                if (gameViewOrientation == ScreenOrientation.Landscape)
                 {
                     var flip = gameViewSize.x;
                     gameViewSize.x = gameViewSize.y;
@@ -66,7 +66,7 @@ namespace E7.NotchSolution
             EditorGUILayout.EndToggleGroup();
             bool changed = EditorGUI.EndChangeCheck();
 
-            if(changed)
+            if (changed)
             {
                 UpdateMockup(NotchSimulatorUtility.selectedDevice);
             }
@@ -81,7 +81,7 @@ namespace E7.NotchSolution
                 }
             }
         }
-        
+
         private Vector2 ScreenRatio(Vector2 screen)
         {
             int a = (int)screen.x;
@@ -97,7 +97,7 @@ namespace E7.NotchSolution
             }
             if (a == 0) gcd = b;
             else gcd = a;
-            
+
             return new Vector2(screen.x / gcd, screen.y / gcd);
         }
 
@@ -117,7 +117,7 @@ namespace E7.NotchSolution
                 var name = $"{prefix}-{simDevice.ToString()}-{orientationString}";
                 var guids = AssetDatabase.FindAssets(name);
                 var first = guids.FirstOrDefault();
-                if(first == default(string))
+                if (first == default(string))
                 {
                     throw new InvalidOperationException($"No mockup image named {name} in NotchSolution/Editor/Mockups folder!");
                 }
