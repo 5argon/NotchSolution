@@ -25,6 +25,8 @@ namespace E7.NotchSolution
             {
                 if (state == PlayModeStateChange.EnteredEditMode)
                     UpdateMockup(NotchSimulatorUtility.selectedDevice);
+                else if (state == PlayModeStateChange.EnteredPlayMode & GameObject.Find(mockupCanvasName) != null)
+                    GameObject.Find(mockupCanvasName).hideFlags = HideFlags.HideInHierarchy;
             };
 
             bool enableSimulation = NotchSimulatorUtility.enableSimulation;
@@ -127,8 +129,8 @@ namespace E7.NotchSolution
                     var prefabGuids = AssetDatabase.FindAssets(mockupCanvasName);
                     GameObject mockupCanvasPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(AssetDatabase.GUIDToAssetPath(prefabGuids.First()));
                     mockupCanvas = (GameObject)PrefabUtility.InstantiatePrefab(mockupCanvasPrefab);
-                    mockupCanvas.hideFlags = HideFlags.HideInHierarchy;
                 }
+                mockupCanvas.hideFlags = HideFlags.HideInHierarchy;
                 var mc = mockupCanvas.GetComponent<MockupCanvas>();
 
                 mc.SetMockupSprite(mockupSprite, NotchSimulatorUtility.GetGameViewOrientation(), simulate: enableSimulation, flipped: NotchSimulatorUtility.flipOrientation);
