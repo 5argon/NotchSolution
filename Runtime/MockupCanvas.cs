@@ -39,6 +39,10 @@ public class MockupCanvas : MonoBehaviour
                 flipped ? -1 : 1,
                 1
             );
+
+            //Force editor to refresh
+            mockupImage.enabled = false;
+            mockupImage.enabled = true;
         }
     }
 }

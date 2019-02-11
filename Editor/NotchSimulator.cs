@@ -15,11 +15,20 @@ namespace E7.NotchSolution
         public static void ShowWindow()
         {
             var win = EditorWindow.GetWindow(typeof(NotchSimulator));
-            win.titleContent= new GUIContent("Notch Simulator");
+            win.titleContent = new GUIContent("Notch Simulator");
         }
 
         void OnGUI()
         {
+            //Keep play mode's changes
+            EditorApplication.playModeStateChanged += (state) =>
+            {
+                if (state == PlayModeStateChange.EnteredEditMode)
+                    UpdateMockup(NotchSimulatorUtility.selectedDevice);
+                else if (state == PlayModeStateChange.EnteredPlayMode & GameObject.Find(mockupCanvasName) != null)
+                    GameObject.Find(mockupCanvasName).hideFlags = HideFlags.HideInHierarchy;
+            };
+
             bool enableSimulation = NotchSimulatorUtility.enableSimulation;
             EditorGUI.BeginChangeCheck();
             NotchSimulatorUtility.enableSimulation = EditorGUILayout.BeginToggleGroup("Simulate", NotchSimulatorUtility.enableSimulation);
@@ -39,19 +48,19 @@ namespace E7.NotchSolution
                  simulationDevice.screenSize : new Vector2(simulationDevice.screenSize.y, simulationDevice.screenSize.x);
 
                 Vector2 gameViewSize = NotchSimulatorUtility.GetMainGameViewSize();
-                if(gameViewOrientation == ScreenOrientation.Landscape)
+                if (gameViewOrientation == ScreenOrientation.Landscape)
                 {
                     var flip = gameViewSize.x;
                     gameViewSize.x = gameViewSize.y;
                     gameViewSize.y = flip;
                 }
 
-                var simAspect = simulationDevice.screenSize.y / simulationDevice.screenSize.x;
-                var gameViewAspect = gameViewSize.y / gameViewSize.x;
-                var aspectDiff = Math.Abs(simAspect - gameViewAspect);
+                var simAspect = ScreenRatio(simulationDevice.screenSize);
+                var gameViewAspect = ScreenRatio(gameViewSize);
+                var aspectDiff = Math.Abs((simAspect.x / simAspect.y) - (gameViewAspect.x / gameViewAspect.y));
                 if (aspectDiff > 0.01f)
                 {
-                    EditorGUILayout.HelpBox($"The selected simulation device has an aspect ratio of {simAspect} ({simulationDevice.screenSize.y}x{simulationDevice.screenSize.x}) but your game view is currently in aspect {gameViewAspect} ({gameViewSize.y}x{gameViewSize.x}). The overlay mockup will be stretched from its intended ratio.", MessageType.Warning);
+                    EditorGUILayout.HelpBox($"The selected simulation device has an aspect ratio of {simAspect.y}:{simAspect.x} ({simulationDevice.screenSize.y}x{simulationDevice.screenSize.x}) but your game view is currently in aspect {gameViewAspect.y}:{gameViewAspect.x} ({gameViewSize.y}x{gameViewSize.x}). The overlay mockup will be stretched from its intended ratio.", MessageType.Warning);
                 }
             }
 
@@ -59,7 +68,7 @@ namespace E7.NotchSolution
             EditorGUILayout.EndToggleGroup();
             bool changed = EditorGUI.EndChangeCheck();
 
-            if(changed)
+            if (changed)
             {
                 UpdateMockup(NotchSimulatorUtility.selectedDevice);
             }
@@ -73,6 +82,25 @@ namespace E7.NotchSolution
                     np.SimulatorUpdate();
                 }
             }
+        }
+
+        private Vector2 ScreenRatio(Vector2 screen)
+        {
+            int a = (int)screen.x;
+            int b = (int)screen.y;
+
+            int gcd = 0;
+            while (a != 0 && b != 0)
+            {
+                if (a > b)
+                    a %= b;
+                else
+                    b %= a;
+            }
+            if (a == 0) gcd = b;
+            else gcd = a;
+
+            return new Vector2(screen.x / gcd, screen.y / gcd);
         }
 
         private const string prefix = "NoSo";
@@ -91,7 +119,7 @@ namespace E7.NotchSolution
                 var name = $"{prefix}-{simDevice.ToString()}-{orientationString}";
                 var guids = AssetDatabase.FindAssets(name);
                 var first = guids.FirstOrDefault();
-                if(first == default(string))
+                if (first == default(string))
                 {
                     throw new InvalidOperationException($"No mockup image named {name} in NotchSolution/Editor/Mockups folder!");
                 }
@@ -101,8 +129,8 @@ namespace E7.NotchSolution
                     var prefabGuids = AssetDatabase.FindAssets(mockupCanvasName);
                     GameObject mockupCanvasPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(AssetDatabase.GUIDToAssetPath(prefabGuids.First()));
                     mockupCanvas = (GameObject)PrefabUtility.InstantiatePrefab(mockupCanvasPrefab);
-                    mockupCanvas.hideFlags = HideFlags.HideAndDontSave | HideFlags.NotEditable | HideFlags.HideInInspector;
                 }
+                mockupCanvas.hideFlags = HideFlags.HideInHierarchy;
                 var mc = mockupCanvas.GetComponent<MockupCanvas>();
 
                 mc.SetMockupSprite(mockupSprite, NotchSimulatorUtility.GetGameViewOrientation(), simulate: enableSimulation, flipped: NotchSimulatorUtility.flipOrientation);
