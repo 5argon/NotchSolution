@@ -102,9 +102,16 @@ This is also useful for aiming what can fit in the corner around the notch, beca
 
 ## How to help me add a new device
 
+- Download APK in the **Build** folder. Then install on your Android with file manager or `adb install -r` (r = replace). After it runs, **rotate the device to both portrait and landscape** and take screenshots to remember informations.
 - `Editor/SimulationDevice.cs` : Add a new `enum` to this file first. It would show up in the simulator with `enum` dropdown.
 - `Editor/SimulationDatabase.cs` : A mapping from that `enum` to various information required.
 - `Editor/Mockups` : Mockup overlay files are here. It should be named this pattern `NoSo-{enum}-{Portrait/Landscape}` and colored white/transparent. It can be in any resolution but needs to be aspect-correct as it will be stretched out to the `Canvas`.
+
+## Current simulation devices available
+
+- iPhone X
+- Huawei Mate 20 Pro (Thank you @06Games !)
+- OnePlus 6T (Thank you @06Games !)
 
 # Blatant advertisement
 
