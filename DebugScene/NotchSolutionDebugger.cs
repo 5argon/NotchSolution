@@ -34,11 +34,8 @@ public class NotchSolutionDebugger : MonoBehaviour
         sb.AppendLine($"Current resolution : {Screen.currentResolution}\n");
         sb.AppendLine($"All Resolutions : {string.Join(" / ", Screen.resolutions.Select(x => x.ToString()))}\n");
         sb.AppendLine($"DPI : {Screen.dpi} WxH : {Screen.width}x{Screen.height} Orientation : {Screen.orientation}\n");
-        var props = typeof(SystemInfo).GetProperties(BindingFlags.Public | BindingFlags.Static);
-        foreach(var p in props)
-        {
-            sb.AppendLine($"{p.Name} : {p.GetValue(null)}");
-        }
+        var joinedProps = string.Join( " / ", typeof(SystemInfo).GetProperties(BindingFlags.Public | BindingFlags.Static).Select( x => $"{x.Name} : {x.GetValue(null)}"));
+        sb.AppendLine(joinedProps);
         debugText.text = sb.ToString(); 
     }
 
