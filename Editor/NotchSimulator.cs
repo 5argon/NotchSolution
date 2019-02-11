@@ -5,6 +5,8 @@ using System.Collections;
 using System.Linq;
 using UnityEngine.EventSystems;
 using System;
+using UnityEngine.SceneManagement;
+using UnityEditor.SceneManagement;
 
 namespace E7.NotchSolution
 {
@@ -20,14 +22,8 @@ namespace E7.NotchSolution
 
         void OnGUI()
         {
-            //Keep play mode's changes
-            EditorApplication.playModeStateChanged += (state) =>
-            {
-                if (state == PlayModeStateChange.EnteredEditMode)
-                    UpdateMockup(NotchSimulatorUtility.selectedDevice);
-                else if (state == PlayModeStateChange.EnteredPlayMode & GameObject.Find(mockupCanvasName) != null)
-                    GameObject.Find(mockupCanvasName).hideFlags = HideFlags.HideInHierarchy;
-            };
+            //Sometimes even with flag I can see it in hierarchy until I move a mouse over it??
+            EditorApplication.RepaintHierarchyWindow();
 
             bool enableSimulation = NotchSimulatorUtility.enableSimulation;
             EditorGUI.BeginChangeCheck();
@@ -70,7 +66,7 @@ namespace E7.NotchSolution
 
             if (changed)
             {
-                UpdateMockup(NotchSimulatorUtility.selectedDevice);
+                UpdateMockup();
             }
 
             if (enableSimulation || (!enableSimulation && NotchSimulatorUtility.enableSimulation))
@@ -105,39 +101,152 @@ namespace E7.NotchSolution
 
         private const string prefix = "NoSo";
         private const string mockupCanvasName = prefix + "-MockupCanvas";
+        private const HideFlags overlayCanvasFlag = HideFlags.HideAndDontSave;
 
-        //TODO : Game view related reflection methods should be cached.
+        private static GameObject canvasObject;
+        private static MockupCanvas mockupCanvas;
 
-        private void UpdateMockup(SimulationDevice simDevice)
+        /// <summary>
+        /// We lose all events on entering play mode, use this to register the event and also make a canvas again
+        /// after it was destroyed by the event (that now disappeared)
+        /// </summary>
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
+        private static void AddOverlayInPlayMode()
+        {
+            UpdateMockup();
+        }
+
+        [UnityEditor.Callbacks.DidReloadScripts]
+        private static void OnScriptsReloaded()
+        {
+            //Debug.Log($"Script reloaded PLAY {EditorApplication.isPlaying} PLAY or WILL CHANGE {EditorApplication.isPlayingOrWillChangePlaymode}");
+
+            //Avoid script reload due to entering playmode
+            if (EditorApplication.isPlayingOrWillChangePlaymode == false)
+            {
+                UpdateMockup();
+            }
+        }
+
+        private static void DestroyHiddenCanvas()
+        {
+            if (canvasObject != null)
+            {
+                GameObject.DestroyImmediate(canvasObject);
+            }
+        }
+
+        private static bool eventAdded = false;
+
+        private static void UpdateMockup()
         {
             bool enableSimulation = NotchSimulatorUtility.enableSimulation;
-            GameObject mockupCanvas = GameObject.Find(mockupCanvasName);
+
+            //Create the hidden canvas if not already.
+            if (canvasObject == null)
+            {
+                //Find existing in the case of assembly reload
+                canvasObject = GameObject.Find(mockupCanvasName);
+                if (canvasObject != null)
+                {
+                    //Debug.Log($"Found existing");
+                    mockupCanvas = canvasObject.GetComponent<MockupCanvas>();
+                }
+                else
+                {
+                    //Debug.Log($"Creating canvas");
+                    var prefabGuids = AssetDatabase.FindAssets(mockupCanvasName);
+                    GameObject mockupCanvasPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(AssetDatabase.GUIDToAssetPath(prefabGuids.First()));
+                    canvasObject = (GameObject)PrefabUtility.InstantiatePrefab(mockupCanvasPrefab);
+                    mockupCanvas = canvasObject.GetComponent<MockupCanvas>();
+                    canvasObject.hideFlags = overlayCanvasFlag;
+
+                    if (Application.isPlaying)
+                    {
+                        DontDestroyOnLoad(canvasObject);
+                    }
+                }
+
+                if(eventAdded == false)
+                {
+                    eventAdded = true;
+
+                    //Add clean up event.
+                    EditorApplication.playModeStateChanged += PlayModeStateChangeAction;
+                    // EditorSceneManager.sceneClosing += (a, b) =>
+                    // {
+                    //     Debug.Log($"Scene closing {a} {b}");
+                    // };
+                    // EditorSceneManager.sceneClosed += (a) =>
+                    // {
+                    //     Debug.Log($"Scene closed {a}");
+                    // };
+                    // EditorSceneManager.sceneLoaded += (a, b) =>
+                    //  {
+                    //      Debug.Log($"Scene loaded {a} {b}");
+                    //  };
+                    // EditorSceneManager.sceneUnloaded += (a) =>
+                    //  {
+                    //      Debug.Log($"Scene unloaded {a}");
+                    //  };
+                    EditorSceneManager.sceneOpening += (a, b) =>
+                     {
+                         //Debug.Log($"Scene opening {a} {b}");
+                         DestroyHiddenCanvas();
+                     };
+                    EditorSceneManager.sceneOpened += (a, b) =>
+                     {
+                         //Debug.Log($"Scene opened {a} {b}");
+                         UpdateMockup();
+                     };
+
+                    void PlayModeStateChangeAction(PlayModeStateChange state)
+                    {
+                        //Debug.Log($"Changed state PLAY {EditorApplication.isPlaying} PLAY or WILL CHANGE {EditorApplication.isPlayingOrWillChangePlaymode}");
+                        switch (state)
+                        {
+                            case PlayModeStateChange.EnteredEditMode:
+                                //Debug.Log($"Entered Edit {canvasObject}");
+                                AddOverlayInPlayMode(); //For when coming back from play mode.
+                                break;
+                            case PlayModeStateChange.EnteredPlayMode:
+                                //Debug.Log($"Entered Play {canvasObject}");
+                                break;
+                            case PlayModeStateChange.ExitingEditMode:
+                                //Debug.Log($"Exiting Edit {canvasObject}");
+                                DestroyHiddenCanvas();//Clean up the DontSave canvas we made in edit mode.
+                                break;
+                            case PlayModeStateChange.ExitingPlayMode:
+                                //Debug.Log($"Exiting Play {canvasObject}");
+                                DestroyHiddenCanvas();//Clean up the DontSave canvas we made in play mode.
+                                break;
+                        }
+                    }
+
+                }
+            }
+
             if (enableSimulation)
             {
                 //Landscape has an alias that turns ToString into LandscapeLeft lol
                 var orientationString = NotchSimulatorUtility.GetGameViewOrientation() == ScreenOrientation.Landscape ? nameof(ScreenOrientation.Landscape) : nameof(ScreenOrientation.Portrait);
+                SimulationDevice simDevice = NotchSimulatorUtility.selectedDevice;
                 var name = $"{prefix}-{simDevice.ToString()}-{orientationString}";
                 var guids = AssetDatabase.FindAssets(name);
                 var first = guids.FirstOrDefault();
+
                 if (first == default(string))
                 {
                     throw new InvalidOperationException($"No mockup image named {name} in NotchSolution/Editor/Mockups folder!");
                 }
                 Sprite mockupSprite = AssetDatabase.LoadAssetAtPath<Sprite>(AssetDatabase.GUIDToAssetPath(first));
-                if (mockupCanvas == null)
-                {
-                    var prefabGuids = AssetDatabase.FindAssets(mockupCanvasName);
-                    GameObject mockupCanvasPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(AssetDatabase.GUIDToAssetPath(prefabGuids.First()));
-                    mockupCanvas = (GameObject)PrefabUtility.InstantiatePrefab(mockupCanvasPrefab);
-                }
-                mockupCanvas.hideFlags = HideFlags.HideInHierarchy;
-                var mc = mockupCanvas.GetComponent<MockupCanvas>();
 
-                mc.SetMockupSprite(mockupSprite, NotchSimulatorUtility.GetGameViewOrientation(), simulate: enableSimulation, flipped: NotchSimulatorUtility.flipOrientation);
+                mockupCanvas.Show();
+                mockupCanvas.SetMockupSprite(mockupSprite, NotchSimulatorUtility.GetGameViewOrientation(), simulate: enableSimulation, flipped: NotchSimulatorUtility.flipOrientation);
             }
             else
             {
-                GameObject.DestroyImmediate(mockupCanvas);
+                mockupCanvas.Hide();
             }
         }
     }
