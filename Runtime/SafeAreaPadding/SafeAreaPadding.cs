@@ -43,8 +43,16 @@ namespace E7.NotchSolution
 
         private Rect GetTopLevelRect()
         {
-            Vector2 topRectSize = transform.root.GetComponent<RectTransform>().sizeDelta;
+            var topLevelCanvas = GetTopLevelCanvas();
+            Vector2 topRectSize = topLevelCanvas.GetComponent<RectTransform>().sizeDelta;
             return new Rect(Vector2.zero, topRectSize);
+            
+            Canvas GetTopLevelCanvas()
+            {
+                var canvas = this.GetComponentInParent<Canvas>();
+                var rootCanvas = canvas.rootCanvas;
+                return rootCanvas;
+            }
         }
 
 #pragma warning disable 0649
