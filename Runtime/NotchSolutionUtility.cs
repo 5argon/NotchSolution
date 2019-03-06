@@ -20,7 +20,7 @@ namespace E7.NotchSolution
         {
             get
             {
-                var rectString = EditorPrefs.GetString(simulateSafeAreaRectKey, "0,0,1,1");
+                var rectString = EditorPrefs.GetString(simulateSafeAreaRectKey, "0;0;1;1");
                 var rectStrings = rectString.Split(';');
                 return new Rect(
                     float.Parse(rectStrings[0]),
