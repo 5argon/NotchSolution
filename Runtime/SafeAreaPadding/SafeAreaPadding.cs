@@ -78,7 +78,7 @@ namespace E7.NotchSolution
         protected override void OnEnable()
         {
             base.OnEnable();
-            DelayUpdate();
+            StartCoroutine(DelayUpdate());
         }
 
         protected override void OnDisable()
