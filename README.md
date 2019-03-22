@@ -6,13 +6,13 @@ It is a set of tools to fight with notched/cutout phones for Unity uGUI.
 
 ## How to include with GitHub functionality of Unity Package Manager
 
-Add this line `"com.e7.notch-solution": "git://github.com/5argon/NotchSolution.git",` to your packages.json
+Add this line `"com.e7.notch-solution": "git://github.com/5argon/NotchSolution.git",` to your `manifest.json`.
 
-It does not update automatically when I push fixes to this repo. You must remove the lock in your Packages folder. Otherwise you would better use Asset Store.
+It does not update automatically when I push fixes to this repo. You must remove the lock line that appears in you `manifest.json` file to refectch. Otherwise you would better use Asset Store (when it is available)
 
 ## Asset Store
 
-It will be on Unity Asset Store for free later because no one deserves to deal with these hideous design trend.. There are some weird glitches remaining, and many usability issue related to the isolated prefab mode. (Probably have to use the new `[ExecuteAlways]` in some way)
+It will be on Unity Asset Store for free later but currently I don't think it is Asset Store worthy. There are some weird glitches remaining, and many usability issue related to the isolated prefab mode. (Probably have to use the new `[ExecuteAlways]` in some way)
 
 # SafeAreaPadding
 
@@ -23,6 +23,12 @@ This script trust the return value of [`Screen.safeArea`](https://docs.unity3d.c
 ## Android & `Screen.safeArea`
 
 For Android to work, **your player's phone has to be on Android P AND also you have to use Unity 2019.1 or over**. Otherwise I believe Android builds with black bar over the notch/cutout (Maybe with [LAYOUT_IN_DISPLAY_CUTOUT_MODE_NEVER](https://developer.android.com/guide/topics/display-cutout/#never_render_content_in_the_display_cutout_area)) and non-Pie Android do not have a dedicated API to report cutouts.
+
+## `Screen.cutout` research started
+
+New entry in Unity 2019.2, this time not just a safe area but it returns a rectangle **surrounding the notch**! Currently Notch Solution do not use this anywhere yet, but I am conducting a research to see what the phone reports for this property.
+
+If you have a phone with cutouts, you could **join the research** by downloading a debug APK in the [release page](https://github.com/5argon/NotchSolution/releases). Then after running it on your phone, take a screenshot on both portrait and landscape orientation and submit your result in [this issue](https://github.com/5argon/NotchSolution/issues/2) so we know what it actually looks like, and we might be able to make use of it in the future! Thank you!
 
 ## How it works
 
@@ -97,8 +103,8 @@ This is also useful for aiming what can fit in the corner around the notch, beca
 
 - Wait for 2019.1 then we can have the "eye" visibility toggle in the hierarchy. The simulator-created notch overlay should have this visibility as off so it is invisible in Scene view but visible in the game view.
 - Wait for 2019.1 and add some shortcut keys to toggle the simulator.
-- Make an APK for grabbing `Screen.safeArea` and distribute to people with notched phones. (Or even use some kind of web service to collect safe areas automatically.)
-- Add more profiles and mockup overlays, but I need someone with notch/cutout phone and try calling `Screen.safeArea` on the phone. Contribution of overlay image and profiles would be appreciated, see examples in `Editor/Mockups` folder. 
+- On entering play mode test it complains about not being able to dispose the invisible notch overlay. I couldn't find a way to make it BOTH not save to the scene and deletes cleanly on all cases.
+- Add more devices, see below!
 
 ## How to help me add a new device
 
