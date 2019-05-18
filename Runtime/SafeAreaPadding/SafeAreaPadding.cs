@@ -14,8 +14,8 @@ using UnityEditor;
 namespace E7.NotchSolution
 {
     /// <summary>
-    /// Make the panel into full stretch and apply padding to the panel according to reported `Screen.safeArea`.
-    /// The `Screen.safeArea` will be interpolated into top level `RectTransform`'s size.
+    /// Make the panel into full stretch and apply padding to the panel according to reported <see cref="Screen.safeArea">
+    /// The <see cref="Screen.safeArea"> will be interpolated into top level <see cref="RectTransform">'s size.
     /// Currently the thing with this component should be direct child of top canvas, or deeper child of some similarly full stretch rect.
     /// </summary>
     [ExecuteInEditMode]
@@ -78,7 +78,7 @@ namespace E7.NotchSolution
         protected override void OnEnable()
         {
             base.OnEnable();
-            StartCoroutine(DelayUpdate());
+            DelayedUpdate();
         }
 
         protected override void OnDisable()
@@ -93,9 +93,33 @@ namespace E7.NotchSolution
             UpdateRect();
         }
 
+
+#if UNITY_EDITOR
+        protected override void OnValidate()
+        {
+            if (gameObject.activeInHierarchy)
+            {
+                DelayedUpdate();
+            }
+        }
+#endif
+
+        //INotchSimulatorTarget
         public void SimulatorUpdate()
         {
             UpdateRect();
+        }
+
+        //ILayoutController
+        public void SetLayoutHorizontal()
+        {
+            //Simulator is already calling SimulatorUpdate but this could be useful in some edge cases?
+            UpdateRect();
+        }
+
+        //ILayoutController
+        public void SetLayoutVertical()
+        {
         }
 
         private void UpdateRect()
@@ -244,30 +268,13 @@ namespace E7.NotchSolution
             rectTransform.anchoredPosition3D.z);
         }
 
-        private IEnumerator DelayUpdate()
+        WaitForEndOfFrame eofWait = new WaitForEndOfFrame();
+
+        private void DelayedUpdate() => StartCoroutine(DelayedUpdateRoutine());
+        private IEnumerator DelayedUpdateRoutine()
         {
-            yield return null;
+            yield return eofWait;
             UpdateRect();
-        }
-
-#if UNITY_EDITOR
-        protected override void OnValidate()
-        {
-            if (gameObject.activeInHierarchy)
-            {
-                StartCoroutine(DelayUpdate());
-            }
-        }
-#endif
-
-        public void SetLayoutHorizontal()
-        {
-            //Debug.Log($"WOW");
-        }
-
-        public void SetLayoutVertical()
-        {
-            //Debug.Log($"WOW2");
         }
     }
 }

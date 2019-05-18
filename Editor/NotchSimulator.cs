@@ -130,7 +130,8 @@ namespace E7.NotchSolution
 
         private const string prefix = "NoSo";
         private const string mockupCanvasName = prefix + "-MockupCanvas";
-        private const HideFlags overlayCanvasFlag = HideFlags.HideAndDontSave;
+        private const HideFlags overlayCanvasFlag = HideFlags.DontSave;//.HideAndDontSave;
+        
 
         private static GameObject canvasObject;
         private static MockupCanvas mockupCanvas;
@@ -181,12 +182,12 @@ namespace E7.NotchSolution
                 canvasObject = GameObject.Find(mockupCanvasName);
                 if (canvasObject != null)
                 {
-                    //Debug.Log($"[Notch Solution] Found existing");
+                    Debug.Log($"[Notch Solution] Found existing");
                     mockupCanvas = canvasObject.GetComponent<MockupCanvas>();
                 }
                 else
                 {
-                    //Debug.Log($"[Notch Solution] Creating canvas");
+                    Debug.Log($"[Notch Solution] Creating canvas");
                     var prefabGuids = AssetDatabase.FindAssets(mockupCanvasName);
                     GameObject mockupCanvasPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(AssetDatabase.GUIDToAssetPath(prefabGuids.First()));
                     canvasObject = (GameObject)PrefabUtility.InstantiatePrefab(mockupCanvasPrefab);
