@@ -85,18 +85,47 @@ namespace E7.NotchSolution
             int a = (int)screen.x;
             int b = (int)screen.y;
 
-            int gcd = 0;
-            while (a != 0 && b != 0)
-            {
-                if (a > b)
-                    a %= b;
-                else
-                    b %= a;
-            }
-            if (a == 0) gcd = b;
-            else gcd = a;
+            int GCD(int A, int B) => B == 0 ? A : GCD(B, A % B);
+            int gcd = GCD(a,b);
+            var integerRatio = new Vector2(screen.x / gcd, screen.y / gcd);
+            return CommonAspectLookup(integerRatio);
+        }
 
-            return new Vector2(screen.x / gcd, screen.y / gcd);
+        /// <summary>
+        /// Integer aspect and various round off error may make the number hideous, we could find a similar one for display purpose.
+        /// </summary>
+        private Vector2 CommonAspectLookup(Vector2 aspect)
+        {
+            float ratio = aspect.x / aspect.y;
+            Vector2[] commonRatio = new Vector2[]
+            {
+                new Vector2(4,3),
+                new Vector2(16,9),
+                new Vector2(17,9),
+                new Vector2(18,9),
+                new Vector2(18.5f,9),
+                new Vector2(18.7f,9),
+                new Vector2(19,9),
+                new Vector2(19.3f,9),
+                new Vector2(19.5f,9),
+                new Vector2(19,10),
+                new Vector2(21,9),
+                new Vector2(2,1),
+            };
+            foreach(var r in commonRatio)
+            {
+                var diff = Mathf.Abs(ratio - (r.x / r.y));
+                if(diff < 0.001f)
+                {
+                    return r;
+                }
+                diff = Mathf.Abs(ratio - (r.y / r.x));
+                if(diff < 0.001f)
+                {
+                    return new Vector2(r.y, r.x);
+                }
+            }
+            return aspect;
         }
 
         private const string prefix = "NoSo";
@@ -116,6 +145,9 @@ namespace E7.NotchSolution
             UpdateMockup();
         }
 
+        /// <summary>
+        /// This is called even if Notch Simulator tab is not present on the screen.
+        /// </summary>
         [UnityEditor.Callbacks.DidReloadScripts]
         private static void OnScriptsReloaded()
         {
@@ -149,12 +181,12 @@ namespace E7.NotchSolution
                 canvasObject = GameObject.Find(mockupCanvasName);
                 if (canvasObject != null)
                 {
-                    //Debug.Log($"Found existing");
+                    //Debug.Log($"[Notch Solution] Found existing");
                     mockupCanvas = canvasObject.GetComponent<MockupCanvas>();
                 }
                 else
                 {
-                    //Debug.Log($"Creating canvas");
+                    //Debug.Log($"[Notch Solution] Creating canvas");
                     var prefabGuids = AssetDatabase.FindAssets(mockupCanvasName);
                     GameObject mockupCanvasPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(AssetDatabase.GUIDToAssetPath(prefabGuids.First()));
                     canvasObject = (GameObject)PrefabUtility.InstantiatePrefab(mockupCanvasPrefab);
@@ -167,7 +199,7 @@ namespace E7.NotchSolution
                     }
                 }
 
-                if(eventAdded == false)
+                if (eventAdded == false)
                 {
                     eventAdded = true;
 
@@ -190,15 +222,16 @@ namespace E7.NotchSolution
                     //      Debug.Log($"Scene unloaded {a}");
                     //  };
                     EditorSceneManager.sceneOpening += (a, b) =>
-                     {
-                         //Debug.Log($"Scene opening {a} {b}");
-                         DestroyHiddenCanvas();
-                     };
+                    {
+                        //Debug.Log($"Scene opening {a} {b}");
+                        DestroyHiddenCanvas();
+                    };
+
                     EditorSceneManager.sceneOpened += (a, b) =>
-                     {
-                         //Debug.Log($"Scene opened {a} {b}");
-                         UpdateMockup();
-                     };
+                    {
+                        //Debug.Log($"Scene opened {a} {b}");
+                        UpdateMockup();
+                    };
 
                     void PlayModeStateChangeAction(PlayModeStateChange state)
                     {
