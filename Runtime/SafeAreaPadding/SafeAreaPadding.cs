@@ -105,7 +105,7 @@ namespace E7.NotchSolution
 #endif
 
         //INotchSimulatorTarget
-        public void SimulatorUpdate()
+        public void SimulatorUpdate(Rect simulatedSafeArea)
         {
             UpdateRect();
         }
@@ -122,7 +122,7 @@ namespace E7.NotchSolution
         {
         }
 
-        private void UpdateRect()
+        private void UpdateRect(Rect simulatedSafeArea = default)
         {
             if (!IsActive()) return;
 
