@@ -119,6 +119,7 @@ Please see the Issue section.
 ## Current simulation devices available
 
 - iPhone X
+- iPad Pro
 - Huawei Mate 20 Pro (Thank you @06Games !)
 - OnePlus 6T (Thank you @06Games !)
 

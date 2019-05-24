@@ -1,12 +1,14 @@
 {
     "name": "E7.NotchSolution",
-    "references": [],
-    "optionalUnityReferences": [],
+    "references": [
+        "Unity.ugui"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
-    "defineConstraints": []
+    "defineConstraints": [],
+    "versionDefines": []
 }

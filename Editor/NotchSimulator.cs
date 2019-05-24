@@ -8,16 +8,28 @@ using System;
 using UnityEditor.SceneManagement;
 using UnityEditor.Experimental.SceneManagement;
 using System.Collections.Generic;
+using UnityEditor.ShortcutManagement;
 
 namespace E7.NotchSolution
 {
     public class NotchSimulator : EditorWindow
     {
+        static NotchSimulator win;
+
         [MenuItem("Window/General/Notch Simulator")]
         public static void ShowWindow()
         {
-            var win = EditorWindow.GetWindow(typeof(NotchSimulator));
+            win = (NotchSimulator)EditorWindow.GetWindow(typeof(NotchSimulator));
             win.titleContent = new GUIContent("Notch Simulator");
+        }
+
+        [Shortcut("Notch Solution/Toggle Notch Simulator", null, KeyCode.N, ShortcutModifiers.Alt)]
+        static void ToggleSimulation()
+        {
+            NotchSimulatorUtility.enableSimulation = !NotchSimulatorUtility.enableSimulation;
+            UpdateAllMockups();
+            UpdateSimulatorTargets();
+            win?.Repaint();
         }
 
         /// <summary>
@@ -25,12 +37,13 @@ namespace E7.NotchSolution
         /// </summary>
         void OnGUI()
         {
+            win = this;
             //Sometimes even with flag I can see it in hierarchy until I move a mouse over it??
             EditorApplication.RepaintHierarchyWindow();
 
             bool enableSimulation = NotchSimulatorUtility.enableSimulation;
             EditorGUI.BeginChangeCheck();
-            NotchSimulatorUtility.enableSimulation = EditorGUILayout.BeginToggleGroup("Simulate", NotchSimulatorUtility.enableSimulation);
+            NotchSimulatorUtility.enableSimulation = EditorGUILayout.BeginToggleGroup("Simulate (Alt+N)", NotchSimulatorUtility.enableSimulation);
             EditorGUI.indentLevel++;
 
             NotchSimulatorUtility.selectedDevice = (SimulationDevice)EditorGUILayout.EnumPopup(NotchSimulatorUtility.selectedDevice);
@@ -242,7 +255,7 @@ namespace E7.NotchSolution
                     (GameObject)PrefabUtility.InstantiatePrefab(mockupCanvasPrefab);
 
                     canvasObject = instantiated.GetComponent<MockupCanvas>();
-                    canvasObject.hideFlags = overlayCanvasFlag;
+                    instantiated.hideFlags = overlayCanvasFlag;
 
                     if (Application.isPlaying)
                     {
