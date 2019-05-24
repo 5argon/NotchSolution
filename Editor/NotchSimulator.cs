@@ -105,7 +105,7 @@ namespace E7.NotchSolution
 
         private const string prefix = "NoSo";
         private const string mockupCanvasName = prefix + "-MockupCanvas";
-        private const HideFlags overlayCanvasFlag = HideFlags.DontSave;//.HideAndDontSave;
+        private const HideFlags overlayCanvasFlag = HideFlags.HideAndDontSave;
 
         private static MockupCanvas mockupCanvas;
         private static MockupCanvas prefabMockupCanvas;

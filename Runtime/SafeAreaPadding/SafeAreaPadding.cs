@@ -18,7 +18,6 @@ namespace E7.NotchSolution
     /// The <see cref="Screen.safeArea"> will be interpolated into top level <see cref="RectTransform">'s size.
     /// Currently the thing with this component should be direct child of top canvas, or deeper child of some similarly full stretch rect.
     /// </summary>
-    [ExecuteInEditMode]
     [DisallowMultipleComponent]
     [RequireComponent(typeof(RectTransform))]
     public class SafeAreaPadding : UIBehaviour, ILayoutSelfController, INotchSimulatorTarget
