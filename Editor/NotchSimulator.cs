@@ -43,7 +43,10 @@ namespace E7.NotchSolution
 
             bool enableSimulation = NotchSimulatorUtility.enableSimulation;
             EditorGUI.BeginChangeCheck();
-            NotchSimulatorUtility.enableSimulation = EditorGUILayout.BeginToggleGroup("Simulate (Alt+N)", NotchSimulatorUtility.enableSimulation);
+
+            string shortcut = ShortcutManager.instance.GetShortcutBinding("Notch Solution/Toggle Notch Simulator").ToString();
+            if (string.IsNullOrEmpty(shortcut)) shortcut = "None";
+            NotchSimulatorUtility.enableSimulation = EditorGUILayout.BeginToggleGroup($"Simulate ({shortcut})", NotchSimulatorUtility.enableSimulation);
             EditorGUI.indentLevel++;
 
             NotchSimulatorUtility.selectedDevice = (SimulationDevice)EditorGUILayout.EnumPopup(NotchSimulatorUtility.selectedDevice);
