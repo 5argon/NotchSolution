@@ -11,9 +11,34 @@ namespace E7.NotchSolution
 
             var portrait = serializedObject.FindProperty("portraitOrDefaultPaddings");
             var landscape = serializedObject.FindProperty("landscapePaddings");
+            var influence = serializedObject.FindProperty("influence");
 
-            EditorGUILayout.PropertyField(orientationType);
-            EditorGUILayout.Separator();
+            bool landscapeCompatible = false;
+            bool portraitCompatible = false;
+
+            switch (PlayerSettings.defaultInterfaceOrientation)
+            {
+                case UIOrientation.LandscapeLeft:
+                case UIOrientation.LandscapeRight:
+                    landscapeCompatible = true;
+                    break;
+                case UIOrientation.Portrait:
+                case UIOrientation.PortraitUpsideDown:
+                    portraitCompatible = true;
+                    break;
+                case UIOrientation.AutoRotation:
+                    if (PlayerSettings.allowedAutorotateToLandscapeLeft) landscapeCompatible = true;
+                    if (PlayerSettings.allowedAutorotateToLandscapeRight) landscapeCompatible = true;
+                    if (PlayerSettings.allowedAutorotateToPortrait) portraitCompatible = true;
+                    if (PlayerSettings.allowedAutorotateToPortraitUpsideDown) portraitCompatible = true;
+                    break;
+            }
+
+            if (portraitCompatible && landscapeCompatible)
+            {
+                EditorGUILayout.PropertyField(orientationType);
+                EditorGUILayout.Separator();
+            }
 
             bool dual = orientationType.enumValueIndex == (int)SafeAreaPaddingOrientationType.DualOrientation;
 
@@ -42,6 +67,9 @@ namespace E7.NotchSolution
                 }
                 EditorGUI.indentLevel--;
             }
+
+            EditorGUILayout.Separator();
+            EditorGUILayout.PropertyField(influence);
 
             serializedObject.ApplyModifiedProperties();
         }

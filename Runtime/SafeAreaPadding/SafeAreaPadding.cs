@@ -58,6 +58,7 @@ namespace E7.NotchSolution
         [SerializeField] SafeAreaPaddingOrientationType orientationType;
         [SerializeField] SafeAreaPaddingSides portraitOrDefaultPaddings;
         [SerializeField] SafeAreaPaddingSides landscapePaddings;
+        [SerializeField] [Range(0f, 1f)] float influence = 1;
 #pragma warning restore 0649
 
         [System.NonSerialized]
@@ -70,6 +71,15 @@ namespace E7.NotchSolution
                     m_Rect = GetComponent<RectTransform>();
                 return m_Rect;
             }
+        }
+
+        protected override void Reset()
+        {
+            base.Reset();
+            influence = 1;
+            orientationType = SafeAreaPaddingOrientationType.SingleOrientation;
+            portraitOrDefaultPaddings = new SafeAreaPaddingSides();
+            landscapePaddings = new SafeAreaPaddingSides();
         }
 
         private DrivenRectTransformTracker m_Tracker;
@@ -234,6 +244,12 @@ namespace E7.NotchSolution
                         topRect.height * safeAreaPaddingsRelativeLDUR[2];
                     break;
             }
+
+            //Apply influence to the calculated padding
+            finalPaddingsLDUR[0] *= influence;
+            finalPaddingsLDUR[1] *= influence;
+            finalPaddingsLDUR[2] *= influence;
+            finalPaddingsLDUR[3] *= influence;
 
 #if DEBUG_NOTCH_SOLUTION
             Debug.Log($"FinalLDUR {string.Join(" ", finalPaddingsLDUR.Select(x => x.ToString()))}");

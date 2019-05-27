@@ -20,7 +20,7 @@ This "SafePaddingDown" `RectTransform` has `SafeAreaPadding`, but it is not a di
 
 Also, you can make a rect anywhere else to pad equal to safe area's shape even if its edge is not lining up at the canvas's edge, or not shaped in the same aspect as the screen, for example. The script does not care and just stretch out the rect and pad equal to safe area true to its name. This is intended behaviour and you may exploit it as you like.
 
-## How to pad by less amount than the safe area
+## How to pad by less amount than the safe area without using `influence`
 
 Sometimes the original anchoring already has a bit of padding with normal phone. But this padding is not enough with notched phone, so we want to use `SafeAreaPadding` on outer element and anchor the inner element to the desired side.
 
@@ -28,11 +28,11 @@ But when padded it looks a bit "too safe", because the original padding now adds
 
 ![padless1](images/toomuch1.gif)
 
-Now you may wish the original padding should become zero when a notch is present, or you wish there should be an adjustable "influence" of `SafeAreaPadding`.
+You could use `influence` field on the `SafeAreaPadding`, but you may not want it to affect other `RectTransform` that may be under the same parent.
 
-However I won't add those features. The solution is to creatively use non-edge (custom) anchoring so that the gather point is moved up, but not really at the center yet. (Where if the anchor point is at exact center, the padding would not influence the layout at all.)
+One another solution is to creatively use non-edge (custom) anchoring so that the gather point is moved up, but not really at the center yet. (Where if the anchor point is at exact center, the padding would not influence the layout at all.)
 
-This way, you already have an **adjustable influence** how much the padding should affect. Make sure the upper side with notch is still not sinking in the case that you are using `SafeBalanced` mode.
+This way, you already have an adjustable influence **only for this `RectTransform`** how much the padding should affect. Make sure the upper side with notch is still not sinking in the case that you are using `SafeBalanced` mode. Also check your UI well with other aspects such as iPad - iPhone if it still translates well under this "hack".
 
 ![padless2](images/toomuch2.gif)
 
