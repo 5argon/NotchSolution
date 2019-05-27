@@ -248,8 +248,12 @@ namespace E7.NotchSolution
                 }
                 else
                 {
-                    DebugTransitions($"[Notch Solution] Creating canvas (Prefab mode {prefabMode})");
                     var prefabGuids = AssetDatabase.FindAssets(mockupCanvasName);
+                    if(prefabGuids.Length == 0)
+                    {
+                        return;
+                    }
+                    DebugTransitions($"[Notch Solution] Creating canvas (Prefab mode {prefabMode})");
                     GameObject mockupCanvasPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(AssetDatabase.GUIDToAssetPath(prefabGuids.First()));
 
                     var instantiated =

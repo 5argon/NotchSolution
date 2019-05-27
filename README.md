@@ -1,6 +1,6 @@
 # Notch Solution
 
-![screenshot](.ssMain.gif)
+![screenshot](.Documentation/images/ssMain.gif)
 
 It is a set of tools to fight with notched/cutout phones for Unity uGUI. Minimum Unity version 2019.1.
 
@@ -22,19 +22,13 @@ It will be on Unity Asset Store later too, but currently I don't think it is Ass
 
 # SafeAreaPadding
 
-![screenshot](.ssSafePad.gif)
+![screenshot](.Documentation/images/ssSafePad.gif)
 
 This script trust the return value of [`Screen.safeArea`](https://docs.unity3d.com/ScriptReference/Screen-safeArea.html) and pad the `RectTransform` accordingly.
 
 ## Android & `Screen.safeArea`
 
 For Android to work, **your player's phone has to be on Android P AND also you have to use Unity 2019.1 or over**. Otherwise I believe Android builds with black bar over the notch/cutout (Maybe with [LAYOUT_IN_DISPLAY_CUTOUT_MODE_NEVER](https://developer.android.com/guide/topics/display-cutout/#never_render_content_in_the_display_cutout_area)) and non-Pie Android do not have a dedicated API to report cutouts.
-
-## `Screen.cutout` research started
-
-New entry in **Unity 2019.2**, this time not just a safe area but it returns a rectangle **surrounding the notch**! Currently Notch Solution do not use this anywhere yet, but I am conducting a research to see what the phone reports for this property.
-
-If you have a phone with cutouts, you could **join the research** by downloading a debug APK in the [release page](https://github.com/5argon/NotchSolution/releases). Then after running it on your phone, take a screenshot on both portrait and landscape orientation and submit your result in [this issue](https://github.com/5argon/NotchSolution/issues/2) so we know what it actually looks like, and we might be able to make use of it in the future! Thank you!
 
 ## How it works
 
@@ -45,6 +39,12 @@ It can "drive" the `RectTransform` thanks to `ILayoutSelfController` and `UIBeha
 - `Screen.width/height` is divided by values from `Screen.safeArea`, producing relative safe area.
 - Find root game object from the object with `SafeAreaPadding`. This should be your `Canvas`. It will ask for `RectTransform` coordinate from that `Canvas`.
 - Then it will drive self's `RectTransform` other values according to relative safe area applied to `Canvas`'s `RectTransform`.
+
+## `Screen.cutout` research started
+
+New entry in **Unity 2019.2**, this time not just a safe area but it returns a rectangle **surrounding the notch**! Currently Notch Solution do not use this anywhere yet, but I am conducting a research to see what the phone reports for this property.
+
+If you have a phone with cutouts, you could **join the research** by downloading a debug APK in the [release page](https://github.com/5argon/NotchSolution/releases). Then after running it on your phone, take a screenshot on both portrait and landscape orientation and submit your result in [this issue](https://github.com/5argon/NotchSolution/issues/2) so we know what it actually looks like, and we might be able to make use of it in the future! Thank you!
 
 ## Settings 
 
@@ -64,52 +64,38 @@ If your application supports both portrait and landscape you could choose `DualO
 
 When you use `DualOrientation` your prior padding settings will become the portrait ones, and you will get a separated landscape paddings to setup. Your previous orientation will no longer applied to landscape orientation. If you switch back to `SingleOrientation` the portrait paddings works for both orientations again.
 
-## Tricks
-
-### Using "Safe Balanced"
-
-![screenshot](.ssSafeBalanced.gif)
-
-"Safe Balanced" is for example, you are making a landscape orientation game and there are left and right arrows which supposed to stick to the left and right edge of the screen.
-
-With notch present, there maybe a case that only notched side will move in which might looks odd depending on your game. You may use `Safe` on the notch side and `SafeBalanced` on the opposite side to offset the non-notch side by the same amount. Or just use `SafeBalanced` for both.
-
-Anyways, iPhone X's safe area on landscape is balanced on both notched side and the opposite side, so Safe Balance has no effect. But who knows other Android phones may report safe area that offset in on just the notched/cutout side, so using Safe Balanced will guarantee the balanced appearance.
-
-### Hierarchy planning
-
-![screenshot](.ssTrick.png)
-
-This "SafePaddingDown" `RectTransform` has `SafeAreaPadding`, but it is not a direct child of the full-screen canvas, yet it can still pad down equal to top edge's safe area. So as long as its top edge is at the top of canvas it can be anywhere in the hierarchy and **looks like** it is a direct child of the canvas.
-
-Also, you can make a rect anywhere else to pad equal to safe area's shape even if its edge is not lining up at the canvas's edge, or not shaped in the same aspect as the screen, for example. The script does not care and just stretch out the rect and pad equal to safe area. This is intended behaviour and you may exploit it as you like.
-
 # Notch Simulator
 
-![screenshot](.ssNotchSim.png)
+![screenshot](.Documentation/images/ssNotchSim.png)
 
-Accessible from `Window > General > Notch Simulator`. 
+Accessible from `Window > General > Notch Simulator`. Additionally with Shortcuts API introduced in 2019.1, you could press `Alt/Option + N` to toggle it to confirm your design. It could be adjusted in the `Shortcuts...` preference menu.
 
-Works together with all `INotchSimulatorTarget` (`SafeAreaPadding` is one of them) in the current scene and prefab environment scene. Normally `Screen.safeArea` does not return a useful value in editor. Notch Simulator can simulate a safe area in editor for you even outside of play mode. You can toggle it on and off to see your UI reacts immediately.
+Works together with all `INotchSimulatorTarget` (`SafeAreaPadding` is one of them) in the current scene and prefab environment scene. Normally `Screen.safeArea` does not return a useful value in editor. Notch Simulator can simulate a safe area in editor for you **even in prefab mode**. You can toggle it on and off to see your UI reacts immediately.
 
 Non-flipped orientation of landscape is assumed to be "landscape left" from natural portrait orientation.
 
 ## How it works
 
-- The simulator maintains 2 `Canvas` game objects with hide flags invisible and not save in any circumstance. One in the normal scene and one in the prefab environment scene.
+- The simulator maintains 2 `Canvas` game objects, one in the normal scene and one in the prefab environment scene. They are with `HideFlags` that make it invisible on Hierarchy and do not get saved.
 - `AssetDatabase` search the plugin folder for the correct notch overlay image to put in that canvas. Portrait and landscape image is separated. (For example iPhoneX has a different bottom bar.)
 - This `Canvas` is on "Screen Space - Overlay". with high sort order.
 - You need to set the game view to match your simulation device choice or it would looks weird.
 - Portrait or landscape orientation is determined from width vs height of the current game view's size. (Not by `Screen.` API, since that does not work in editor.)
-- All `INotchSimulatorTarget` found will be sent a simulated `Rect`. Static access point to the latest simulated rect is also available with `NotchSolutionUtility.SimulateSafeAreaRelative` if passing around that `Rect` is a hassle.
+- All `INotchSimulatorTarget` found will be sent a simulated `Rect`. Static access point to the latest simulated rect is also available with `NotchSolutionUtility.SimulateSafeAreaRelative` if passing around that `Rect` is a hassle. You could write your own extension that links with the simulator this way.
 
-This is also useful for aiming what can fit in the corner around the notch, because you can see the notch's width and also rounded corner. Safe area do not cover such information. (Safe area is a rectangle.) 2019.2's `Screen.cutouts` could precisely cover the cutout area, but no work has been put to utilize that yet.
+The overlay is also useful for aiming roughly what can fit in the corner around the notch, because you can see the notch's width and also rounded corner visually where safe area does not cover such information. (Safe area is a rectangle.) Although please note that Apple advise agaist intentionally trying to design on that gap.
+
+2019.2's `Screen.cutouts` could precisely cover the cutout area, but no work has been put to utilize that yet.
+
+# How-to and tricks
+
+They are now collected [in this document](.Documentation/HowTo.md).
 
 # Need help / TODO
 
 Please see the Issue section.
 
-## How to help me add a new device
+# How to contribute a new simulation device
 
 - Download APK in the **Build** folder. Then install on your Android with file manager or `adb install -r` (r = replace). After it runs, **rotate the device to both portrait and landscape** and take screenshots to remember informations.
 - `Editor/SimulationDevice.cs` : Add a new `enum` to this file first. It would show up in the simulator with `enum` dropdown.
