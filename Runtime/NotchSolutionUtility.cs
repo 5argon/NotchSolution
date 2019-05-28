@@ -9,9 +9,52 @@ namespace E7.NotchSolution
     public static class NotchSolutionUtility
     {
         public const string prefix = nameof(NotchSolution) + "_";
-        public const string simulateSafeAreaRectKey = prefix + "safeAreaRect";
+
+        private  const string simulateSafeAreaRect = prefix + nameof(simulateSafeAreaRect);
+        private  const string prefabModeOverlayColor = prefix + nameof(prefabModeOverlayColor);
+
+        private  const string narrowestAspectIndex = prefix + nameof(narrowestAspectIndex);
+        private  const string widestAspectIndex = prefix + nameof(widestAspectIndex);
 
 #if UNITY_EDITOR
+
+        public static int NarrowestAspectIndex
+        {
+            get => EditorPrefs.GetInt(narrowestAspectIndex, 0);
+            set => EditorPrefs.SetInt(narrowestAspectIndex, Mathf.Max(0, value));
+        }
+
+        public static int WidestAspectIndex
+        {
+            get => EditorPrefs.GetInt(widestAspectIndex, 0);
+            set => EditorPrefs.SetInt(widestAspectIndex, Mathf.Max(0, value));
+        }
+
+        public static Color PrefabModeOverlayColor
+        {
+            get
+            {
+                var colorString = EditorPrefs.GetString(prefabModeOverlayColor, "0.297;0.405;0.481;1");
+                var colorStrings = colorString.Split(';');
+                return new Color(
+                    float.Parse(colorStrings[0]),
+                    float.Parse(colorStrings[1]),
+                    float.Parse(colorStrings[2]),
+                    float.Parse(colorStrings[3])
+                );
+            }
+            set
+            {
+                var colorString = string.Join(";", new string[]
+                {
+                    value.r.ToString(),
+                    value.g.ToString(),
+                    value.b.ToString(),
+                    value.a.ToString(),
+                });
+                EditorPrefs.SetString(prefabModeOverlayColor, colorString);
+            }
+        }
 
         /// <summary>
         /// This rect is kept in EditorPref so that it survives assembly reload.
@@ -20,7 +63,7 @@ namespace E7.NotchSolution
         {
             get
             {
-                var rectString = EditorPrefs.GetString(simulateSafeAreaRectKey, "0,0,1,1");
+                var rectString = EditorPrefs.GetString(simulateSafeAreaRect, "0;0;1;1");
                 var rectStrings = rectString.Split(';');
                 return new Rect(
                     float.Parse(rectStrings[0]),
@@ -38,7 +81,7 @@ namespace E7.NotchSolution
                     value.width.ToString(),
                     value.height.ToString(),
                 });
-                EditorPrefs.SetString(simulateSafeAreaRectKey, rectString);
+                EditorPrefs.SetString(simulateSafeAreaRect, rectString);
             }
         }
 

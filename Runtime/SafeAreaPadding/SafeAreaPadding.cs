@@ -16,10 +16,13 @@ namespace E7.NotchSolution
     /// <summary>
     /// Make the panel into full stretch and apply padding to the panel according to reported <see cref="Screen.safeArea">
     /// The <see cref="Screen.safeArea"> will be interpolated into top level <see cref="RectTransform">'s size.
-    /// Currently the thing with this component should be direct child of top canvas, or deeper child of some similarly full stretch rect.
+    /// 
+    /// It should be a direct child of top canvas, or deeper child of some similarly full stretch rect in order to look right,
+    /// although in reality it just pad in the shape of <see cref="Screen.safeArea"> regardless of its rectangle size.
     /// </summary>
     [DisallowMultipleComponent]
     [RequireComponent(typeof(RectTransform))]
+    [HelpURL("https://github.com/5argon/NotchSolution#safeareapadding")]
     public class SafeAreaPadding : UIBehaviour, ILayoutSelfController, INotchSimulatorTarget
     {
         private Rect GetScreenSafeAreaRelative()

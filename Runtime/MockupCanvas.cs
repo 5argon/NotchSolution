@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using E7.NotchSolution;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -11,6 +12,8 @@ using UnityEditor;
 public class MockupCanvas : MonoBehaviour
 {
     public Image mockupImage;
+    public bool PrefabStage { private get; set; }
+
     const float proColor = 40 / 255f;
     const float personalColor = 49 / 255f;
 
@@ -23,6 +26,11 @@ public class MockupCanvas : MonoBehaviour
     {
         mockupImage.enabled = true;
     }
+
+    // public void UpdateColor(
+    // {
+    //     //mockupImage.color = 
+    // }
 
     // public void OnDestroy()
     // {
@@ -50,7 +58,11 @@ public class MockupCanvas : MonoBehaviour
             mockupImage.enabled = true;
 
 #if UNITY_EDITOR
-            if (EditorGUIUtility.isProSkin)
+            if (PrefabStage)
+            {
+                mockupImage.color = NotchSolutionUtility.PrefabModeOverlayColor;
+            }
+            else if (EditorGUIUtility.isProSkin)
             {
                 mockupImage.color = new Color(proColor, proColor, proColor, 1);
             }
@@ -66,7 +78,7 @@ public class MockupCanvas : MonoBehaviour
                 flipped ? -1 : 1,
                 1
             );
-            
+
             //Force refreshing the mockup
             mockupImage.enabled = false;
             mockupImage.enabled = true;

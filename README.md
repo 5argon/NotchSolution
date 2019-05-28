@@ -10,7 +10,7 @@ Add this line `"com.e7.notch-solution": "git://github.com/5argon/NotchSolution.g
 
 It does not update automatically when I push fixes to this repo. You must remove the lock line that appears in you `manifest.json` file to refectch. Otherwise you would better use Asset Store (when it is available)
 
-## Free and open source
+## Reason for open source
 
 I believe screen cutout problem must be solved collaboratively, since there are so many variations and potentially different permutation of problems. Over time we together could make this more stable than I could ever made alone.
 
@@ -56,8 +56,6 @@ For each side in your current orientation, you can select from 3 modes.
 - **Safe Balanced** : Pad this side according to `Screen.safeArea`, but if the opposite side has a larger padding then pad by that value instead.
 - **Zero** : The padding will be zero, edge of your `RectTransform` will be locked to the canvas's edge.
 
-*TODO : **Unlocked** mode, which stop the `SafeAreaPadding` to drive just that side's `RectTransform` allowing you to manually adjust or animate it. (It looks like a pain to implement...)
-
 ### Orientation Type
 
 If your application supports both portrait and landscape you could choose `DualOrientation` here. But such a game is rare so the default value is `SingleOrientation`. The choice will only show up if your Player Settings is configured such that both orientations are possible.
@@ -87,6 +85,12 @@ The overlay is also useful for aiming roughly what can fit in the corner around 
 
 2019.2's `Screen.cutouts` could precisely cover the cutout area, but no work has been put to utilize that yet.
 
+## Preferences
+
+There is a preference menu available. For example you could change prefab mode overlay color to be different from Game view ones, or enable some other extra toolings.
+
+![preference](.Documentation/images/pref.png)
+
 # How-to and tricks
 
 They are now collected [in this document](.Documentation/HowTo.md).
@@ -111,7 +115,7 @@ Please see the Issue section.
 
 # This asset is sponsored by
 
-My own other (paid) assets... haha
+My own other (paid) assets... haha. Asides from code contribution, you could also provide support by getting something from these. Thank you.
 
 - [Introloop](http://exceed7.com/introloop/) - Easily play looping music with intro section (without physically splitting them) (Unity 2017.0+)
 - [Native Audio](http://exceed7.com/native-audio/) - Lower audio latency via OS's native audio library. (Unity 2017.1+, iOS uses OpenAL / Android uses OpenSL ES)

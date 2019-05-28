@@ -1,20 +1,21 @@
 ﻿//#define NOTCH_SOLUTION_DEBUG_TRANSITIONS
 
-using UnityEngine;
-using UnityEditor;
-using System.Linq;
-using UnityEngine.EventSystems;
 using System;
-using UnityEditor.SceneManagement;
-using UnityEditor.Experimental.SceneManagement;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using UnityEditor;
+using UnityEditor.Experimental.SceneManagement;
+using UnityEditor.SceneManagement;
 using UnityEditor.ShortcutManagement;
+using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace E7.NotchSolution
 {
     public class NotchSimulator : EditorWindow
     {
-        static NotchSimulator win;
+        internal static NotchSimulator win;
 
         [MenuItem("Window/General/Notch Simulator")]
         public static void ShowWindow()
@@ -22,16 +23,6 @@ namespace E7.NotchSolution
             win = (NotchSimulator)EditorWindow.GetWindow(typeof(NotchSimulator));
             win.titleContent = new GUIContent("Notch Simulator");
         }
-
-        [Shortcut("Notch Solution/Toggle Notch Simulator", null, KeyCode.N, ShortcutModifiers.Alt)]
-        static void ToggleSimulation()
-        {
-            NotchSimulatorUtility.enableSimulation = !NotchSimulatorUtility.enableSimulation;
-            UpdateAllMockups();
-            UpdateSimulatorTargets();
-            win?.Repaint();
-        }
-
         /// <summary>
         /// It is currently active only when Notch Simulator tab is present.
         /// </summary>
@@ -44,7 +35,7 @@ namespace E7.NotchSolution
             bool enableSimulation = NotchSimulatorUtility.enableSimulation;
             EditorGUI.BeginChangeCheck();
 
-            string shortcut = ShortcutManager.instance.GetShortcutBinding("Notch Solution/Toggle Notch Simulator").ToString();
+            string shortcut = ShortcutManager.instance.GetShortcutBinding(NotchSolutionShortcuts.toggleSimulationShortcut).ToString();
             if (string.IsNullOrEmpty(shortcut)) shortcut = "None";
             NotchSimulatorUtility.enableSimulation = EditorGUILayout.BeginToggleGroup($"Simulate ({shortcut})", NotchSimulatorUtility.enableSimulation);
             EditorGUI.indentLevel++;
@@ -94,7 +85,7 @@ namespace E7.NotchSolution
         /// <summary>
         /// Get all <see cref="INotchSimulatorTarget"> and update them.
         /// </summary>
-        private static void UpdateSimulatorTargets()
+        internal static void UpdateSimulatorTargets()
         {
             var simulatedRect = NotchSimulatorUtility.enableSimulation ? NotchSimulatorUtility.SimulatorSafeAreaRelative : new Rect(0, 0, 1, 1);
 
@@ -180,7 +171,7 @@ namespace E7.NotchSolution
 
         private static bool eventAdded = false;
 
-        private static void UpdateAllMockups()
+        internal static void UpdateAllMockups()
         {
             EnsureCanvasAndEventSetup();
 
@@ -210,7 +201,12 @@ namespace E7.NotchSolution
                 foreach (var mockup in AllMockupCanvases)
                 {
                     mockup.Show();
-                    mockup.SetMockupSprite(mockupSprite, NotchSimulatorUtility.GetGameViewOrientation(), simulate: enableSimulation, flipped: NotchSimulatorUtility.flipOrientation);
+                    mockup.SetMockupSprite(
+                        sprite: mockupSprite,
+                        orientation: NotchSimulatorUtility.GetGameViewOrientation(),
+                        simulate: enableSimulation,
+                        flipped: NotchSimulatorUtility.flipOrientation
+                    );
                 }
             }
             else
@@ -273,10 +269,12 @@ namespace E7.NotchSolution
 
                 if (prefabMode)
                 {
+                    canvasObject.PrefabStage = true;
                     prefabMockupCanvas = canvasObject;
                 }
                 else
                 {
+                    canvasObject.PrefabStage = false;
                     mockupCanvas = canvasObject;
                 }
 
