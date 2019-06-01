@@ -8,5 +8,7 @@ namespace E7.NotchSolution
         [InspectorName("Apple/ iPad Pro")] iPadPro,
         [InspectorName("OnePlus/ 6T")] OnePlus6T,
         [InspectorName("Huawei/ Mate 20 Pro")] HuaweiMate20Pro,
+        [InspectorName("Samsung/ S10+")] SamsungS10Plus,
+        [InspectorName("Samsung/ S10")] SamsungS10
     }
 }
