@@ -34,9 +34,9 @@ namespace E7.NotchSolution
                 portraitCutouts = new Rect[]{
                     new Rect (372, 2261, 334, 79),
                 },
-                landscapeSafeArea = new Rect(0, 0, 2261, 1080),
+                landscapeSafeArea = new Rect(79, 0, 2261, 1080),
                 landscapeCutouts = new Rect[]{
-                    new Rect (2261, 374, 79, 334),
+                    new Rect (0, 374, 79, 334),
                 },
                 screenSize = new Vector2(1080, 2340),
             },
