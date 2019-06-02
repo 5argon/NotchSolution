@@ -18,7 +18,7 @@ namespace E7.NotchSolution
                 },
                 landscapeSafeArea = new Rect(132, 63, 2172, 1062),
                 landscapeCutouts = new Rect[]{
-                    new Rect (2346, 250, 90, 625),
+                    new Rect (0, 250, 90, 625),
                 },
                 screenSize = new Vector2(1125, 2436),
             },
