@@ -12,6 +12,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Preference item added under "Notch Solution". You can adjust overlay color of prefab mode there.
 - New shortcut to quick switch between 2 Game view aspect ratio. Set this up in the preference menu. This is ideal for mobile development where if you could ensure that narrowest and widest screen looks nice, everything in-between should also work.
+- Overlay for Samsung Galaxy S10 and S10+ added. (Contributed by [06Games](https://github.com/06Games))
+- Tree simulation device enum selector for 2019.2+ (Contributed by [06Games](https://github.com/06Games))
 
 ## [1.2.1] - 2019-05-28
 

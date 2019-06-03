@@ -110,8 +110,13 @@ Please see the Issue section.
 
 - iPhone X
 - iPad Pro
-- Huawei Mate 20 Pro (Thank you @06Games !)
-- OnePlus 6T (Thank you @06Games !)
+
+(Contributed by @06Games)
+
+- Huawei Mate 20 Pro 
+- OnePlus 6T
+- Samsung Galaxy S10
+- Samsung Galaxy S10+
 
 # This asset is sponsored by
 
