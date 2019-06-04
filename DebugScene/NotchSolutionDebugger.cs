@@ -27,6 +27,8 @@ public class NotchSolutionDebugger : MonoBehaviour
         var safeArea = Screen.safeArea;
 #endif
         PlaceRect(safeArea, Color.red);
+        if (Screen.orientation != NotchSolutionUtility.GetCurrentOrientation())
+            safeArea.Set(Screen.width - safeArea.x, Screen.height - safeArea.y, safeArea.width, safeArea.height);
         sb.AppendLine($"Safe area : {safeArea}\n");
 
 #if UNITY_2019_2_OR_NEWER
@@ -39,6 +41,11 @@ public class NotchSolutionDebugger : MonoBehaviour
         var cutouts = Screen.cutouts;
 #endif
         foreach (Rect r in cutouts) PlaceRect(r, Color.blue);
+
+        if (Screen.orientation != NotchSolutionUtility.GetCurrentOrientation())
+        {
+            foreach (Rect rect in cutouts) rect.Set(Screen.width - rect.x, Screen.height - rect.y, rect.width, rect.height);
+        }
         sb.AppendLine($"Cutouts : {string.Join(" / ", cutouts.Select(x => x.ToString()))} \n");
 #endif
 
