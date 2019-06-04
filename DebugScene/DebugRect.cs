@@ -24,12 +24,12 @@ public class DebugRect : MonoBehaviour
         RectTransformUtility.ScreenPointToLocalPointInRectangle(parentRect, screenRect.position, Camera.main, out Vector2 localPoint);
         RectTransformUtility.ScreenPointToLocalPointInRectangle(parentRect, screenRect.size, Camera.main, out Vector2 localSize);
 
-        localSize = localSize + (parentRect.sizeDelta /2);
+        localSize = localSize + (parentRect.sizeDelta / 2);
 
         debugText.text = $"{screenRect}";
-        
+
         rectTransform.localPosition = localPoint;
         rectTransform.sizeDelta = localSize;
-        
+
     }
 }

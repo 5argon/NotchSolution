@@ -9,5 +9,5 @@ namespace E7.NotchSolution
 
     [CustomPropertyDrawer(typeof(SafeAreaPaddingOrientationType))]
     public class SafeAreaPaddingOrientationTypeDrawer : EnumButtonsDrawer { }
-    
+
 }

@@ -48,7 +48,7 @@ namespace E7.NotchSolution
             var topLevelCanvas = GetTopLevelCanvas();
             Vector2 topRectSize = topLevelCanvas.GetComponent<RectTransform>().sizeDelta;
             return new Rect(Vector2.zero, topRectSize);
-            
+
             Canvas GetTopLevelCanvas()
             {
                 var canvas = this.GetComponentInParent<Canvas>();
