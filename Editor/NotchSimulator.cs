@@ -15,6 +15,7 @@ namespace E7.NotchSolution
     public class NotchSimulator : EditorWindow
     {
         internal static NotchSimulator win;
+        Vector2 gameviewResolution;
 
         [MenuItem("Window/General/Notch Simulator")]
         public static void ShowWindow()
@@ -22,6 +23,21 @@ namespace E7.NotchSolution
             win = (NotchSimulator)EditorWindow.GetWindow(typeof(NotchSimulator));
             win.titleContent = new GUIContent("Notch Simulator");
         }
+
+        [ExecuteInEditMode] private void OnEnable() { EditorApplication.update += RespawnMockup; }
+        [ExecuteInEditMode] private void OnDisable() { EditorApplication.update += RespawnMockup; }
+        void RespawnMockup()
+        {
+            //When the game view is changed, the mockup sometimes disappears or isn't scaled correctly
+            if (gameviewResolution != Handles.GetMainGameViewSize())
+            {
+                DestroyHiddenCanvas(); //So we delete the old canvas
+                UpdateAllMockups(); //And we respawn it
+                UpdateSimulatorTargets();
+                gameviewResolution = Handles.GetMainGameViewSize(); //Update the saved game view
+            }
+        }
+
         /// <summary>
         /// It is currently active only when Notch Simulator tab is present.
         /// </summary>
