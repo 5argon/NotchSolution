@@ -117,7 +117,7 @@ namespace E7.NotchSolution
 #endif
 
         //INotchSimulatorTarget
-        public void SimulatorUpdate(Rect simulatedSafeArea)
+        public void SimulatorUpdate(Rect simulatedSafeArea, Rect[] simulatedCutouts)
         {
             UpdateRect();
         }

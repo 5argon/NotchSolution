@@ -10,11 +10,12 @@ namespace E7.NotchSolution
     {
         public const string prefix = nameof(NotchSolution) + "_";
 
-        private  const string simulateSafeAreaRect = prefix + nameof(simulateSafeAreaRect);
-        private  const string prefabModeOverlayColor = prefix + nameof(prefabModeOverlayColor);
+        private const string simulateSafeAreaRect = prefix + nameof(simulateSafeAreaRect);
+        private const string simulateCutoutsRect = prefix + nameof(simulateCutoutsRect);
+        private const string prefabModeOverlayColor = prefix + nameof(prefabModeOverlayColor);
 
-        private  const string narrowestAspectIndex = prefix + nameof(narrowestAspectIndex);
-        private  const string widestAspectIndex = prefix + nameof(widestAspectIndex);
+        private const string narrowestAspectIndex = prefix + nameof(narrowestAspectIndex);
+        private const string widestAspectIndex = prefix + nameof(widestAspectIndex);
 
 #if UNITY_EDITOR
 
@@ -62,28 +63,52 @@ namespace E7.NotchSolution
         /// </summary>
         public static Rect SimulateSafeAreaRelative
         {
+            get { return ParseRect(EditorPrefs.GetString(simulateSafeAreaRect, "0;0;1;1")); }
+            set { EditorPrefs.SetString(simulateSafeAreaRect, RectToString(value)); }
+        }
+
+#if UNITY_2019_2_OR_NEWER
+        /// <summary>
+        /// These rects are kept in EditorPref so that they survive assembly reload.
+        /// </summary>
+        public static Rect[] SimulateCutoutsRelative
+        {
             get
             {
-                var rectString = EditorPrefs.GetString(simulateSafeAreaRect, "0;0;1;1");
-                var rectStrings = rectString.Split(';');
-                return new Rect(
-                    float.Parse(rectStrings[0]),
-                    float.Parse(rectStrings[1]),
-                    float.Parse(rectStrings[2]),
-                    float.Parse(rectStrings[3])
-                );
+                var rectStrings = EditorPrefs.GetString(simulateCutoutsRect, "").Split(new string[] { "\n" }, System.StringSplitOptions.RemoveEmptyEntries);
+                System.Collections.Generic.List<Rect> rects = new System.Collections.Generic.List<Rect>();
+                foreach (var rectString in rectStrings) rects.Add(ParseRect(rectString));
+                return rects.ToArray();
             }
             set
             {
-                var rectString = string.Join(";", new string[]
-                {
-                    value.xMin.ToString(),
-                    value.yMin.ToString(),
-                    value.width.ToString(),
-                    value.height.ToString(),
-                });
-                EditorPrefs.SetString(simulateSafeAreaRect, rectString);
+                System.Collections.Generic.List<string> rectStrings = new System.Collections.Generic.List<string>();
+                foreach (Rect rect in value) rectStrings.Add(RectToString(rect));
+                EditorPrefs.SetString(simulateCutoutsRect, string.Join("\n", rectStrings));
             }
+        }
+#endif
+
+        static Rect ParseRect(string rectString)
+        {
+            var rect = rectString.Split(';');
+            return new Rect(
+                        float.Parse(rect[0]),
+                        float.Parse(rect[1]),
+                        float.Parse(rect[2]),
+                        float.Parse(rect[3])
+                    );
+        }
+
+        static string RectToString(Rect rect)
+        {
+            return string.Join(";", new string[]
+                    {
+                    rect.xMin.ToString(),
+                    rect.yMin.ToString(),
+                    rect.width.ToString(),
+                    rect.height.ToString(),
+                    });
         }
 
         /// <summary>

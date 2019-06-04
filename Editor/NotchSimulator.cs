@@ -3,7 +3,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using UnityEditor;
 using UnityEditor.Experimental.SceneManagement;
 using UnityEditor.SceneManagement;
@@ -88,14 +87,16 @@ namespace E7.NotchSolution
         internal static void UpdateSimulatorTargets()
         {
             var simulatedRect = NotchSimulatorUtility.enableSimulation ? NotchSimulatorUtility.SimulatorSafeAreaRelative : new Rect(0, 0, 1, 1);
+            var simulatedCutouts = NotchSimulatorUtility.enableSimulation ? NotchSimulatorUtility.SimulatorCutoutsRelative : new Rect[0];
 
             //This value could be used by the component statically.
             NotchSolutionUtility.SimulateSafeAreaRelative = simulatedRect;
+            NotchSolutionUtility.SimulateCutoutsRelative = simulatedCutouts;
 
             var normalSceneSimTargets = GameObject.FindObjectsOfType<UIBehaviour>().OfType<INotchSimulatorTarget>();
             foreach (var nst in normalSceneSimTargets)
             {
-                nst.SimulatorUpdate(simulatedRect);
+                nst.SimulatorUpdate(simulatedRect, simulatedCutouts);
             }
 
             //Now find one in the prefab mode scene as well
@@ -105,7 +106,7 @@ namespace E7.NotchSolution
                 var prefabSceneSimTargets = prefabStage.stageHandle.FindComponentsOfType<UIBehaviour>().OfType<INotchSimulatorTarget>();
                 foreach (var nst in prefabSceneSimTargets)
                 {
-                    nst.SimulatorUpdate(simulatedRect);
+                    nst.SimulatorUpdate(simulatedRect, simulatedCutouts);
                 }
             }
         }
@@ -177,7 +178,7 @@ namespace E7.NotchSolution
 
             //Make the editing environment contains an another copy of mockup canvas.
             var prefabStage = PrefabStageUtility.GetCurrentPrefabStage();
-            if(prefabStage != null)
+            if (prefabStage != null)
             {
                 EnsureCanvasAndEventSetup(prefabStage: prefabStage);
             }
@@ -202,11 +203,11 @@ namespace E7.NotchSolution
                 {
                     mockup.Show();
                     mockup.SetMockupSprite(
-                        sprite: mockupSprite,
-                        orientation: NotchSimulatorUtility.GetGameViewOrientation(),
-                        simulate: enableSimulation,
-                        flipped: NotchSimulatorUtility.flipOrientation
-                    );
+                         sprite: mockupSprite,
+                         orientation: NotchSimulatorUtility.GetGameViewOrientation(),
+                         simulate: enableSimulation,
+                         flipped: NotchSimulatorUtility.flipOrientation
+                     );
                 }
             }
             else
@@ -245,7 +246,7 @@ namespace E7.NotchSolution
                 else
                 {
                     var prefabGuids = AssetDatabase.FindAssets(mockupCanvasName);
-                    if(prefabGuids.Length == 0)
+                    if (prefabGuids.Length == 0)
                     {
                         return;
                     }
@@ -266,17 +267,9 @@ namespace E7.NotchSolution
                     }
                 }
 
-
-                if (prefabMode)
-                {
-                    canvasObject.PrefabStage = true;
-                    prefabMockupCanvas = canvasObject;
-                }
-                else
-                {
-                    canvasObject.PrefabStage = false;
-                    mockupCanvas = canvasObject;
-                }
+                canvasObject.PrefabStage = prefabMode;
+                if (prefabMode) prefabMockupCanvas = canvasObject;
+                else mockupCanvas = canvasObject;
 
                 if (eventAdded == false)
                 {
