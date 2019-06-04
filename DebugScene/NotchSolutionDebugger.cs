@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using E7.NotchSolution;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -20,29 +21,49 @@ public class NotchSolutionDebugger : MonoBehaviour
 
         sb.AppendLine($"<b>-- PLEASE ROTATE THE DEVICE TO GET BOTH ORIENTATION'S DETAILS! --</b>\n");
 
-        sb.AppendLine($"Safe area : {Screen.safeArea}\n");
-        PlaceRect(Screen.safeArea, Color.red);
+#if UNITY_EDITOR
+        var safeArea = RealSize(NotchSolutionUtility.SimulateSafeAreaRelative);
+#else
+        var safeArea = Screen.safeArea;
+#endif
+        PlaceRect(safeArea, Color.red);
+        sb.AppendLine($"Safe area : {safeArea}\n");
 
 #if UNITY_2019_2_OR_NEWER
-        sb.AppendLine($"Cutouts : {string.Join(" / ", Screen.cutouts.Select(x => x.ToString()))} \n");
-        foreach (Rect r in Screen.cutouts)
-        {
-            PlaceRect(r, Color.blue);
-        }
+#if UNITY_EDITOR
+        var relativeCutouts = NotchSolutionUtility.SimulateCutoutsRelative;
+        List<Rect> rectCutouts = new List<Rect>();
+        foreach (Rect rect in relativeCutouts) rectCutouts.Add(RealSize(rect));
+        var cutouts = rectCutouts.ToArray();
+#else
+        var cutouts = Screen.cutouts;
+#endif
+        foreach (Rect r in cutouts) PlaceRect(r, Color.blue);
+        sb.AppendLine($"Cutouts : {string.Join(" / ", cutouts.Select(x => x.ToString()))} \n");
 #endif
 
         sb.AppendLine($"Current resolution : {Screen.currentResolution}\n");
         sb.AppendLine($"All Resolutions : {string.Join(" / ", Screen.resolutions.Select(x => x.ToString()))}\n");
         sb.AppendLine($"DPI : {Screen.dpi} WxH : {Screen.width}x{Screen.height} Orientation : {Screen.orientation}\n");
-        var joinedProps = string.Join( " / ", typeof(SystemInfo).GetProperties(BindingFlags.Public | BindingFlags.Static).Select( x => $"{x.Name} : {x.GetValue(null)}"));
+        var joinedProps = string.Join(" / ", typeof(SystemInfo).GetProperties(BindingFlags.Public | BindingFlags.Static).Select(x => $"{x.Name} : {x.GetValue(null)}"));
         sb.AppendLine(joinedProps);
-        debugText.text = sb.ToString(); 
+        debugText.text = sb.ToString();
+    }
+
+    Rect RealSize(Rect relative)
+    {
+        return new Rect(
+            relative.x * Screen.width,
+            relative.y * Screen.height,
+            relative.width * Screen.width,
+            relative.height * Screen.height
+        );
     }
 
     private List<DebugRect> debugRects = new List<DebugRect>();
     public void ClearRects()
     {
-        foreach(var dbr in debugRects)
+        foreach (var dbr in debugRects)
         {
             GameObject.Destroy(dbr.gameObject);
         }
@@ -55,8 +76,7 @@ public class NotchSolutionDebugger : MonoBehaviour
         go.transform.localScale = Vector3.one;
         //go.transform.SetAsFirstSibling();
         var dbr = go.GetComponent<DebugRect>();
-        dbr.PlaceItselfAtScreenRect(rct);
+        dbr.PlaceItselfAtScreenRect(rct, c);
         debugRects.Add(dbr);
     }
-
 }
