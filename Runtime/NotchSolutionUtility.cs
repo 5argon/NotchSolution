@@ -36,12 +36,13 @@ namespace E7.NotchSolution
             {
                 var colorString = EditorPrefs.GetString(prefabModeOverlayColor, "0.297;0.405;0.481;1");
                 var colorStrings = colorString.Split(';');
-                return new Color(
-                    float.Parse(colorStrings[0]),
-                    float.Parse(colorStrings[1]),
-                    float.Parse(colorStrings[2]),
-                    float.Parse(colorStrings[3])
-                );
+                Color color = new Color(0.297F, 0.405F, 0.481F, 1);
+                for (int i = 0; i < 4; i++)
+                {
+                    if (float.TryParse(colorStrings[i], out float rgba)) color[i] = rgba;
+                    else return new Color(0.297F, 0.405F, 0.481F, 1);
+                }
+                return color;
             }
             set
             {
