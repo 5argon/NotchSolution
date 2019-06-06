@@ -25,7 +25,7 @@ namespace E7.NotchSolution
         }
 
         [ExecuteInEditMode] private void OnEnable() { EditorApplication.update += RespawnMockup; }
-        [ExecuteInEditMode] private void OnDisable() { EditorApplication.update += RespawnMockup; }
+        [ExecuteInEditMode] private void OnDisable() { EditorApplication.update -= RespawnMockup; }
         void RespawnMockup()
         {
             //When the game view is changed, the mockup sometimes disappears or isn't scaled correctly
