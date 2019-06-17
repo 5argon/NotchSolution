@@ -111,7 +111,7 @@ Please see the Issue section.
 - iPhone X
 - iPad Pro
 
-(Contributed by @06Games)
+(Contributed by [06Games](https://github.com/06Games))
 
 - Huawei Mate 20 Pro 
 - OnePlus 6T

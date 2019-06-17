@@ -14,31 +14,54 @@ namespace E7.NotchSolution
             get
             {
                 var orientation = GetGameViewOrientation();
-                var device = SimulationDatabase.db.ContainsKey(selectedDevice) ?  selectedDevice : default;
+                var device = SimulationDatabase.db.ContainsKey(selectedDevice) ? selectedDevice : default;
                 var safe = orientation == ScreenOrientation.Landscape ? SimulationDatabase.db[device].landscapeSafeArea : SimulationDatabase.db[device].portraitSafeArea;
                 var screenSize = SimulationDatabase.db[device].screenSize;
-                if(orientation == ScreenOrientation.Landscape)
+                if (orientation == ScreenOrientation.Landscape)
                 {
                     var swap = screenSize.x;
                     screenSize.x = screenSize.y;
                     screenSize.y = swap;
                 }
-                var relativeSafeArea = new Rect(safe.xMin / screenSize.x, safe.yMin / screenSize.y, safe.width / screenSize.x, safe.height / screenSize.y);
-
-                if (NotchSimulatorUtility.flipOrientation)
-                {
-                    return new Rect(
-                        1 - (relativeSafeArea.width + relativeSafeArea.xMin),
-                        1 - (relativeSafeArea.height + relativeSafeArea.yMin),
-                        relativeSafeArea.width,
-                        relativeSafeArea.height
-                    );
-                }
-                else
-                {
-                    return relativeSafeArea;
-                }
+                return GetRelative(safe, screenSize);
             }
+        }
+
+        internal static Rect[] SimulatorCutoutsRelative
+        {
+            get
+            {
+                var orientation = GetGameViewOrientation();
+                var device = SimulationDatabase.db.ContainsKey(selectedDevice) ? selectedDevice : default;
+                var cutouts = orientation == ScreenOrientation.Landscape ? SimulationDatabase.db[device].landscapeCutouts : SimulationDatabase.db[device].portraitCutouts;
+                if (cutouts is null) return new Rect[0];
+                var screenSize = SimulationDatabase.db[device].screenSize;
+                if (orientation == ScreenOrientation.Landscape)
+                {
+                    var swap = screenSize.x;
+                    screenSize.x = screenSize.y;
+                    screenSize.y = swap;
+                }
+
+                System.Collections.Generic.List<Rect> rects = new System.Collections.Generic.List<Rect>();
+                foreach (var cutout in cutouts) rects.Add(GetRelative(cutout, screenSize));
+                return rects.ToArray();
+            }
+        }
+
+        static Rect GetRelative(Rect original, Vector2 screenSize)
+        {
+            var relativeCutout = new Rect(original.xMin / screenSize.x, original.yMin / screenSize.y, original.width / screenSize.x, original.height / screenSize.y);
+            if (flipOrientation)
+            {
+                return new Rect(
+                    1 - (relativeCutout.width + relativeCutout.xMin),
+                    1 - (relativeCutout.height + relativeCutout.yMin),
+                    relativeCutout.width,
+                    relativeCutout.height
+                );
+            }
+            else return relativeCutout;
         }
 
         internal static ScreenOrientation GetGameViewOrientation()
@@ -57,13 +80,13 @@ namespace E7.NotchSolution
             return (Vector2)argsForOut[0];
         }
 
-        internal static bool enableSimulation 
+        internal static bool enableSimulation
         {
             get { return EditorPrefs.GetBool(enableSimulationKey); }
             set { EditorPrefs.SetBool(enableSimulationKey, value); }
         }
 
-        internal static bool flipOrientation 
+        internal static bool flipOrientation
         {
             get { return EditorPrefs.GetBool(flipOrientationKey); }
             set { EditorPrefs.SetBool(flipOrientationKey, value); }
