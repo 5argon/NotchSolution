@@ -1,15 +1,9 @@
 ﻿//#define DEBUG_NOTCH_SOLUTION
 
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using System.Linq;
-
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 
 namespace E7.NotchSolution
 {
@@ -25,24 +19,6 @@ namespace E7.NotchSolution
     [HelpURL("https://github.com/5argon/NotchSolution#safeareapadding")]
     public class SafeAreaPadding : UIBehaviour, ILayoutSelfController, INotchSimulatorTarget
     {
-        private Rect GetScreenSafeAreaRelative()
-        {
-#if DEBUG_NOTCH_SOLUTION
-            Debug.Log($"{Screen.width} {Screen.height} {Screen.currentResolution.width} {Screen.currentResolution.height}");
-#endif
-#if UNITY_EDITOR
-            return NotchSolutionUtility.SimulateSafeAreaRelative;
-#else
-            var pixelSafeArea = Screen.safeArea;
-            return new Rect(
-                pixelSafeArea.x / Screen.width,
-                pixelSafeArea.y / Screen.height,
-                pixelSafeArea.width / Screen.width,
-                pixelSafeArea.height / Screen.height
-            );
-#endif
-        }
-
         private Rect GetTopLevelRect()
         {
             var topLevelCanvas = GetTopLevelCanvas();
@@ -58,9 +34,9 @@ namespace E7.NotchSolution
         }
 
 #pragma warning disable 0649
-        [SerializeField] SafeAreaPaddingOrientationType orientationType;
-        [SerializeField] SafeAreaPaddingSides portraitOrDefaultPaddings;
-        [SerializeField] SafeAreaPaddingSides landscapePaddings;
+        [SerializeField] SupportedOrientations orientationType;
+        [SerializeField] PerEdgeEvaluationModes portraitOrDefaultPaddings;
+        [SerializeField] PerEdgeEvaluationModes landscapePaddings;
         [SerializeField] [Range(0f, 1f)] float influence = 1;
 #pragma warning restore 0649
 
@@ -80,9 +56,9 @@ namespace E7.NotchSolution
         {
             base.Reset();
             influence = 1;
-            orientationType = SafeAreaPaddingOrientationType.SingleOrientation;
-            portraitOrDefaultPaddings = new SafeAreaPaddingSides();
-            landscapePaddings = new SafeAreaPaddingSides();
+            orientationType = SupportedOrientations.Single;
+            portraitOrDefaultPaddings = new PerEdgeEvaluationModes();
+            landscapePaddings = new PerEdgeEvaluationModes();
         }
 
         private DrivenRectTransformTracker m_Tracker;
@@ -134,12 +110,12 @@ namespace E7.NotchSolution
         {
         }
 
-        private void UpdateRect(Rect simulatedSafeArea = default)
+        private void UpdateRect()
         {
             if (!IsActive()) return;
 
-            SafeAreaPaddingSides selectedOrientation =
-            orientationType == SafeAreaPaddingOrientationType.DualOrientation ?
+            PerEdgeEvaluationModes selectedOrientation =
+            orientationType == SupportedOrientations.Dual ?
             NotchSolutionUtility.GetCurrentOrientation() == ScreenOrientation.Landscape ?
             landscapePaddings : portraitOrDefaultPaddings
             : portraitOrDefaultPaddings;
@@ -154,13 +130,13 @@ namespace E7.NotchSolution
                 (LockSide(selectedOrientation.top) && LockSide(selectedOrientation.bottom) ? (DrivenTransformProperties.SizeDeltaY | DrivenTransformProperties.AnchoredPositionY) : 0)
             );
 
-            bool LockSide(SafeAreaPaddingMode sapm)
+            bool LockSide(SafeAreaEvaluationMode sapm)
             {
                 switch (sapm)
                 {
-                    case SafeAreaPaddingMode.Safe:
-                    case SafeAreaPaddingMode.SafeBalanced:
-                    case SafeAreaPaddingMode.Zero:
+                    case SafeAreaEvaluationMode.Safe:
+                    case SafeAreaEvaluationMode.SafeBalanced:
+                    case SafeAreaEvaluationMode.Zero:
                         return true;
                     //When "Unlocked" is supported, it will be false.
                     default:
@@ -174,7 +150,7 @@ namespace E7.NotchSolution
             rectTransform.anchorMax = Vector2.one;
 
             var topRect = GetTopLevelRect();
-            var safeAreaRelative = GetScreenSafeAreaRelative();
+            var safeAreaRelative = NotchSolutionUtility.SafeAreaRelative;
 
 #if DEBUG_NOTCH_SOLUTION
             Debug.Log($"Top {topRect} safe {safeAreaRelative} min {safeAreaRelative.xMin} {safeAreaRelative.yMin}");
@@ -202,10 +178,10 @@ namespace E7.NotchSolution
 
             switch (selectedOrientation.left)
             {
-                case SafeAreaPaddingMode.Safe:
+                case SafeAreaEvaluationMode.Safe:
                     finalPaddingsLDUR[0] = topRect.width * safeAreaPaddingsRelativeLDUR[0];
                     break;
-                case SafeAreaPaddingMode.SafeBalanced:
+                case SafeAreaEvaluationMode.SafeBalanced:
                     finalPaddingsLDUR[0] = safeAreaPaddingsRelativeLDUR[3] > safeAreaPaddingsRelativeLDUR[0] ?
                         topRect.width * safeAreaPaddingsRelativeLDUR[3] :
                         topRect.width * safeAreaPaddingsRelativeLDUR[0];
@@ -214,10 +190,10 @@ namespace E7.NotchSolution
 
             switch (selectedOrientation.right)
             {
-                case SafeAreaPaddingMode.Safe:
+                case SafeAreaEvaluationMode.Safe:
                     finalPaddingsLDUR[3] = topRect.width * safeAreaPaddingsRelativeLDUR[3];
                     break;
-                case SafeAreaPaddingMode.SafeBalanced:
+                case SafeAreaEvaluationMode.SafeBalanced:
                     finalPaddingsLDUR[3] = safeAreaPaddingsRelativeLDUR[0] > safeAreaPaddingsRelativeLDUR[3] ?
                         topRect.width * safeAreaPaddingsRelativeLDUR[0] :
                         topRect.width * safeAreaPaddingsRelativeLDUR[3];
@@ -226,10 +202,10 @@ namespace E7.NotchSolution
 
             switch (selectedOrientation.bottom)
             {
-                case SafeAreaPaddingMode.Safe:
+                case SafeAreaEvaluationMode.Safe:
                     finalPaddingsLDUR[1] = topRect.height * safeAreaPaddingsRelativeLDUR[1];
                     break;
-                case SafeAreaPaddingMode.SafeBalanced:
+                case SafeAreaEvaluationMode.SafeBalanced:
                     finalPaddingsLDUR[1] = safeAreaPaddingsRelativeLDUR[2] > safeAreaPaddingsRelativeLDUR[1] ?
                         topRect.height * safeAreaPaddingsRelativeLDUR[2] :
                         topRect.height * safeAreaPaddingsRelativeLDUR[1];
@@ -238,10 +214,10 @@ namespace E7.NotchSolution
 
             switch (selectedOrientation.top)
             {
-                case SafeAreaPaddingMode.Safe:
+                case SafeAreaEvaluationMode.Safe:
                     finalPaddingsLDUR[2] = topRect.height * safeAreaPaddingsRelativeLDUR[2];
                     break;
-                case SafeAreaPaddingMode.SafeBalanced:
+                case SafeAreaEvaluationMode.SafeBalanced:
                     finalPaddingsLDUR[2] = safeAreaPaddingsRelativeLDUR[1] > safeAreaPaddingsRelativeLDUR[2] ?
                         topRect.height * safeAreaPaddingsRelativeLDUR[1] :
                         topRect.height * safeAreaPaddingsRelativeLDUR[2];

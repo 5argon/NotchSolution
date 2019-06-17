@@ -22,7 +22,7 @@ public class NotchSolutionDebugger : MonoBehaviour
         sb.AppendLine($"<b>-- PLEASE ROTATE THE DEVICE TO GET BOTH ORIENTATION'S DETAILS! --</b>\n");
 
 #if UNITY_EDITOR
-        var safeArea = RealSize(NotchSolutionUtility.SimulateSafeAreaRelative);
+        var safeArea = RealSize(NotchSolutionUtility.SimulatedSafeAreaRelative);
 #else
         var safeArea = Screen.safeArea;
 #endif
@@ -33,7 +33,7 @@ public class NotchSolutionDebugger : MonoBehaviour
 
 #if UNITY_2019_2_OR_NEWER
 #if UNITY_EDITOR
-        var relativeCutouts = NotchSolutionUtility.SimulateCutoutsRelative;
+        var relativeCutouts = NotchSolutionUtility.SimulatedCutoutsRelative;
         List<Rect> rectCutouts = new List<Rect>();
         foreach (Rect rect in relativeCutouts) rectCutouts.Add(RealSize(rect));
         var cutouts = rectCutouts.ToArray();

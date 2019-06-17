@@ -8,10 +8,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- New component `SafeAreaAdaptation`. Adapt anything including non-UI stuff with animation playables API.
 - Cutout information propagated to layout components, but currently unused.  (Contributed by [06Games](https://github.com/06Games))
+- New script icon for `SafeAreaPadding` since I lose the original vector project file, and I want the new `SafeAreaAdaptation` icon to look similar to it. ([Affinity Designer](https://affinity.serif.com/en-gb/designer/) icon project file is also added to `Icons` folder in the repo now to prevent losing it again.)
 
 ### Fixed
 
+- Code refactor throughout.
 - Sometimes the overlay mockup didn't update its overlay graphic. Added a new destroy-create routine to force refresh it. (Contributed by [06Games](https://github.com/06Games))
 
 ## [1.4.0] - 2019-06-04

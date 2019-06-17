@@ -102,19 +102,19 @@ namespace E7.NotchSolution
         /// </summary>
         internal static void UpdateSimulatorTargets()
         {
-            var simulatedRect = NotchSimulatorUtility.enableSimulation ? NotchSimulatorUtility.SimulatorSafeAreaRelative : new Rect(0, 0, 1, 1);
-            var simulatedCutouts = NotchSimulatorUtility.enableSimulation ? NotchSimulatorUtility.SimulatorCutoutsRelative : new Rect[0];
+            var simulatedRectRelative = NotchSimulatorUtility.enableSimulation ? NotchSimulatorUtility.CalculateSimulatorSafeAreaRelative() : new Rect(0, 0, 1, 1);
+            var simulatedCutoutsRelative = NotchSimulatorUtility.enableSimulation ? NotchSimulatorUtility.CalculateSimulatorCutoutsRelative() : new Rect[0];
 
             //This value could be used by the component statically.
-            NotchSolutionUtility.SimulateSafeAreaRelative = simulatedRect;
+            NotchSolutionUtility.SimulatedSafeAreaRelative = simulatedRectRelative;
 #if UNITY_2019_2_OR_NEWER
-            NotchSolutionUtility.SimulateCutoutsRelative = simulatedCutouts;
+            NotchSolutionUtility.SimulatedCutoutsRelative = simulatedCutouts;
 #endif
 
             var normalSceneSimTargets = GameObject.FindObjectsOfType<UIBehaviour>().OfType<INotchSimulatorTarget>();
             foreach (var nst in normalSceneSimTargets)
             {
-                nst.SimulatorUpdate(simulatedRect, simulatedCutouts);
+                nst.SimulatorUpdate(simulatedRectRelative, simulatedCutoutsRelative);
             }
 
             //Now find one in the prefab mode scene as well
@@ -124,7 +124,7 @@ namespace E7.NotchSolution
                 var prefabSceneSimTargets = prefabStage.stageHandle.FindComponentsOfType<UIBehaviour>().OfType<INotchSimulatorTarget>();
                 foreach (var nst in prefabSceneSimTargets)
                 {
-                    nst.SimulatorUpdate(simulatedRect, simulatedCutouts);
+                    nst.SimulatorUpdate(simulatedRectRelative, simulatedCutoutsRelative);
                 }
             }
         }

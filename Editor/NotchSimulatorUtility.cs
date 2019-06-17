@@ -9,49 +9,45 @@ namespace E7.NotchSolution
         const string simulationDeviceKey = NotchSolutionUtility.prefix + "simulationDevice";
         const string flipOrientationKey = NotchSolutionUtility.prefix + "flipOrientation";
 
-        internal static Rect SimulatorSafeAreaRelative
+        internal static Rect CalculateSimulatorSafeAreaRelative()
         {
-            get
+            var orientation = GetGameViewOrientation();
+            var device = SimulationDatabase.db.ContainsKey(selectedDevice) ? selectedDevice : default;
+            var safe = orientation == ScreenOrientation.Landscape ? SimulationDatabase.db[device].landscapeSafeArea : SimulationDatabase.db[device].portraitSafeArea;
+            var screenSize = SimulationDatabase.db[device].screenSize;
+            if (orientation == ScreenOrientation.Landscape)
             {
-                var orientation = GetGameViewOrientation();
-                var device = SimulationDatabase.db.ContainsKey(selectedDevice) ? selectedDevice : default;
-                var safe = orientation == ScreenOrientation.Landscape ? SimulationDatabase.db[device].landscapeSafeArea : SimulationDatabase.db[device].portraitSafeArea;
-                var screenSize = SimulationDatabase.db[device].screenSize;
-                if (orientation == ScreenOrientation.Landscape)
-                {
-                    var swap = screenSize.x;
-                    screenSize.x = screenSize.y;
-                    screenSize.y = swap;
-                }
-                return GetRelative(safe, screenSize);
+                var swap = screenSize.x;
+                screenSize.x = screenSize.y;
+                screenSize.y = swap;
             }
+            return GetRectRelativeToScreenSize(safe, screenSize);
         }
 
-        internal static Rect[] SimulatorCutoutsRelative
+        internal static Rect[] CalculateSimulatorCutoutsRelative()
         {
-            get
+            var orientation = GetGameViewOrientation();
+            var device = SimulationDatabase.db.ContainsKey(selectedDevice) ? selectedDevice : default;
+            var cutouts = orientation == ScreenOrientation.Landscape ? SimulationDatabase.db[device].landscapeCutouts : SimulationDatabase.db[device].portraitCutouts;
+            if (cutouts is null) return new Rect[0];
+            var screenSize = SimulationDatabase.db[device].screenSize;
+            if (orientation == ScreenOrientation.Landscape)
             {
-                var orientation = GetGameViewOrientation();
-                var device = SimulationDatabase.db.ContainsKey(selectedDevice) ? selectedDevice : default;
-                var cutouts = orientation == ScreenOrientation.Landscape ? SimulationDatabase.db[device].landscapeCutouts : SimulationDatabase.db[device].portraitCutouts;
-                if (cutouts is null) return new Rect[0];
-                var screenSize = SimulationDatabase.db[device].screenSize;
-                if (orientation == ScreenOrientation.Landscape)
-                {
-                    var swap = screenSize.x;
-                    screenSize.x = screenSize.y;
-                    screenSize.y = swap;
-                }
-
-                System.Collections.Generic.List<Rect> rects = new System.Collections.Generic.List<Rect>();
-                foreach (var cutout in cutouts) rects.Add(GetRelative(cutout, screenSize));
-                return rects.ToArray();
+                var swap = screenSize.x;
+                screenSize.x = screenSize.y;
+                screenSize.y = swap;
             }
+
+            System.Collections.Generic.List<Rect> rects = new System.Collections.Generic.List<Rect>();
+            foreach (var cutout in cutouts) rects.Add(GetRectRelativeToScreenSize(cutout, screenSize));
+            return rects.ToArray();
         }
 
-        static Rect GetRelative(Rect original, Vector2 screenSize)
+        /// <param name="original">Must be inside of a rect positioned at 0,0 that has width and height as <paramref name="screenSize"></param>
+        static Rect GetRectRelativeToScreenSize(Rect original, Vector2 screenSize)
         {
             var relativeCutout = new Rect(original.xMin / screenSize.x, original.yMin / screenSize.y, original.width / screenSize.x, original.height / screenSize.y);
+            //Debug.Log($"Calc relative {original} {screenSize} {relativeCutout}");
             if (flipOrientation)
             {
                 return new Rect(

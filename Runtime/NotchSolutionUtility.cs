@@ -17,7 +17,53 @@ namespace E7.NotchSolution
         private const string narrowestAspectIndex = prefix + nameof(narrowestAspectIndex);
         private const string widestAspectIndex = prefix + nameof(widestAspectIndex);
 
+        /// <summary>
+        /// A smart accessor which returns simulated relative safe area in-editor, or a real one outside of editor.
+        /// </summary>
+        public static Rect SafeAreaRelative
+        {
+            get
+            {
 #if UNITY_EDITOR
+                // Need the simulator to calculate this for us.
+                return NotchSolutionUtility.SimulatedSafeAreaRelative;
+#else
+                Rect absolutePaddings = Screen.safeArea;
+                return new Rect(
+                    absolutePaddings.x / Screen.width,
+                    absolutePaddings.y / Screen.height,
+                    absolutePaddings.width / Screen.width,
+                    absolutePaddings.height / Screen.height
+                );
+#endif
+            }
+        }
+
+#if UNITY_EDITOR
+
+        public static (bool landscapeCompatible, bool portraitCompatible) GetOrientationCompatibility()
+        {
+            bool landscapeCompatible = false;
+            bool portraitCompatible = false;
+            switch (PlayerSettings.defaultInterfaceOrientation)
+            {
+                case UIOrientation.LandscapeLeft:
+                case UIOrientation.LandscapeRight:
+                    landscapeCompatible = true;
+                    break;
+                case UIOrientation.Portrait:
+                case UIOrientation.PortraitUpsideDown:
+                    portraitCompatible = true;
+                    break;
+                case UIOrientation.AutoRotation:
+                    if (PlayerSettings.allowedAutorotateToLandscapeLeft) landscapeCompatible = true;
+                    if (PlayerSettings.allowedAutorotateToLandscapeRight) landscapeCompatible = true;
+                    if (PlayerSettings.allowedAutorotateToPortrait) portraitCompatible = true;
+                    if (PlayerSettings.allowedAutorotateToPortraitUpsideDown) portraitCompatible = true;
+                    break;
+            }
+            return (landscapeCompatible, portraitCompatible);
+        }
 
         public static int NarrowestAspectIndex
         {
@@ -59,9 +105,13 @@ namespace E7.NotchSolution
         }
 
         /// <summary>
-        /// This rect is kept in EditorPref so that it survives assembly reload.
+        /// Calculated and stored by the notch simulator.
+        /// This rect is kept in <see cref="EditorPrefs"> so that it survives assembly reload.
+        /// 
+        /// This doesn't exist outside of editor. To get a relative safe area depending if on the real device or in editor, 
+        /// use <see cref="SafeAreaRelative"> instead.
         /// </summary>
-        public static Rect SimulateSafeAreaRelative
+        public static Rect SimulatedSafeAreaRelative
         {
             get { return ParseRect(EditorPrefs.GetString(simulateSafeAreaRect, "0;0;1;1")); }
             set { EditorPrefs.SetString(simulateSafeAreaRect, RectToString(value)); }
@@ -69,9 +119,12 @@ namespace E7.NotchSolution
 
 #if UNITY_2019_2_OR_NEWER
         /// <summary>
-        /// These rects are kept in EditorPref so that they survive assembly reload.
+        /// Calculated and stored by the notch simulator.
+        /// This rect is kept in <see cref="EditorPrefs"> so that it survives assembly reload.
+        /// 
+        /// This doesn't exist outside of editor. 
         /// </summary>
-        public static Rect[] SimulateCutoutsRelative
+        public static Rect[] SimulatedCutoutsRelative
         {
             get
             {
