@@ -4,7 +4,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.2.2] - 2019-06-04
+## [1.5.0] - Unreleased
+
+### Added
+
+- Cutout information propagated to layout components, but currently unused.  (Contributed by [06Games](https://github.com/06Games))
+
+### Fixed
+
+- Sometimes the overlay mockup didn't update its overlay graphic. Added a new destroy-create routine to force refresh it. (Contributed by [06Games](https://github.com/06Games))
+
+## [1.4.0] - 2019-06-04
 
 ### Added
 
@@ -15,7 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Overlay for Samsung Galaxy S10 and S10+ added. (Contributed by [06Games](https://github.com/06Games))
 - Tree simulation device enum selector for 2019.2+ (Contributed by [06Games](https://github.com/06Games))
 
-## [1.2.1] - 2019-05-28
+## [1.3.0] - 2019-05-28
 
 ### Added
 

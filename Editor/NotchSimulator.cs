@@ -24,7 +24,7 @@ namespace E7.NotchSolution
             win.titleContent = new GUIContent("Notch Simulator");
         }
 
-        [ExecuteInEditMode] private void OnEnable() { EditorApplication.update += RespawnMockup; }
+        [ExecuteInEditMode] private void OnEnable() { EditorApplication.update += RespawnMockup; } 
         [ExecuteInEditMode] private void OnDisable() { EditorApplication.update -= RespawnMockup; }
         void RespawnMockup()
         {
@@ -107,7 +107,9 @@ namespace E7.NotchSolution
 
             //This value could be used by the component statically.
             NotchSolutionUtility.SimulateSafeAreaRelative = simulatedRect;
+#if UNITY_2019_2_OR_NEWER
             NotchSolutionUtility.SimulateCutoutsRelative = simulatedCutouts;
+#endif
 
             var normalSceneSimTargets = GameObject.FindObjectsOfType<UIBehaviour>().OfType<INotchSimulatorTarget>();
             foreach (var nst in normalSceneSimTargets)
