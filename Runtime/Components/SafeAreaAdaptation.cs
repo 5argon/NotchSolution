@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.Playables;
-using UnityEngine.Animations;
 
 namespace E7.NotchSolution
 {
@@ -27,35 +26,19 @@ namespace E7.NotchSolution
     /// In real play it is possible to adjust these adapted fields later freely since it's only on `Start`.
     /// </summary>
 
-    //Don't know if it is possible or not? Multiple playables using 1 animator is possible but it wrecks the default state.
-    //But also currently that you could look at 1 edge, it is difficult in some situation when you want to do 2 unrelated things
-    //depending on different edge, on the same game object.
-    [DisallowMultipleComponent] 
-
-    [RequireComponent(typeof(Animator))]
-    [ExecuteAlways]
     [HelpURL("https://github.com/5argon/NotchSolution#safeareaadaptation")]
-    public class SafeAreaAdaptation : MonoBehaviour, INotchSimulatorTarget
+    public class SafeAreaAdaptation : AdaptationBase, INotchSimulatorTarget
     {
-
-        public Animator Animator
-        {
-            get{
-                return GetComponent<Animator>();
-            }
-        }
 
 #pragma warning disable 0649
 
         [SerializeField] RectTransform.Edge adaptToEdge;
         [SerializeField] SafeAreaEvaluationMode evaluationMode;
-        [SerializeField] SupportedOrientations supportedOrientations;
-        [Space]
-        [SerializeField] AdaptationByAnimationClips portraitOrDefaultAdaptation;
-        [SerializeField] AdaptationByAnimationClips landscapeAdaptation;
+
 
 #pragma warning restore 0649
 
+        //Currently I think iPhone X has the largest notch, so this should be a good default upper bound of blend value.
         private const float iPhoneXNotchHeightRelative = 0.05418718f;
 
         void Reset()
@@ -67,23 +50,13 @@ namespace E7.NotchSolution
         public void SimulatorUpdate(Rect simulatedSafeAreaRelative, Rect[] simulatedCutoutsRelative) 
             => AdaptWithRelativeSafeArea(simulatedSafeAreaRelative);
 
-        void Start() => Adapt();
-
-        void Update()
-        {
-            if(Application.isPlaying == false)
-            {
-                Adapt();
-            }
-        }
-
         /// <summary>
         /// At runtime <see cref="SafeAreaAdaptation"> only take effect on `Start`, since safe area is not expected to change dynamically, 
         /// and unlike uGUI and <see cref="SafeAreaPadding">  a frequent recalculation is not expected. 
         /// 
         /// This method applies that adaptation manually again.
         /// </summary>
-        public void Adapt() => AdaptWithRelativeSafeArea(NotchSolutionUtility.SafeAreaRelative);
+        public override void Adapt() => AdaptWithRelativeSafeArea(NotchSolutionUtility.SafeAreaRelative);
 
 #if UNITY_EDITOR
         public float latestSimulatedSpaceTakenRelative;
@@ -119,35 +92,8 @@ namespace E7.NotchSolution
             latestSimulatedSpaceTakenRelative = spaceTakenRelative;
 #endif
 
-            AdaptationByAnimationClips selectedAdaptation =
-            supportedOrientations == SupportedOrientations.Dual ?
-                NotchSolutionUtility.GetCurrentOrientation() == ScreenOrientation.Landscape ?
-                    landscapeAdaptation : portraitOrDefaultAdaptation
-            : portraitOrDefaultAdaptation;
 
-            float blend = selectedAdaptation.adaptationCurve.Evaluate(spaceTakenRelative);
-
-            //Connect up a playable graph, evaluate once, then we're done with them.
-
-            PlayableGraph pg = PlayableGraph.Create("AdaptationGraph");
-            pg.SetTimeUpdateMode(DirectorUpdateMode.Manual);
-
-            var mixer = AnimationMixerPlayable.Create(pg, 2, normalizeWeights: true);
-            //Not sure if the mixer should be "cross fade" like this, or should we do 0~1 weight over 1 weight?
-            //But I think that's for AnimationLayerMixerPlayable ?
-            mixer.SetInputWeight(inputIndex: 0, weight: 1 - blend);
-            mixer.SetInputWeight(inputIndex: 1, weight: blend);
-
-            var normalStateAcp = AnimationClipPlayable.Create(pg, selectedAdaptation.normalState);
-            var fullyAdaptedStateAcp = AnimationClipPlayable.Create(pg, selectedAdaptation.fullyAdaptedState);
-            pg.Connect(normalStateAcp, sourceOutputPort: 0, mixer, destinationInputPort: 0);
-            pg.Connect(fullyAdaptedStateAcp, sourceOutputPort: 0, mixer, destinationInputPort: 1);
-
-            var output = AnimationPlayableOutput.Create(pg, "AdaptationGraphOutput", Animator);
-            output.SetSourcePlayable(mixer);
-
-            pg.Evaluate();
-            pg.Destroy();
+            base.Adapt(valueForAdaptationCurve: spaceTakenRelative);
 
             //Debug.Log($"Evaluated! Got blend {blend} from {spaceTakenRelative} space taken (Relative safe area {relativeSafeArea.xMin} {relativeSafeArea.xMax} {relativeSafeArea.yMin} {relativeSafeArea.yMax})");
         }

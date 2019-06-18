@@ -2,38 +2,41 @@ using UnityEditor;
 
 namespace E7.NotchSolution
 {
-    [CustomEditor(typeof(SafeAreaPadding))]
-    public class SafeAreaPaddingDrawer : Editor
+    public class AdaptationBaseDrawer : Editor
     {
+        /// <summary>
+        /// Draw the part of fields in <see cref="AdaptationBase">.
+        /// </summary>
+        //public static void Draw(SerializedObject serializedObject)
         public override void OnInspectorGUI()
         {
-            var orientationType = serializedObject.FindProperty("orientationType");
-
-            var portrait = serializedObject.FindProperty("portraitOrDefaultPaddings");
-            var landscape = serializedObject.FindProperty("landscapePaddings");
-            var influence = serializedObject.FindProperty("influence");
+            var supportedProp = serializedObject.FindProperty("supportedOrientations");
+            var portraitProp = serializedObject.FindProperty("portraitOrDefaultAdaptation");
+            var landscapeProp = serializedObject.FindProperty("landscapeAdaptation");
 
             (bool landscapeCompatible, bool portraitCompatible) = NotchSolutionUtility.GetOrientationCompatibility();
 
             if (portraitCompatible && landscapeCompatible)
             {
-                EditorGUILayout.PropertyField(orientationType);
+                EditorGUILayout.PropertyField(supportedProp);
                 EditorGUILayout.Separator();
             }
 
-            bool dual = orientationType.enumValueIndex == (int)SupportedOrientations.Dual;
+            bool dual = supportedProp.enumValueIndex == (int)SupportedOrientations.Dual;
 
             if (dual)
             {
                 EditorGUILayout.LabelField("Portrait Orientation", EditorStyles.boldLabel);
             }
 
+            portraitProp.Next(enterChildren: true);
+
             if (portraitCompatible && landscapeCompatible) EditorGUI.indentLevel++;
 
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 3; i++)
             {
-                portrait.Next(enterChildren: true);
-                EditorGUILayout.PropertyField(portrait);
+                EditorGUILayout.PropertyField(portraitProp);
+                portraitProp.Next(enterChildren: false);
             }
             
             if (portraitCompatible && landscapeCompatible) EditorGUI.indentLevel--;
@@ -42,17 +45,15 @@ namespace E7.NotchSolution
             {
                 EditorGUILayout.Separator();
                 EditorGUILayout.LabelField("Landscape Orientation", EditorStyles.boldLabel);
+                landscapeProp.Next(enterChildren: true);
                 EditorGUI.indentLevel++;
-                for (int i = 0; i < 4; i++)
+                for (int i = 0; i < 3; i++)
                 {
-                    landscape.Next(enterChildren: true);
-                    EditorGUILayout.PropertyField(landscape);
+                    EditorGUILayout.PropertyField(landscapeProp);
+                    landscapeProp.Next(enterChildren: false);
                 }
                 EditorGUI.indentLevel--;
             }
-
-            EditorGUILayout.Separator();
-            EditorGUILayout.PropertyField(influence);
 
             serializedObject.ApplyModifiedProperties();
         }
