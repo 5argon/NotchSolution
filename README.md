@@ -62,6 +62,38 @@ If your application supports both portrait and landscape you could choose `DualO
 
 When you use `DualOrientation` your prior padding settings will become the portrait ones, and you will get a separated landscape paddings to setup. Your previous orientation will no longer applied to landscape orientation. If you switch back to `SingleOrientation` the portrait paddings works for both orientations again.
 
+# Adaptation Components
+
+For non-uGUI objects, sometimes there are controls waiting to be raycasted by something like `Physics2DRaycaster` to trigger the `EventSystem` just like UI objects. Notch could make those objects difficult to touch, but this time we have no help from uGUI layout system to move things out of the way.
+
+How "adaptation" components works is that it could move things out of the way with help from animation Playables API. My design is that we will have 2 **single-frame** `AnimationClip` that represent "normal state" and "fully adapted state". These clips could control just about anything keyable, and the evaluated value could be blended anywhere between 2 clips.
+
+It has one `AnimationCurve` graph called "adaptation curve". It should evaluates to 0 to 1 where 0 you get a normal state clip, and 1 you get fully-adapted clip. Now about the input to this curve, it depends on what kind of adaptation component.
+
+## AspectRatioAdaptation
+
+An adaptation where the value for curve evaluation came from screen aspect ratio number. The number is always assumed to be width/height regardless of game's orientation, so for example, it is always 1.3333 (4/3) for iPad. You could use this to **indirectly** fix notch problem, without knowing if the notch exists or not.
+
+![WithoutAspectAdapt](.Documentation/images/woaspadapt.gif)
+
+This gif demonstrate the problem of non uGUI objects when the aspect ratio changes. The camera shrink horizontally on narrower device when on portrait orientation. Before, I prepared a stage so that on iPad there are non-gameplay extra spaces around and could be cropped safely.
+
+However this assumption is no longer safe with notch, since narrower device horizontally could have lesser vertical space with notch. It could make the control at vertical edges difficult to use.
+
+With `AspectRatioAdaptation`, I could dynamically change anything according to aspect ratio number. Notice that nothing on the scene moves with notch on or off, because it adapts to aspect ratio and **indirectly** fix notch problem.
+
+![AspectAdapt](.Documentation/images/aspadapt.gif)
+
+In this example, in addition to the camera narrowing normally by Unity, I could have it move a bit backwards with `AspectRatioAdaptation`. Because of perspective settings, moving a camera backwards will make room on the top and bottom and in turn, make a space for notch. We have avoided the notch without querying for an existence of notch this way.
+
+Additionally, you see that the stage itself expands vertically a bit too as a finishing touch. This affects gameplay a bit but overall looks nicer on narrow device than using the same stage shape as iPad aspect ratio.
+
+The 2 clips on the camera in this example are each just a single frame keyed as `z = 13` for normal state and `z = 16` for fully-adapted state. The `adaptationCurve` is set so that time 1.3333 evaluates to 0, and time 2.1667 evaluates to 1. And 1.3333 is an iPad's aspect ratio, so it get fully normal state clip. If you use iPhone SE which has 16:9 ratio (1.7778), you would get somewhere between these 2 clips. (2.1667 is calculated from LG G7's ratio.) You can see at the corner that `z` is really -13 when the game view is on iPad aspect.
+
+## SafeAreaAdaptation
+
+This is like `AspectRatioAdaptation` but this time we could adapt directly to **relative screen space taken** by a **single side** of safe area.
+
 # Notch Simulator
 
 ![screenshot](.Documentation/images/ssNotchSim.png)
