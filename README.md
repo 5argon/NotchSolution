@@ -72,7 +72,7 @@ It has one `AnimationCurve` graph called "adaptation curve". It should evaluates
 
 ## AspectRatioAdaptation
 
-An adaptation where the value for curve evaluation came from screen aspect ratio number. The number is always assumed to be width/height regardless of game's orientation, so for example, it is always 1.3333 (4/3) for iPad. You could use this to **indirectly** fix notch problem, without knowing if the notch exists or not.
+An adaptation where the time value for adaptation curve came from screen aspect ratio number. The number is always assumed to be width/height regardless of game's orientation, so for example, it is always 1.3333 (4/3) for iPad. You could use this to **indirectly** fix notch problem, without knowing if the notch exists or not.
 
 ![WithoutAspectAdapt](.Documentation/images/woaspadapt.gif)
 

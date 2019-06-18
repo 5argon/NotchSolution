@@ -9,7 +9,7 @@ namespace E7.NotchSolution
     /// which represent normal state and fully-adapted state. As long as something is keyable by the animation system, it could be adapted to the safe area.
     /// 
     /// Blend amount is 0 ~ 1, calculated from 0 ~ 1 relative screen space taken of a single side that is then
-    /// evaluated through configurable <see cref="AdaptationByAnimationClips.adaptationCurve">.
+    /// evaluated through configurable <see cref="BlendedClipsAdaptor.adaptationCurve">.
     /// 
     /// By using animation system, the modification won't count as dirtying the scene which is great 
     /// when you want to switching the simulator on and off just to observe its effect.
@@ -43,8 +43,8 @@ namespace E7.NotchSolution
 
         void Reset()
         {
-            portraitOrDefaultAdaptation.adaptationCurve = AnimationCurve.Linear(0, 0, iPhoneXNotchHeightRelative, 1);
-            landscapeAdaptation.adaptationCurve = AnimationCurve.Linear(0, 0, iPhoneXNotchHeightRelative, 1);
+            portraitOrDefaultAdaptation = new BlendedClipsAdaptor(AnimationCurve.Linear(0, 0, iPhoneXNotchHeightRelative, 1));
+            landscapeAdaptation = new BlendedClipsAdaptor(AnimationCurve.Linear(0, 0, iPhoneXNotchHeightRelative, 1));
         }
 
         public void SimulatorUpdate(Rect simulatedSafeAreaRelative, Rect[] simulatedCutoutsRelative) 

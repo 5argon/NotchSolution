@@ -7,6 +7,9 @@ namespace E7.NotchSolution
     /// <summary>
     /// Like <see cref="SafeAreaAdaptation"> but use the current screen aspect ratio number instead.
     /// The ratio is width/height ratio when on **landscape** orientation (e.g. 4/3, 16/9, 2/1) regardless of your game's orientation.
+    /// 
+    /// By default, the curve is setup so that lower aspect ratio (wider screen) is "normal" and higher number (narrower screen) is "adapted".
+    /// So the leftmost node represents a device like an iPad.
     /// </summary>
     public class AspectRatioAdaptation : AdaptationBase
     {
@@ -14,8 +17,8 @@ namespace E7.NotchSolution
 
         void Reset()
         {
-            portraitOrDefaultAdaptation = new AdaptationByAnimationClips { adaptationCurve = GenDefaultCurve() };
-            landscapeAdaptation = new AdaptationByAnimationClips() { adaptationCurve = GenDefaultCurve() };
+            portraitOrDefaultAdaptation = new BlendedClipsAdaptor(GenDefaultCurve());
+            landscapeAdaptation = new BlendedClipsAdaptor(GenDefaultCurve());
 
             AnimationCurve GenDefaultCurve() =>
              new AnimationCurve(new Keyframe[]

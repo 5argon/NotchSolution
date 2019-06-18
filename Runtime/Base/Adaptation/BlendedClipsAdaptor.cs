@@ -1,0 +1,65 @@
+﻿using System;
+using UnityEngine;
+using UnityEngine.Animations;
+using UnityEngine.Playables;
+
+namespace E7.NotchSolution
+{
+    /// <summary>
+    /// Performs an adaptation by calling <see cref="Adapt(float, Animator)">.
+    /// </summary>
+    [Serializable]
+    public class BlendedClipsAdaptor
+    {
+#pragma warning disable 0649
+        [SerializeField] AnimationClip normalState;
+        [SerializeField] AnimationClip fullyAdaptedState;
+
+        [Tooltip("A curve which maps to the current blend percentage between normal and adapted state it should be (Y axis, 0 to 1, 1 for fully adapted state")]
+        [SerializeField] AnimationCurve adaptationCurve;
+#pragma warning restore 0649
+
+        public BlendedClipsAdaptor(AnimationCurve defaultCurve)
+        {
+            this.adaptationCurve = defaultCurve;
+        }
+
+        /// <summary>
+        /// Use animation Playables API to control keyed values, blended between the first frame of 2 animation clips.
+        /// </summary>
+        /// <param name="valueForAdaptationCurve">A value to evaluate into adaptation curve producing a real blend value for 2 clips.</param>
+        /// <param name="animator">Required for animation playables. The clips used must be able to control the keyed fields traveling down from this animator component.</param>
+        public void Adapt(float valueForAdaptationCurve, Animator animator)
+        {
+            if (adaptationCurve == null || normalState == null || fullyAdaptedState == null)
+            {
+                return;
+            }
+
+            float blend = adaptationCurve.Evaluate(valueForAdaptationCurve);
+
+            //Connect up a playable graph, evaluate once, then we're done with them.
+            PlayableGraph pg = PlayableGraph.Create("AdaptationGraph");
+            pg.SetTimeUpdateMode(DirectorUpdateMode.Manual);
+
+            var mixer = AnimationMixerPlayable.Create(pg, 2, normalizeWeights: true);
+            //Not sure if the mixer should be "cross fade" like this, or should we do 0~1 weight over 1 weight?
+            //But I think that's for AnimationLayerMixerPlayable ?
+            mixer.SetInputWeight(inputIndex: 0, weight: 1 - blend);
+            mixer.SetInputWeight(inputIndex: 1, weight: blend);
+
+
+            var normalStateAcp = AnimationClipPlayable.Create(pg, normalState);
+            var fullyAdaptedStateAcp = AnimationClipPlayable.Create(pg, fullyAdaptedState);
+            pg.Connect(normalStateAcp, sourceOutputPort: 0, mixer, destinationInputPort: 0);
+            pg.Connect(fullyAdaptedStateAcp, sourceOutputPort: 0, mixer, destinationInputPort: 1);
+
+            var output = AnimationPlayableOutput.Create(pg, "AdaptationGraphOutput", animator);
+            output.SetSourcePlayable(mixer);
+
+            pg.Evaluate();
+            pg.Destroy();
+        }
+    }
+
+}
