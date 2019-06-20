@@ -108,7 +108,7 @@ namespace E7.NotchSolution
             //This value could be used by the component statically.
             NotchSolutionUtility.SimulatedSafeAreaRelative = simulatedRectRelative;
 #if UNITY_2019_2_OR_NEWER
-            NotchSolutionUtility.SimulatedCutoutsRelative = simulatedCutouts;
+            NotchSolutionUtility.SimulatedCutoutsRelative = simulatedCutoutsRelative;
 #endif
 
             var normalSceneSimTargets = GameObject.FindObjectsOfType<UIBehaviour>().OfType<INotchSimulatorTarget>();
