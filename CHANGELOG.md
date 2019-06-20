@@ -4,15 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.5.0] - Unreleased
+## [1.5.0] - 2019-06-20 
 
 ### Added
 
 - "Adaptation" components added. This series of components could adapt anything including non-UI stuff with help from **animation playables API**. This is needed because with `SafeAreaPadding` we were relying on uGUI layout system to move the entire hierarchy tree, and it is not usable outside of uGUI. The adaptation component is more flexible, as long as something is animation keyable, it could be responsive to a presence of notch & other things.
     - `SafeAreaAdaptation` :  Adapt according to relative screen space taken by a selectable single side of safe area.
     - `AspectRatioAdaptation` : Like `SafeAreaAdaptation` but use aspect ratio number of the screen. Doesn't sounds notch-related, but it is a part of "notch solution" because I have use this together to solve arrangement problems.
-- Cutout information propagated to layout components, but currently unused.  (Contributed by [06Games](https://github.com/06Games))
 - New script icon for `SafeAreaPadding` since I lose the original vector project file, and I want the newly made component icons to look similar to it. ([Affinity Designer](https://affinity.serif.com/en-gb/designer/) icon project file is also added to `Icons` folder in the repo now to prevent losing it again.)
+- Cutout information propagated to layout components, but currently unused.  (Contributed by [06Games](https://github.com/06Games))
 
 ### Fixed
 
