@@ -1,8 +1,8 @@
-[Back to the summary]()
+[Back to the summary](../Components.md)
 
-# <img src="Icons/SafeAreaPaddingIcon.png" width="30"> SafeAreaPadding
+# <img src="../../Icons/SafeAreaPaddingIcon.png" width="30"> SafeAreaPadding
 
-![screenshot](.Documentation/images/ssSafePad.gif)
+![screenshot](../images/ssSafePad.gif)
 
 This script trust the return value of [`Screen.safeArea`](https://docs.unity3d.com/ScriptReference/Screen-safeArea.html) and pad the `RectTransform` accordingly.
 
