@@ -4,7 +4,7 @@
 
 ![screenshot](../images/ssSafePad.gif)
 
-This script trust the return value of [`Screen.safeArea`](https://docs.unity3d.com/ScriptReference/Screen-safeArea.html) and pad the `RectTransform` accordingly.
+This script trust the return value of [`Screen.safeArea`](https://docs.unity3d.com/ScriptReference/Screen-safeArea.html) and pad the `RectTransform` accordingly. If you anchor your child UI game objects on the padded side of the parent with `SafeAreaPadding`, you have avoided the notched area naturally with uGUI's auto-layout system.
 
 ## Android & `Screen.safeArea`
 

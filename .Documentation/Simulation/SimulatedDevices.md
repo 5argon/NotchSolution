@@ -21,3 +21,4 @@
 - `Editor/SimulationDevice.cs` : Add a new `enum` to this file first. It would show up in the simulator with `enum` dropdown.
 - `Editor/SimulationDatabase.cs` : A mapping from that `enum` to various information required.
 - `Editor/Mockups` : Mockup overlay files are here. It should be named this pattern `NoSo-{enum}-{Portrait/Landscape}` and colored white/transparent. It can be in any resolution but needs to be aspect-correct as it will be stretched out to the `Canvas`.
+- Submit a pull request! Thanks! : )

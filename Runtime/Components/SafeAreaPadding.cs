@@ -16,7 +16,7 @@ namespace E7.NotchSolution
     /// </summary>
     [DisallowMultipleComponent]
     [RequireComponent(typeof(RectTransform))]
-    [HelpURL("https://github.com/5argon/NotchSolution#safeareapadding")]
+    [HelpURL("https://github.com/5argon/NotchSolution/blob/master/.Documentation/Components/SafeAreaPadding.md")]
     public class SafeAreaPadding : UIBehaviour, ILayoutSelfController, INotchSimulatorTarget
     {
         private Rect GetTopLevelRect()

@@ -26,7 +26,7 @@ namespace E7.NotchSolution
     /// In real play it is possible to adjust these adapted fields later freely since it's only on `Start`.
     /// </summary>
 
-    [HelpURL("https://github.com/5argon/NotchSolution#safeareaadaptation")]
+    [HelpURL("https://github.com/5argon/NotchSolution/blob/master/.Documentation/Components/AdaptationComponents.md#-safeareaadaptation")]
     public class SafeAreaAdaptation : AdaptationBase, INotchSimulatorTarget
     {
 

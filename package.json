@@ -11,5 +11,5 @@
         "User Interface",
         "Responsive"
     ],
-    "description": "A set of tools to fight with notched/cutout phones for Unity uGUI."
+    "description": "A set of components and tools to solve notched/cutout phones layout problems."
 }

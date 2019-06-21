@@ -1,3 +1,5 @@
+[Back to main page](../README.md#documentation)
+
 # How-to and tricks
 
 Useful design patterns will be added here for guidance.

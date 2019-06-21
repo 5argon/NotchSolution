@@ -4,10 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.6.0] - Unreleased
+## [1.6.0] - 2019-06-22 
 
-- Added an editor button for creating all required assets for adaptation components.
-- Added an editor button for temporarily assign the controller asset so you could design the adaptation in Animation panel. (Usable with asset created from the prior button.)
+### Added
+
+- Add an editor button for creating all required assets for adaptation components.
+- Add an editor button for temporarily assign the controller asset so you could design the adaptation in Animation panel. (Usable with asset created from the prior button.)
+- Documentation structure refactored. (Contributed by [06Games](https://github.com/06Games))
 
 ## [1.5.0] - 2019-06-20 
 
