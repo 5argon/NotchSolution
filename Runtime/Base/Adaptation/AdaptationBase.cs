@@ -27,6 +27,29 @@ namespace E7.NotchSolution
         [SerializeField] protected BlendedClipsAdaptor landscapeAdaptation;
 #pragma warning restore 0649
 
+#if UNITY_EDITOR
+        public void AssignAdaptationClips(AnimationClip normalState, AnimationClip adaptedState, bool forPortrait)
+        {
+            BlendedClipsAdaptor bca = forPortrait ? portraitOrDefaultAdaptation : landscapeAdaptation;
+            bca.AssignAdaptationClips(normalState, adaptedState);
+        }
+
+        /// <summary>
+        /// Check if both clips are nested on the same controller asset or not.
+        /// </summary>
+        public bool TryGetLinkedControllerAsset(bool forPortrait, out RuntimeAnimatorController controllerAsset)
+        {
+            BlendedClipsAdaptor bca = forPortrait ? portraitOrDefaultAdaptation : landscapeAdaptation;
+            return bca.TryGetLinkedControllerAsset(out controllerAsset);
+        }
+
+        public bool IsAdaptable(bool forPortrait)
+        {
+            BlendedClipsAdaptor bca = forPortrait ? portraitOrDefaultAdaptation : landscapeAdaptation;
+            return bca.Adaptable;
+        }
+#endif
+
         private BlendedClipsAdaptor SelectedAdaptation =>
             supportedOrientations == SupportedOrientations.Dual ?
                 NotchSolutionUtility.GetCurrentOrientation() == ScreenOrientation.Landscape ?

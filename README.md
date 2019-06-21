@@ -66,11 +66,11 @@ When you use `DualOrientation` your prior padding settings will become the portr
 
 For non-uGUI objects, sometimes there are controls waiting to be raycasted by something like `Physics2DRaycaster` to trigger the `EventSystem` just like UI objects. Notch could make those objects difficult to touch, but this time we have no help from uGUI layout system to move things out of the way.
 
-How "adaptation" components works is that it could move things out of the way with help from animation Playables API. My design is that we will have 2 **single-frame** `AnimationClip` that represent "normal state" and "fully adapted state". These clips could control just about anything keyable, and the evaluated value could be blended anywhere between 2 clips.
+How "adaptation" components works is that it could move things out of the way with help from Animation Playables API, which uses `Animator` component without a controller asset to bind to desired properties. (In fact, the controller asset should internally ended up using Animation Playables API.)
 
-Moreover this control is not counted as dirtying the game object, which is perfect. If you use adaptation components on prefabs, it will not cause an override and dirty asterisk while you preview the adaptation via notch simulator/aspect switch.
+My design is that we will have 2 **single-frame** `AnimationClip` that represent "normal state" and "fully adapted state". These clips could control just about anything keyable, and the evaluated value could be blended anywhere between 2 clips.
 
-Playables API requires an `Animator` component, however the controller asset is not needed so just add an empty `Animator`. (It must be `.enable = true` though.) Unfortunately without the controller asset you cannot use Animation tab to design the 2 clips I mentioned, so in the end you will need to connect a dummy controller asset to `Animator` just so you could design the clips, then you can remove it once you are done to prevent animation state machine creation at runtime.
+Moreover this playable-modified values is not counted as dirtying the game object, which is perfect. If you use adaptation components on prefabs, it will not cause an override and dirty asterisk while you preview the adaptation via notch simulator/aspect switch.
 
 Default to all adaptation components, it adapts once automatically only on `Start()` since unlike uGUI's layout system where all the edges and sizes cause ripple effect, it is not expected that the value controlling the adaptation will change often. (Aspect ratio couldn't change mid-game, notch couldn't expand mid-game, etc.) You could still adapt again normally with manual `Adapt()` call.
 
@@ -101,6 +101,16 @@ The 2 clips on the camera in this example are each just a single frame keyed as 
 ## <img src="Icons/SafeAreaAdaptationIcon.png" width="30"> SafeAreaAdaptation
 
 This is like `AspectRatioAdaptation` but this time we could adapt directly to **relative screen space taken** by a **single side** of safe area. (More documentation later when I arrived at the part in my game that actually use this, so I could make some screenshots.)
+
+## Editing the adaptation
+
+Playables API requires an `Animator` component, however the controller asset is not needed so just add an empty `Animator` and fold it away. (It must be `.enable = true` though.)
+
+Unfortunately without the controller asset **connected** to `Animator` component, you cannot use the Animation tab to design the 2 adaptation clips. As a workaround to maintain good workflow, I have added a toggle button so that it assign the controller temporarily while it is pressed. After you are done remember to toggle it off to remove the controller asset.
+
+![Edit Adaptation](.Documentation/images/editadaptation.gif)
+
+This button only appears if both clips are under the same controller asset parent. You could ensure that by creating all required assets with a button that should appear at the same place when you are still missing clips.
 
 # Notch Simulator
 

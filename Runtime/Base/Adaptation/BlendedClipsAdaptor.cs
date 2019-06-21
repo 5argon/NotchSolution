@@ -3,6 +3,10 @@ using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.Playables;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 namespace E7.NotchSolution
 {
     /// <summary>
@@ -19,10 +23,37 @@ namespace E7.NotchSolution
         [SerializeField] AnimationCurve adaptationCurve;
 #pragma warning restore 0649
 
+#if UNITY_EDITOR
+        public void AssignAdaptationClips(AnimationClip normalState, AnimationClip adaptedState)
+        {
+            this.normalState = normalState;
+            this.fullyAdaptedState = adaptedState;
+        }
+
+        /// <summary>
+        /// Check if both clips are nested on the same controller asset or not.
+        /// </summary>
+        public bool TryGetLinkedControllerAsset(out RuntimeAnimatorController controllerAsset) 
+        {
+            controllerAsset = null;
+            var normalControllerPath = AssetDatabase.GetAssetPath(normalState);
+            var adaptedControllerPath = AssetDatabase.GetAssetPath(fullyAdaptedState);
+            bool linked = Adaptable && (normalControllerPath == adaptedControllerPath);
+            
+            if(linked)
+            {
+                controllerAsset = AssetDatabase.LoadAssetAtPath<RuntimeAnimatorController>(normalControllerPath);
+            }
+            return linked;
+        }
+#endif
+
         public BlendedClipsAdaptor(AnimationCurve defaultCurve)
         {
             this.adaptationCurve = defaultCurve;
         }
+
+        public bool Adaptable => !(adaptationCurve == null || normalState == null || fullyAdaptedState == null);
 
         /// <summary>
         /// Use animation Playables API to control keyed values, blended between the first frame of 2 animation clips.
@@ -31,10 +62,7 @@ namespace E7.NotchSolution
         /// <param name="animator">Required for animation playables. The clips used must be able to control the keyed fields traveling down from this animator component.</param>
         public void Adapt(float valueForAdaptationCurve, Animator animator)
         {
-            if (adaptationCurve == null || normalState == null || fullyAdaptedState == null)
-            {
-                return;
-            }
+            if (!Adaptable) return;
 
             float blend = adaptationCurve.Evaluate(valueForAdaptationCurve);
 
