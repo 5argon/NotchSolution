@@ -28,7 +28,10 @@ It does not update automatically when I push fixes to this repo. You must remove
 
 It will be on Unity Asset Store later too, but currently I don't think it is Asset Store worthy. There are some weird glitches remaining. (See [Issues section](https://github.com/5argon/NotchSolution/issues))
 
-# <img src="Icons/SafeAreaPaddingIcon.png" width="30"> SafeAreaPadding
+# Documentation
+* **[Components](.Documentation/Components.md)**  
+* **[How-to and tricks](.Documentation/HowTo.md)**
+* **[Simulation](.Documentation/Simulation.md)**
 
 ![screenshot](.Documentation/images/ssSafePad.gif)
 
