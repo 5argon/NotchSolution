@@ -2,7 +2,21 @@
 
 ![screenshot](.Documentation/images/ssMain.gif)
 
-It is a set of tools to fight with notched/cutout phones for Unity uGUI. Minimum Unity version 2019.1.
+<img src="https://opencollective.com/notch-solution/tiers/backer/badge.svg?label=backer&color=brightgreen" />
+
+<object type="image/svg+xml" data="https://opencollective.com/notch-solution/tiers/backer.svg?avatarHeight=36&width=600"></object>
+
+A set of components and tools to solve notched/cutout phones layout problems for Unity. Whether you like it or not, the time has come for us designers to design in context of a notch and embrace it instead of hiding it. This tools also allows design-time preview which help you iterate your design without building the game.  Minimum Unity version 2019.1.
+
+## Reason for open source
+
+I believe screen cutout problem must be solved collaboratively. I think there are many variations and potentially different permutation of problems that bound to happen later. Over time, having more inputs from users together we could make this more stable than I could ever made alone.
+
+In this regard for financial support, instead of revenue from Asset Store, the main way will be through Open Collective. (https://opencollective.com/notch-solution) The backers are displayed just under the opening image.
+
+Alternatively, you could also check out the **"♥️ Sponsor"** button on top of this page where there is a link to my other Asset Store items, that way you could have some Unity tools in return as my thanks for a contribution. Thank you!
+
+The Discord channel [is also available here!](https://discord.gg/J4sCcj4) You could come and express your wishlist or issues. (You could also use the Issues section.)
 
 ## How to include with GitHub functionality of Unity Package Manager
 
@@ -10,21 +24,15 @@ Add this line `"com.e7.notch-solution": "git://github.com/5argon/NotchSolution.g
 
 It does not update automatically when I push fixes to this repo. You must remove the lock line that appears in you `manifest.json` file to refectch. Otherwise you would better use Asset Store (when it is available)
 
-## Reason for open source
-
-I believe screen cutout problem must be solved collaboratively, since there are so many variations and potentially different permutation of problems. Over time we together could make this more stable than I could ever made alone.
-
-The Discord channel [is also available here!](https://discord.gg/J4sCcj4) You could come and express your wishlist or issues. (You could also use the Issues section.)
-
 ## Asset Store
 
-It will be on Unity Asset Store later too, but currently I don't think it is Asset Store worthy. There are some weird glitches remaining, and many usability issue related to the isolated prefab mode. (Prefab mode preview added in v1.2.0 but I am not sure of bugs)
+It will be on Unity Asset Store later too, but currently I don't think it is Asset Store worthy. There are some weird glitches remaining. (See [Issues section](https://github.com/5argon/NotchSolution/issues))
 
 # <img src="Icons/SafeAreaPaddingIcon.png" width="30"> SafeAreaPadding
 
 ![screenshot](.Documentation/images/ssSafePad.gif)
 
-This script trust the return value of [`Screen.safeArea`](https://docs.unity3d.com/ScriptReference/Screen-safeArea.html) and pad the `RectTransform` accordingly.
+This script trust the return value of [`Screen.safeArea`](https://docs.unity3d.com/ScriptReference/Screen-safeArea.html) and pad the `RectTransform` accordingly. If you anchor your child UI game objects on the padded side of the parent with `SafeAreaPadding`, you have avoided the notched area naturally with uGUI's auto-layout system.
 
 ## Android & `Screen.safeArea`
 
@@ -147,7 +155,7 @@ They are now collected [in this document](.Documentation/HowTo.md).
 
 # Need help / TODO
 
-Please see the Issue section.
+Please see the [Issue section](https://github.com/5argon/NotchSolution/issues).
 
 # How to contribute a new simulation device
 
@@ -167,15 +175,3 @@ Please see the Issue section.
 - OnePlus 6T
 - Samsung Galaxy S10
 - Samsung Galaxy S10+
-
-# This asset is sponsored by
-
-My own other (paid) assets... haha. Asides from code contribution, you could also provide support by getting something from these. Thank you.
-
-- [Introloop](http://exceed7.com/introloop/) - Easily play looping music with intro section (without physically splitting them) (Unity 2017.0+)
-- [Native Audio](http://exceed7.com/native-audio/) - Lower audio latency via OS's native audio library. (Unity 2017.1+, iOS uses OpenAL / Android uses OpenSL ES)
-- [Native Touch](http://exceed7.com/native-touch/) - Faster touch via callbacks from the OS, with a real hardware timestamp. (Unity 2017.1+, iOS/Android)
-
-The game at the top is [Duel Otters/ตัวนากท้าดวล/かわうそバトル](http://exceed7.com/duel-otters).
-
-One another is an in-development game [Mel Cadence/メルカデンツ](http://exceed7.com/mel-cadence).
