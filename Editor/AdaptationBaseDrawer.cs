@@ -31,6 +31,7 @@ namespace E7.NotchSolution
                 if (newToggle == controllerNull)
                 {
                     animator.runtimeAnimatorController = controllerNull ? controllerAsset : null;
+                    EditorApplication.RepaintAnimationWindow();
                 }
             }
             else
