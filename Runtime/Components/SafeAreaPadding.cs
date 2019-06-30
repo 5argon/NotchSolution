@@ -52,15 +52,6 @@ namespace E7.NotchSolution
             }
         }
 
-        protected override void Reset()
-        {
-            base.Reset();
-            influence = 1;
-            orientationType = SupportedOrientations.Single;
-            portraitOrDefaultPaddings = new PerEdgeEvaluationModes();
-            landscapePaddings = new PerEdgeEvaluationModes();
-        }
-
         private DrivenRectTransformTracker m_Tracker;
 
         protected override void OnEnable()
@@ -83,6 +74,15 @@ namespace E7.NotchSolution
 
 
 #if UNITY_EDITOR
+        protected override void Reset()
+        {
+            base.Reset();
+            influence = 1;
+            orientationType = SupportedOrientations.Single;
+            portraitOrDefaultPaddings = new PerEdgeEvaluationModes();
+            landscapePaddings = new PerEdgeEvaluationModes();
+        }
+        
         protected override void OnValidate()
         {
             if (gameObject.activeInHierarchy)
