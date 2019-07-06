@@ -18,15 +18,35 @@ Alternatively, you could also check out the **Sponsor** button on top of this pa
 
 The Discord channel [is also available here!](https://discord.gg/J4sCcj4) You could come and express your wishlist or issues. (You could also use the Issues section.)
 
-## How to include with GitHub functionality of Unity Package Manager
+# Installation
+
+## Include with GitHub functionality of Unity Package Manager
 
 Add this line `"com.e7.notch-solution": "git://github.com/5argon/NotchSolution.git",` to your `manifest.json`.
 
-It does not update automatically when I push fixes to this repo. You must remove the lock line that appears in you `manifest.json` file to refetch. Otherwise you would better use Asset Store. (when it is available)
-
-## Asset Store
+It does not update automatically when I push fixes to this repo. You must remove the lock line that appears in you `manifest.json` file to refetch. Otherwise you would better do a direct copy.
 
 It will be on Unity Asset Store later too, but currently I don't think it is Asset Store worthy. There are some weird glitches remaining. (See [Issues section](https://github.com/5argon/NotchSolution/issues))
+
+## `Screen.safeArea` requirement
+
+Some key components are using `Screen.safeArea`. For Android, **your player's phone has to be on Android P AND also you have to use Unity 2019.1 or over**. Otherwise I believe Android builds with black bar over the notch/cutout  and non-Pie Android do not have a dedicated API to report cutouts.
+
+I think there is no problem on iOS. (?)
+
+## Project settings
+
+![enable rendering into cutout](.Documentation/images/renderIntoCutout.png)
+
+You did all the work for this moment. Enable **Render outside safe area** under **Resolution and Presentation** for Android. Android has an explicit mode on the app to enable the black bar (Maybe [LAYOUT_IN_DISPLAY_CUTOUT_MODE_NEVER](https://developer.android.com/guide/topics/display-cutout/#never_render_content_in_the_display_cutout_area)). This check mark should ended up just enabling that mode without you touching the game.
+
+For iOS, I think there is no option to do black bar as Apple discourages and may denies app that tries to hide the notch, therefore it already renders outside the safe area.
+
+# `Screen.cutout` research started
+
+New entry in **Unity 2019.2**, this time not just a safe area but it returns a rectangle **surrounding the notch**! Currently Notch Solution do not use this anywhere yet, but I am conducting a research to see what the phone reports for this property.
+
+If you have a phone with cutouts, you could **join the research** by downloading a debug APK in the [release page](https://github.com/5argon/NotchSolution/releases). Then after running it on your phone, take a screenshot on both portrait and landscape orientation and submit your result in [this issue](https://github.com/5argon/NotchSolution/issues/2) so we know what it actually looks like, and we might be able to make use of it in the future! Thank you!
 
 # Documentation
 
