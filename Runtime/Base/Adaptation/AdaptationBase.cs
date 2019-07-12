@@ -8,12 +8,6 @@ namespace E7.NotchSolution
     /// A base class which use the first frame of 2 <see cref="AnimationClip"> and a blend value to control an <see cref="Animator">
     /// with Playables API once on <see cref="Start">. Those information are all in <see cref="BlendedClipsAdaptor">.
     /// </summary>
-
-    //Don't know if it is possible or not? Multiple playables using 1 animator is possible but it wrecks the default state.
-    //But also currently that you could look at 1 edge, it is difficult in some situation when you want to do 2 unrelated things
-    //depending on different edge, on the same game object.
-    [DisallowMultipleComponent] 
-
     [ExecuteAlways]
     [RequireComponent(typeof(Animator))]
     public abstract class AdaptationBase : MonoBehaviour
