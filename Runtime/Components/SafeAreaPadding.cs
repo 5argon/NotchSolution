@@ -112,7 +112,7 @@ namespace E7.NotchSolution
 
         private void UpdateRect()
         {
-            if (!IsActive()) return;
+            if (!(enabled && gameObject.activeInHierarchy)) return;
 
             PerEdgeEvaluationModes selectedOrientation =
             orientationType == SupportedOrientations.Dual ?
