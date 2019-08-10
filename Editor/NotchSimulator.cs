@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
+using UnityEditor.Build; //For bugfix hack
+using UnityEditor.Build.Reporting; //For bugfix hack
 using UnityEditor.Experimental.SceneManagement;
 using UnityEditor.SceneManagement;
 using UnityEditor.ShortcutManagement;
@@ -12,7 +14,7 @@ using UnityEngine.EventSystems;
 
 namespace E7.NotchSolution
 {
-    public class NotchSimulator : EditorWindow
+    public class NotchSimulator : EditorWindow , IPreprocessBuildWithReport //For bugfix hack
     {
         internal static NotchSimulator win;
         Vector2 gameviewResolution;
@@ -24,7 +26,7 @@ namespace E7.NotchSolution
             win.titleContent = new GUIContent("Notch Simulator");
         }
 
-        [ExecuteInEditMode] private void OnEnable() { EditorApplication.update += RespawnMockup; } 
+        [ExecuteInEditMode] private void OnEnable() { EditorApplication.update += RespawnMockup; }
         [ExecuteInEditMode] private void OnDisable() { EditorApplication.update -= RespawnMockup; }
         void RespawnMockup()
         {
@@ -35,6 +37,48 @@ namespace E7.NotchSolution
                 UpdateAllMockups(); //And we respawn it
                 UpdateSimulatorTargets();
                 gameviewResolution = Handles.GetMainGameViewSize(); //Update the saved game view
+            }
+        }
+
+        /// <summary>
+        /// Part of the IPreprocessBuildWithReport
+        /// </summary>
+        public int callbackOrder => 0;
+
+        /// <summary>
+        /// Bugfix hack
+        /// https://github.com/5argon/NotchSolution/issues/11
+        /// https://fogbugz.unity3d.com/default.asp?1157422_sfvtcfi1jmvc3702
+        /// https://fogbugz.unity3d.com/default.asp?1167068_4884utp26ji27ro0
+        /// </summary>
+        public void OnPreprocessBuild(BuildReport report)
+        {
+            //Unity has a bug that any scene change not ordered by you (building, or execute a test)
+            //could not destroy a DontSave game object (Hide or not doesn't matter) and instead logs some errors.
+            //This is a problem on building since any console error will fail the build.
+            //We will hack it to destroy it ourselve first before the scene could change.
+
+            //However this destroy we are doing is also subjected to the same error, and will fail the build as this
+            //preprocess build callback is called when you are already in a build. To counter this, we set a hide flag
+            //to None (risk of being baked in the scene? I think not as long as we didn't save it) to not cause the bug
+            //then quickly destroy it without errors.
+
+            //The error when you run a Test Runner is still there though, because Unity didn't provide a callback 
+            //when entering test for me to hack my way into it. At least you can build the game while NoSo is running.
+
+            //I have submitted the bug since 2019.1 release, now 2019.2 is here but it is still not fixed.
+
+            if (mockupCanvas != null)
+            {
+                mockupCanvas.gameObject.hideFlags = HideFlags.None;
+                DestroyImmediate(mockupCanvas.gameObject);
+                mockupCanvas = null;
+            }
+            if (prefabMockupCanvas != null)
+            {
+                prefabMockupCanvas.gameObject.hideFlags = HideFlags.None;
+                DestroyImmediate(prefabMockupCanvas.gameObject);
+                prefabMockupCanvas = null;
             }
         }
 
@@ -192,6 +236,11 @@ namespace E7.NotchSolution
 
         internal static void UpdateAllMockups()
         {
+            //When building, the scene may open-close multiple times and brought back the mockup canvas,
+            //which combined with bugs mentioned at https://github.com/5argon/NotchSolution/issues/11,
+            //will fail the build. This `if` prevents mockup refresh while building.
+            if(BuildPipeline.isBuildingPlayer) return;
+
             EnsureCanvasAndEventSetup();
 
             //Make the editing environment contains an another copy of mockup canvas.
