@@ -14,6 +14,12 @@ With notch present, there maybe a case that only notched side will move in which
 
 Anyways, iPhone X's safe area on landscape is balanced on both notched side and the opposite side, so Safe Balance has no effect. But who knows other Android phones may report safe area that offset in on just the notched/cutout side, so using Safe Balanced will guarantee the balanced appearance.
 
+I have been dogfooding my own plugins using my own game, here's an another case on using Safe Balanced. The bottom side do not have any safe area padding yet is padded according to the top.
+
+![screenshot](images/ssSafeBalanced2.jpg)
+
+In my opinion, balanced padding make more sense on landscape layout.
+
 ## Hierarchy planning for `SafeAreaPadding`
 
 ![screenshot](images/ssTrick.png)

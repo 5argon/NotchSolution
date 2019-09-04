@@ -48,6 +48,16 @@ New entry in **Unity 2019.2**, this time not just a safe area but it returns a r
 
 If you have a phone with cutouts, you could **join the research** by downloading a debug APK in the [release page](https://github.com/5argon/NotchSolution/releases). Then after running it on your phone, take a screenshot on both portrait and landscape orientation and submit your result in [this issue](https://github.com/5argon/NotchSolution/issues/2) so we know what it actually looks like, and we might be able to make use of it in the future! Thank you!
 
+Some problems we could solve with components utilizing this API :
+
+1. For centered cutout, we want those that could fit the corner to stay that way. This now create a problem for device with a cutout on the corner like Galaxy S10+. However if we setup it to go down according to safe area, now on a device like iPhoneX looks like there is nothing on the corner yet it moves down. In this image, I choose to prioritize the look on iPhoneX, therefore letting the hole punched through the UI in S10+.
+
+![cutout problem 1](.Documentation/images/cutoutProblem1.jpg)
+
+2. For device with a very small cutout like Galaxy S10's corner hole or Galaxy Note 10+'s center dot, if we trust only safe area, any small hole cause the entire width to be unusable and being padded equally. This may looks awkward as it looks like a wasted area.
+
+![cutout problem 2](.Documentation/images/cutoutProblem2.jpg)
+
 # Documentation
 
 * **[Components](.Documentation/Components.md)** : Attach to your game objects to make them notch-aware.

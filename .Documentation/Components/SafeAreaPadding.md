@@ -26,6 +26,8 @@ For each side in your current orientation, you can select from 3 modes.
 - **Safe Balanced** : Pad this side according to `Screen.safeArea`, but if the opposite side has a larger padding then pad by that value instead.
 - **Zero** : The padding will be zero, edge of your `RectTransform` will be locked to the canvas's edge.
 
+Note that each side is referring to **the phone** not its `RectTransform` this component is attaced to. (e.g. top = top edge of the phone.) Therefore, even if the entire canvas is rotated 180 degree, the "top" is still referring to the top edge of the phone.
+
 ### Orientation Type
 
 If your application supports both portrait and landscape you could choose `DualOrientation` here. But such a game is rare so the default value is `SingleOrientation`. The choice will only show up if your Player Settings is configured such that both orientations are possible.
