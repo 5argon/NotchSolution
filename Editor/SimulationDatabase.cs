@@ -52,6 +52,18 @@ namespace E7.NotchSolution
                 },
                 screenSize = new Vector2(1440, 3120),
             },
+            [SimulationDevice.SamsungNote10Plus] = new SimulationDatabaseData
+            {
+                portraitSafeArea = new Rect(0, 0, 1080, 2195),
+                portraitCutouts = new Rect[]{
+                    new Rect (479, 2195, 122, 85),
+                },
+                landscapeSafeArea = new Rect(85, 0, 2195, 1080),
+                landscapeCutouts = new Rect[]{
+                    new Rect (0, 479, 85, 122),
+                },
+                screenSize = new Vector2(1080, 2280),
+            },
             [SimulationDevice.SamsungS10Plus] = new SimulationDatabaseData
             {
                 portraitSafeArea = new Rect(0, 0, 1080, 2173),
