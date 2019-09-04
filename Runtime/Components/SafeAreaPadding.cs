@@ -37,7 +37,12 @@ namespace E7.NotchSolution
         [SerializeField] SupportedOrientations orientationType;
         [SerializeField] PerEdgeEvaluationModes portraitOrDefaultPaddings;
         [SerializeField] PerEdgeEvaluationModes landscapePaddings;
+
+        [Tooltip("Scale down the padding applied onto the RectTransform to be less than an actual safe area.")]
         [SerializeField] [Range(0f, 1f)] float influence = 1;
+
+        [Tooltip("The safe area value read from all edges are applied to the opposite side of a RectTransform instead. Useful when you have rotated or negatively scaled RectTransform.")]
+        [SerializeField] bool flipPadding = false;
 #pragma warning restore 0649
 
         [System.NonSerialized]
@@ -229,6 +234,18 @@ namespace E7.NotchSolution
             finalPaddingsLDUR[1] *= influence;
             finalPaddingsLDUR[2] *= influence;
             finalPaddingsLDUR[3] *= influence;
+
+            if(flipPadding)
+            {
+                float remember = 0;
+                finalPaddingsLDUR[0] = remember;
+                finalPaddingsLDUR[0] = finalPaddingsLDUR[3];
+                finalPaddingsLDUR[3] = remember;
+
+                finalPaddingsLDUR[1] = remember;
+                finalPaddingsLDUR[1] = finalPaddingsLDUR[2];
+                finalPaddingsLDUR[2] = remember;
+            }
 
 #if DEBUG_NOTCH_SOLUTION
             Debug.Log($"FinalLDUR {string.Join(" ", finalPaddingsLDUR.Select(x => x.ToString()))}");

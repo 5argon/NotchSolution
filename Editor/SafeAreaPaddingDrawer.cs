@@ -12,6 +12,7 @@ namespace E7.NotchSolution
             var portrait = serializedObject.FindProperty("portraitOrDefaultPaddings");
             var landscape = serializedObject.FindProperty("landscapePaddings");
             var influence = serializedObject.FindProperty("influence");
+            var flipPadding = serializedObject.FindProperty("flipPadding");
 
             (bool landscapeCompatible, bool portraitCompatible) = NotchSolutionUtility.GetOrientationCompatibility();
 
@@ -53,6 +54,7 @@ namespace E7.NotchSolution
 
             EditorGUILayout.Separator();
             EditorGUILayout.PropertyField(influence);
+            EditorGUILayout.PropertyField(flipPadding);
 
             serializedObject.ApplyModifiedProperties();
         }
