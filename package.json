@@ -11,5 +11,15 @@
         "User Interface",
         "Responsive"
     ],
-    "description": "A set of components and tools to solve notched/cutout phones layout problems."
+    "description": "A set of components and tools to solve notched/cutout phones layout problems.",
+    "dependencies": {
+        "opencollective-postinstall": "^2.0.2"
+    },
+    "collective": {
+        "type": "opencollective",
+        "url": "https://opencollective.com/NotchSolution"
+    },
+    "scripts": {
+        "postinstall": "opencollective-postinstall || true"
+    }
 }
