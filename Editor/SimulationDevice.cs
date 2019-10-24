@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace E7.NotchSolution
 {
@@ -9,6 +9,7 @@ namespace E7.NotchSolution
         [InspectorName("Apple/ iPad Pro")] iPadPro,
         [InspectorName("OnePlus/ 6T")] OnePlus6T,
         [InspectorName("Huawei/ Mate 20 Pro")] HuaweiMate20Pro,
+        [InspectorName("Samsung/ Note 10+")] SamsungNote10Plus,
         [InspectorName("Samsung/ S10+")] SamsungS10Plus,
         [InspectorName("Samsung/ S10")] SamsungS10
 #else
@@ -16,6 +17,7 @@ namespace E7.NotchSolution
         iPadPro,
         OnePlus6T,
         HuaweiMate20Pro,
+        SamsungNote10Plus,
         SamsungS10Plus,
         SamsungS10
 #endif
