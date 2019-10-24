@@ -24,7 +24,7 @@ namespace E7.NotchSolution
             var window = EditorWindow.GetWindow(gameView);
 
             int currentIndex = (int)sizeIndex.GetValue(window);
-            currentIndex = currentIndex == NotchSolutionUtility.NarrowestAspectIndex ? NotchSolutionUtility.WidestAspectIndex : NotchSolutionUtility.NarrowestAspectIndex;
+            currentIndex = currentIndex == NotchSolutionUtilityEditor.NarrowestAspectIndex ? NotchSolutionUtilityEditor.WidestAspectIndex : NotchSolutionUtilityEditor.NarrowestAspectIndex;
             sizeIndex.SetValue(window, currentIndex, null);
 
             NotchSimulator.UpdateAllMockups();

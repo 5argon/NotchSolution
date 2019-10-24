@@ -2,6 +2,6 @@ using UnityEditor;
 
 namespace E7.NotchSolution
 {
-    [CustomPropertyDrawer(typeof(SafeAreaEvaluationMode))]
+    [CustomPropertyDrawer(typeof(EdgeEvaluationMode))]
     public class SafeAreaEvaluationModeDrawer : EnumButtonsDrawer { }
 }

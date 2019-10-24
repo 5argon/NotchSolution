@@ -96,7 +96,7 @@ namespace E7.NotchSolution
             var portraitProp = serializedObject.FindProperty("portraitOrDefaultAdaptation");
             var landscapeProp = serializedObject.FindProperty("landscapeAdaptation");
 
-            (bool landscapeCompatible, bool portraitCompatible) = NotchSolutionUtility.GetOrientationCompatibility();
+            (bool landscapeCompatible, bool portraitCompatible) = NotchSolutionUtilityEditor.GetOrientationCompatibility();
 
             if (portraitCompatible && landscapeCompatible)
             {

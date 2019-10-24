@@ -6,7 +6,7 @@
 
 Accessible from `Window > General > Notch Simulator`. Additionally with Shortcuts API introduced in 2019.1, you could press `Alt/Option + N` to toggle it to confirm your design. It could be adjusted in the `Shortcuts...` preference menu.
 
-Works together with all `INotchSimulatorTarget` (`SafeAreaPadding` is one of them) in the current scene and prefab environment scene. Normally `Screen.safeArea` does not return a useful value in editor. Notch Simulator can simulate a safe area in editor for you **even in prefab mode**. You can toggle it on and off to see your UI reacts immediately.
+Works together with all `INotchSimulatorTarget` (`SafePadding` is one of them) in the current scene and prefab environment scene. Normally `Screen.safeArea` does not return a useful value in editor. Notch Simulator can simulate a safe area in editor for you **even in prefab mode**. You can toggle it on and off to see your UI reacts immediately.
 
 Non-flipped orientation of landscape is assumed to be "landscape left" from natural portrait orientation.
 

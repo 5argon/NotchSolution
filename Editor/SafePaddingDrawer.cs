@@ -2,8 +2,8 @@ using UnityEditor;
 
 namespace E7.NotchSolution
 {
-    [CustomEditor(typeof(SafeAreaPadding))]
-    public class SafeAreaPaddingDrawer : Editor
+    [CustomEditor(typeof(SafePadding))]
+    public class SafePaddingDrawer : Editor
     {
         public override void OnInspectorGUI()
         {
@@ -14,7 +14,7 @@ namespace E7.NotchSolution
             var influence = serializedObject.FindProperty("influence");
             var flipPadding = serializedObject.FindProperty("flipPadding");
 
-            (bool landscapeCompatible, bool portraitCompatible) = NotchSolutionUtility.GetOrientationCompatibility();
+            (bool landscapeCompatible, bool portraitCompatible) = NotchSolutionUtilityEditor.GetOrientationCompatibility();
 
             if (portraitCompatible && landscapeCompatible)
             {

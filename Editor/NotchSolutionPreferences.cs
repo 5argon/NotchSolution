@@ -43,10 +43,10 @@ namespace E7.NotchSolution
             padRect.Add(repo);
 
             var colorField = new ColorField("Prefab mode overlay color");
-            colorField.value = NotchSolutionUtility.PrefabModeOverlayColor;
+            colorField.value = NotchSolutionUtilityEditor.PrefabModeOverlayColor;
             colorField.RegisterValueChangedCallback(ev =>
             {
-                NotchSolutionUtility.PrefabModeOverlayColor = ev.newValue;
+                NotchSolutionUtilityEditor.PrefabModeOverlayColor = ev.newValue;
                 NotchSimulator.UpdateAllMockups();
                 NotchSimulator.UpdateSimulatorTargets();
             });
@@ -70,22 +70,22 @@ namespace E7.NotchSolution
             //TODO : Reflect to `GameViewSizes.instance` and request all sizes to draw a nicer drop down menu instead of index number.
 
             var narrowest = new IntegerField("Narrowest aspect index");
-            narrowest.value = NotchSolutionUtility.NarrowestAspectIndex;
+            narrowest.value = NotchSolutionUtilityEditor.NarrowestAspectIndex;
             narrowest.RegisterValueChangedCallback(ev =>
             {
                 narrowest.value = Mathf.Max(0, ev.newValue); //go to -1 and the game view crashes..
-                NotchSolutionUtility.NarrowestAspectIndex = ev.newValue;
+                NotchSolutionUtilityEditor.NarrowestAspectIndex = ev.newValue;
                 NotchSimulator.UpdateAllMockups();
                 NotchSimulator.UpdateSimulatorTargets();
             });
             padRect.Add(narrowest);
 
             var widest = new IntegerField("Widest aspect index");
-            widest.value = NotchSolutionUtility.WidestAspectIndex;
+            widest.value = NotchSolutionUtilityEditor.WidestAspectIndex;
             widest.RegisterValueChangedCallback(ev =>
             {
                 widest.value = Mathf.Max(0, ev.newValue);
-                NotchSolutionUtility.WidestAspectIndex = ev.newValue;
+                NotchSolutionUtilityEditor.WidestAspectIndex = ev.newValue;
                 NotchSimulator.UpdateAllMockups();
                 NotchSimulator.UpdateSimulatorTargets();
             });

@@ -14,6 +14,11 @@ using UnityEngine.EventSystems;
 
 namespace E7.NotchSolution
 {
+    /// <summary>
+    /// Notch Solution components can receive simulated device values in editor from this instead of the usual <see cref="Screen"> API.
+    /// 
+    /// Also the mockup overlay is provided by an invisible full screen canvas game object with <see cref="HideFlags.HideAndDontSave">.
+    /// </summary>
     public class NotchSimulator : EditorWindow , IPreprocessBuildWithReport //For bugfix hack
     {
         internal static NotchSimulator win;
@@ -120,8 +125,8 @@ namespace E7.NotchSolution
                     gameViewSize.y = flip;
                 }
 
-                var simAspect = NotchSolutionUtility.ScreenRatio(simulationDevice.screenSize);
-                var gameViewAspect = NotchSolutionUtility.ScreenRatio(gameViewSize);
+                var simAspect = NotchSolutionUtilityEditor.ScreenRatio(simulationDevice.screenSize);
+                var gameViewAspect = NotchSolutionUtilityEditor.ScreenRatio(gameViewSize);
                 var aspectDiff = Math.Abs((simAspect.x / simAspect.y) - (gameViewAspect.x / gameViewAspect.y));
                 if (aspectDiff > 0.01f)
                 {
@@ -150,9 +155,9 @@ namespace E7.NotchSolution
             var simulatedCutoutsRelative = NotchSimulatorUtility.enableSimulation ? NotchSimulatorUtility.CalculateSimulatorCutoutsRelative() : new Rect[0];
 
             //This value could be used by the component statically.
-            NotchSolutionUtility.SimulatedSafeAreaRelative = simulatedRectRelative;
+            NotchSolutionUtilityEditor.SimulatedSafeAreaRelative = simulatedRectRelative;
 #if UNITY_2019_2_OR_NEWER
-            NotchSolutionUtility.SimulatedCutoutsRelative = simulatedCutoutsRelative;
+            NotchSolutionUtilityEditor.SimulatedCutoutsRelative = simulatedCutoutsRelative;
 #endif
 
             var normalSceneSimTargets = GameObject.FindObjectsOfType<UIBehaviour>().OfType<INotchSimulatorTarget>();
@@ -325,12 +330,16 @@ namespace E7.NotchSolution
                     (GameObject)(PrefabUtility.InstantiatePrefab(mockupCanvasPrefab, prefabStage.scene)) :
                     (GameObject)PrefabUtility.InstantiatePrefab(mockupCanvasPrefab);
 
-                    canvasObject = instantiated.GetComponent<MockupCanvas>();
-                    instantiated.hideFlags = overlayCanvasFlag;
-
-                    if (Application.isPlaying)
+                    //It sometimes instantiated into null on script reloading when starting Unity?
+                    if(instantiated != null)
                     {
-                        DontDestroyOnLoad(canvasObject);
+                        canvasObject = instantiated.GetComponent<MockupCanvas>();
+                        instantiated.hideFlags = overlayCanvasFlag;
+
+                        if (Application.isPlaying)
+                        {
+                            DontDestroyOnLoad(canvasObject);
+                        }
                     }
                 }
 

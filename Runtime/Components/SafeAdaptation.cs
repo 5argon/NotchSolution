@@ -19,23 +19,19 @@ namespace E7.NotchSolution
     /// the Animation pane without <see cref="Animation"> **with** controllers, you may need to temporarily add a controller when 
     /// you are making the clip + add clips as some states in the animation graph, then remove the controller once you finished making the clip...
     /// 
-    /// At runtime it only take effect on `Start`, since safe area is not expected to change dynamically, and unlike uGUI layout system + <see cref="SafeAreaPadding">, 
+    /// At runtime it only take effect on `Start`, since safe area is not expected to change dynamically, and unlike uGUI layout system + <see cref="SafePadding">, 
     /// a frequent recalculation is not expected. Call <see cref="Adapt"> if you wish to apply the adaptation manually again.
     /// 
     /// In edit mode, it also apply on notch simulator update. So it is almost like the adaptation always lock your fields. 
     /// In real play it is possible to adjust these adapted fields later freely since it's only on `Start`.
     /// </summary>
 
-    [HelpURL("https://github.com/5argon/NotchSolution/blob/master/.Documentation/Components/AdaptationComponents.md#-safeareaadaptation")]
-    public class SafeAreaAdaptation : AdaptationBase, INotchSimulatorTarget
+    [HelpURL("https://github.com/5argon/NotchSolution/blob/master/.Documentation/Components/AdaptationComponents.md#-safeadaptation")]
+    public class SafeAdaptation : AdaptationBase, INotchSimulatorTarget
     {
-
 #pragma warning disable 0649
-
         [SerializeField] RectTransform.Edge adaptToEdge;
-        [SerializeField] SafeAreaEvaluationMode evaluationMode;
-
-
+        [SerializeField] EdgeEvaluationMode evaluationMode;
 #pragma warning restore 0649
 
         //Currently I think iPhone X has the largest notch, so this should be a good default upper bound of blend value.
@@ -51,8 +47,8 @@ namespace E7.NotchSolution
             => AdaptWithRelativeSafeArea(simulatedSafeAreaRelative);
 
         /// <summary>
-        /// At runtime <see cref="SafeAreaAdaptation"> only take effect on `Start`, since safe area is not expected to change dynamically, 
-        /// and unlike uGUI and <see cref="SafeAreaPadding">  a frequent recalculation is not expected. 
+        /// At runtime <see cref="SafeAdaptation"> only take effect on `Start`, since safe area is not expected to change dynamically, 
+        /// and unlike uGUI and <see cref="SafePadding">  a frequent recalculation is not expected. 
         /// 
         /// This method applies that adaptation manually again.
         /// </summary>
@@ -66,7 +62,7 @@ namespace E7.NotchSolution
         {
             float spaceTakenRelative = 0;
 
-            if (evaluationMode != SafeAreaEvaluationMode.Zero)
+            if (evaluationMode != EdgeEvaluationMode.Off)
             {
                 switch (adaptToEdge)
                 {
@@ -76,7 +72,7 @@ namespace E7.NotchSolution
                     case RectTransform.Edge.Bottom: spaceTakenRelative = relativeSafeArea.yMin; break;
                 }
 
-                if (evaluationMode == SafeAreaEvaluationMode.SafeBalanced)
+                if (evaluationMode == EdgeEvaluationMode.Balanced)
                 {
                     switch (adaptToEdge)
                     {
