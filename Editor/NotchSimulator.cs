@@ -14,7 +14,7 @@ using UnityEngine.EventSystems;
 
 namespace E7.NotchSolution
 {
-    public class NotchSimulator : EditorWindow , IPreprocessBuildWithReport //For bugfix hack
+    public class NotchSimulator : EditorWindow, IPreprocessBuildWithReport //For bugfix hack
     {
         internal static NotchSimulator win;
         Vector2 gameviewResolution;
@@ -90,6 +90,7 @@ namespace E7.NotchSolution
             win = this;
             //Sometimes even with flag I can see it in hierarchy until I move a mouse over it??
             EditorApplication.RepaintHierarchyWindow();
+            SimulationDatabase.Refresh();
 
             bool enableSimulation = NotchSimulatorUtility.enableSimulation;
             EditorGUI.BeginChangeCheck();
@@ -99,18 +100,18 @@ namespace E7.NotchSolution
             NotchSimulatorUtility.enableSimulation = EditorGUILayout.BeginToggleGroup($"Simulate ({shortcut})", NotchSimulatorUtility.enableSimulation);
             EditorGUI.indentLevel++;
 
-            NotchSimulatorUtility.selectedDevice = (SimulationDevice)EditorGUILayout.EnumPopup(NotchSimulatorUtility.selectedDevice);
+            int index = SimulationDatabase.db.IndexOf(NotchSimulatorUtility.selectedDevice);
+            int selectedIndex = EditorGUILayout.Popup(index >= 0 ? index : 0, SimulationDatabase.db.Select(d => d.Meta.friendlyName).ToArray());
+            NotchSimulatorUtility.selectedDevice = selectedIndex >= 0 & selectedIndex < SimulationDatabase.db.Count ? SimulationDatabase.db[selectedIndex]: null;
+            if(GUILayout.Button("Refresh List")) SimulationDatabase.Refresh();
             NotchSimulatorUtility.flipOrientation = EditorGUILayout.Toggle("Flip Orientation", NotchSimulatorUtility.flipOrientation);
 
-            var simulationDevice = SimulationDatabase.db[NotchSimulatorUtility.selectedDevice];
+            var simulationDevice = NotchSimulatorUtility.selectedDevice;
 
             //Draw warning about wrong aspect ratio
-            if (enableSimulation)
+            if (enableSimulation & simulationDevice != null)
             {
                 ScreenOrientation gameViewOrientation = NotchSimulatorUtility.GetGameViewOrientation();
-
-                Vector2 simSize = gameViewOrientation == ScreenOrientation.Portrait ?
-                 simulationDevice.screenSize : new Vector2(simulationDevice.screenSize.y, simulationDevice.screenSize.x);
 
                 Vector2 gameViewSize = NotchSimulatorUtility.GetMainGameViewSize();
                 if (gameViewOrientation == ScreenOrientation.Landscape)
@@ -120,12 +121,13 @@ namespace E7.NotchSolution
                     gameViewSize.y = flip;
                 }
 
-                var simAspect = NotchSolutionUtility.ScreenRatio(simulationDevice.screenSize);
+                var screen = simulationDevice.Screens.FirstOrDefault();
+                var simAspect = NotchSolutionUtility.ScreenRatio(new Vector2(screen.width, screen.height));
                 var gameViewAspect = NotchSolutionUtility.ScreenRatio(gameViewSize);
                 var aspectDiff = Math.Abs((simAspect.x / simAspect.y) - (gameViewAspect.x / gameViewAspect.y));
                 if (aspectDiff > 0.01f)
                 {
-                    EditorGUILayout.HelpBox($"The selected simulation device has an aspect ratio of {simAspect.y}:{simAspect.x} ({simulationDevice.screenSize.y}x{simulationDevice.screenSize.x}) but your game view is currently in aspect {gameViewAspect.y}:{gameViewAspect.x} ({gameViewSize.y}x{gameViewSize.x}). The overlay mockup will be stretched from its intended ratio.", MessageType.Warning);
+                    EditorGUILayout.HelpBox($"The selected simulation device has an aspect ratio of {simAspect.y}:{simAspect.x} ({screen.height}x{screen.width}) but your game view is currently in aspect {gameViewAspect.y}:{gameViewAspect.x} ({gameViewSize.y}x{gameViewSize.x}). The overlay mockup will be stretched from its intended ratio.", MessageType.Warning);
                 }
             }
 
@@ -146,8 +148,8 @@ namespace E7.NotchSolution
         /// </summary>
         internal static void UpdateSimulatorTargets()
         {
-            var simulatedRectRelative = NotchSimulatorUtility.enableSimulation ? NotchSimulatorUtility.CalculateSimulatorSafeAreaRelative() : new Rect(0, 0, 1, 1);
-            var simulatedCutoutsRelative = NotchSimulatorUtility.enableSimulation ? NotchSimulatorUtility.CalculateSimulatorCutoutsRelative() : new Rect[0];
+            var simulatedRectRelative = NotchSimulatorUtility.enableSimulation && NotchSimulatorUtility.selectedDevice != null ? NotchSimulatorUtility.CalculateSimulatorSafeAreaRelative() : new Rect(0, 0, 1, 1);
+            var simulatedCutoutsRelative = NotchSimulatorUtility.enableSimulation && NotchSimulatorUtility.selectedDevice != null ? NotchSimulatorUtility.CalculateSimulatorCutoutsRelative() : new Rect[0];
 
             //This value could be used by the component statically.
             NotchSolutionUtility.SimulatedSafeAreaRelative = simulatedRectRelative;
@@ -239,7 +241,7 @@ namespace E7.NotchSolution
             //When building, the scene may open-close multiple times and brought back the mockup canvas,
             //which combined with bugs mentioned at https://github.com/5argon/NotchSolution/issues/11,
             //will fail the build. This `if` prevents mockup refresh while building.
-            if(BuildPipeline.isBuildingPlayer) return;
+            if (BuildPipeline.isBuildingPlayer) return;
 
             EnsureCanvasAndEventSetup();
 
@@ -251,20 +253,16 @@ namespace E7.NotchSolution
             }
 
             bool enableSimulation = NotchSimulatorUtility.enableSimulation;
-            if (enableSimulation)
+            if (enableSimulation && NotchSimulatorUtility.selectedDevice != null)
             {
-                //Landscape has an alias that turns ToString into LandscapeLeft lol
-                var orientationString = NotchSimulatorUtility.GetGameViewOrientation() == ScreenOrientation.Landscape ? nameof(ScreenOrientation.Landscape) : nameof(ScreenOrientation.Portrait);
-                SimulationDevice simDevice = NotchSimulatorUtility.selectedDevice;
-                var name = $"{prefix}-{simDevice.ToString()}-{orientationString}";
-                var guids = AssetDatabase.FindAssets(name);
-                var first = guids.FirstOrDefault();
-
-                if (first == default(string))
+                var name = NotchSimulatorUtility.selectedDevice.Meta.overlay;
+                Sprite mockupSprite = null;
+                if (!string.IsNullOrEmpty(name))
                 {
-                    throw new InvalidOperationException($"No mockup image named {name} in NotchSolution/Editor/Mockups folder!");
+                    mockupSprite = AssetDatabase.LoadAssetAtPath<Sprite>(NotchSimulatorUtility.devicesPath + name);
+                    if (mockupSprite == null) Debug.LogWarning($"No mockup image named {name} in {NotchSimulatorUtility.devicesPath} folder!");
                 }
-                Sprite mockupSprite = AssetDatabase.LoadAssetAtPath<Sprite>(AssetDatabase.GUIDToAssetPath(first));
+
 
                 foreach (var mockup in AllMockupCanvases)
                 {
@@ -326,7 +324,7 @@ namespace E7.NotchSolution
                     (GameObject)PrefabUtility.InstantiatePrefab(mockupCanvasPrefab);
 
                     canvasObject = instantiated.GetComponent<MockupCanvas>();
-                    instantiated.hideFlags = overlayCanvasFlag;
+                    //instantiated.hideFlags = overlayCanvasFlag;
 
                     if (Application.isPlaying)
                     {

@@ -1,0 +1,54 @@
+﻿{
+	"Meta": {
+		"friendlyName": "Samsung/ Galaxy Note 10+",
+		"overlay": "SamsungGalaxyNote10Plus_Overlay.png"
+	},
+	"Screens": [
+		{
+			"width": 1080,
+			"height": 2280,
+			"orientationKeys": [
+				1,
+				3
+			],
+			"orientationValues": [
+				{
+					"safeArea": {
+						"serializedVersion": "2",
+						"x": 0.0,
+						"y": 0.0,
+						"width": 1080.0,
+						"height": 2195.0
+					},
+					"cutouts": [
+						{
+							"serializedVersion": "2",
+							"x": 479.0,
+							"y": 2195.0,
+							"width": 122.0,
+							"height": 85.0
+						}
+					]
+				},
+				{
+					"safeArea": {
+						"serializedVersion": "2",
+						"x": 85.0,
+						"y": 0.0,
+						"width": 2195.0,
+						"height": 1080.0
+					},
+					"cutouts": [
+						{
+							"serializedVersion": "2",
+							"x": 0.0,
+							"y": 479.0,
+							"width": 85.0,
+							"height": 122.0
+						}
+					]
+				}
+			]
+		}
+	]
+}

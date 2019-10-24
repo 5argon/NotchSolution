@@ -1,0 +1,38 @@
+﻿{
+	"Meta": {
+		"friendlyName": "Apple/ iPad Pro",
+		"overlay": "AppleiPadPro_Overlay.png"
+	},
+	"Screens": [
+		{
+			"width": 2048,
+			"height": 2732,
+			"orientationKeys": [
+				1,
+				3
+			],
+			"orientationValues": [
+				{
+					"safeArea": {
+						"serializedVersion": "2",
+						"x": 0.0,
+						"y": 40.0,
+						"width": 2048.0,
+						"height": 2692.0
+					},
+					"cutouts": []
+				},
+				{
+					"safeArea": {
+						"serializedVersion": "2",
+						"x": 0.0,
+						"y": 40.0,
+						"width": 2732.0,
+						"height": 2008.0
+					},
+					"cutouts": []
+				}
+			]
+		}
+	]
+}

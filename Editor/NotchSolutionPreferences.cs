@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.ShortcutManagement;
 using UnityEditor.UIElements;
@@ -51,6 +51,15 @@ namespace E7.NotchSolution
                 NotchSimulator.UpdateSimulatorTargets();
             });
             padRect.Add(colorField);
+
+            var devicesPath = new TextField("Device Directory");
+            devicesPath.value = NotchSimulatorUtility.devicesPath;
+            devicesPath.RegisterValueChangedCallback(path =>
+            {
+                NotchSimulatorUtility.devicesPath = path.newValue;
+                SimulationDatabase.Refresh();
+            });
+            padRect.Add(devicesPath);
 
             string shortcutString = ShortcutManager.instance.GetShortcutBinding(NotchSolutionShortcuts.switchNarrowestWidestShortcut).ToString();
             string text = $"This feature allows you to press {shortcutString} to quick switch between 2 aspect ratio choices. Commonly I would often switch between the longest phone like LG G7 and widest device like an iPad as I design. The index is counted from the top choice where 0 equals Free Aspect.";

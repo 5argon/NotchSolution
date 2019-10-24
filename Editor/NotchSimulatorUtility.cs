@@ -1,5 +1,6 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEditor;
+using System.Linq;
 
 namespace E7.NotchSolution
 {
@@ -12,9 +13,9 @@ namespace E7.NotchSolution
         internal static Rect CalculateSimulatorSafeAreaRelative()
         {
             var orientation = GetGameViewOrientation();
-            var device = SimulationDatabase.db.ContainsKey(selectedDevice) ? selectedDevice : default;
-            var safe = orientation == ScreenOrientation.Landscape ? SimulationDatabase.db[device].landscapeSafeArea : SimulationDatabase.db[device].portraitSafeArea;
-            var screenSize = SimulationDatabase.db[device].screenSize;
+            var device = selectedDevice;
+            var safe = device.Screens.FirstOrDefault().orientations[orientation].safeArea;
+            var screenSize = new Vector2(device.Screens.FirstOrDefault().width, device.Screens.FirstOrDefault().height);
             if (orientation == ScreenOrientation.Landscape)
             {
                 var swap = screenSize.x;
@@ -27,10 +28,10 @@ namespace E7.NotchSolution
         internal static Rect[] CalculateSimulatorCutoutsRelative()
         {
             var orientation = GetGameViewOrientation();
-            var device = SimulationDatabase.db.ContainsKey(selectedDevice) ? selectedDevice : default;
-            var cutouts = orientation == ScreenOrientation.Landscape ? SimulationDatabase.db[device].landscapeCutouts : SimulationDatabase.db[device].portraitCutouts;
+            var device = selectedDevice;
+            var cutouts = device.Screens.FirstOrDefault().orientations[orientation].cutouts;
             if (cutouts is null) return new Rect[0];
-            var screenSize = SimulationDatabase.db[device].screenSize;
+            var screenSize = new Vector2(device.Screens.FirstOrDefault().width, device.Screens.FirstOrDefault().height);
             if (orientation == ScreenOrientation.Landscape)
             {
                 var swap = screenSize.x;
@@ -85,6 +86,14 @@ namespace E7.NotchSolution
 #endif
         }
 
+        internal static string devicesPath {
+            get {
+                var path = EditorPrefs.GetString(NotchSolutionUtility.prefix + "devicesPath");
+                return string.IsNullOrEmpty(path) ? "Assets/NotchSolution/Editor/Devices/" : path + "/";
+            }
+            set { EditorPrefs.SetString(NotchSolutionUtility.prefix + "devicesPath", value.TrimEnd('/', '\\')); }
+        }
+
         internal static bool enableSimulation
         {
             get { return EditorPrefs.GetBool(enableSimulationKey); }
@@ -97,10 +106,10 @@ namespace E7.NotchSolution
             set { EditorPrefs.SetBool(flipOrientationKey, value); }
         }
 
-        internal static SimulationDevice selectedDevice
+        internal static DeviceInfo selectedDevice
         {
-            get { return (SimulationDevice)EditorPrefs.GetInt(simulationDeviceKey); }
-            set { EditorPrefs.SetInt(simulationDeviceKey, (int)value); }
+            get { return SimulationDatabase.Get(EditorPrefs.GetString(simulationDeviceKey));}
+            set { EditorPrefs.SetString(simulationDeviceKey, value == null ? null: value.Meta.friendlyName); }
         }
     }
 }
