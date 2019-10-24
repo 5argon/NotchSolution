@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.7.0] - 2019-10-24
+
+### Added
+
+- Added support for 2019.3 in general.
+- Added support for [Unity Device Simulator package](https://docs.unity3d.com/Packages/com.unity.device-simulator@latest). If we detected that, all the components that wants a safe area simply ignores Notch Simulator simulated values and go back to follow `Screen.safeArea` just like in runtime, but it is now modified in edit time from inside-out by Device Simulator package. The package is 2019.3 or above only.
+- Galaxy Note 10 Plus device overlay added.  (Contributed by [06Games](https://github.com/06Games))
+
 ## [1.6.0] - 2019-06-22 
 
 ### Added
