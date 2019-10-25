@@ -138,6 +138,7 @@ public class NotchSolutionDebugger : MonoBehaviour
             var screen = new ScreenData();
             screen.width = Screen.width;
             screen.height = Screen.height;
+            //screen.navigationBarHeight = 0;
             screen.orientations = new Dictionary<ScreenOrientation, OrientationDependentData>();
             screen.dpi = Screen.dpi;
             device.Screens[i] = screen;
