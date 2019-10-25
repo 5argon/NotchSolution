@@ -1,11 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace E7.NotchSolution
 {
     /// <summary>
-    /// Like <see cref="SafeAreaAdaptation"> but use the current screen aspect ratio number instead.
+    /// Like <see cref="SafeAdaptation"> but use the current screen aspect ratio number instead.
     /// The ratio is width/height ratio when on **landscape** orientation (e.g. 4/3, 16/9, 2/1) regardless of your game's orientation.
     /// 
     /// By default, the curve is setup so that lower aspect ratio (wider screen) is "normal" and higher number (narrower screen) is "adapted".

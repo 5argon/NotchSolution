@@ -20,23 +20,23 @@ I have been dogfooding my own plugins using my own game, here's an another case 
 
 In my opinion, balanced padding make more sense on landscape layout.
 
-## Hierarchy planning for `SafeAreaPadding`
+## Hierarchy planning for `SafePadding`
 
 ![screenshot](images/ssTrick.png)
 
-This "SafePaddingDown" `RectTransform` has `SafeAreaPadding`, but it is not a direct child of the full-screen canvas, yet it can still pad down equal to top edge's safe area. So as long as its top edge is at the top of canvas it can be anywhere in the hierarchy and **looks like** it is a direct child of the canvas. This is useful when you may have deep prefab layering where it is not possible to get your thing to be a direct child of the outmost rect.
+This "SafePaddingDown" `RectTransform` has `SafePadding`, but it is not a direct child of the full-screen canvas, yet it can still pad down equal to top edge's safe area. So as long as its top edge is at the top of canvas it can be anywhere in the hierarchy and **looks like** it is a direct child of the canvas. This is useful when you may have deep prefab layering where it is not possible to get your thing to be a direct child of the outmost rect.
 
 Also, you can make a rect anywhere else to pad equal to safe area's shape even if its edge is not lining up at the canvas's edge, or not shaped in the same aspect as the screen, for example. The script does not care and just stretch out the rect and pad equal to safe area true to its name. This is intended behaviour and you may exploit it as you like.
 
 ## How to pad by less amount than the safe area without using `influence`
 
-Sometimes the original anchoring already has a bit of padding with normal phone. But this padding is not enough with notched phone, so we want to use `SafeAreaPadding` on outer element and anchor the inner element to the desired side.
+Sometimes the original anchoring already has a bit of padding with normal phone. But this padding is not enough with notched phone, so we want to use `SafePadding` on outer element and anchor the inner element to the desired side.
 
 But when padded it looks a bit "too safe", because the original padding now adds up to the safe area. Especially if that padded area is not quite the interaction zone, so even if it padded a bit less it would be considered still safe (to pull up that bottom bar, etc.)
 
 ![padless1](images/toomuch1.gif)
 
-You could use `influence` field on the `SafeAreaPadding`, but you may not want it to affect other `RectTransform` that may be under the same parent.
+You could use `influence` field on the `SafePadding`, but you may not want it to affect other `RectTransform` that may be under the same parent.
 
 One another solution is to creatively use non-edge (custom) anchoring so that the gather point is moved up, but not really at the center yet. (Where if the anchor point is at exact center, the padding would not influence the layout at all.)
 

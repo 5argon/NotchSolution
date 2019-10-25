@@ -14,7 +14,12 @@ using UnityEngine.EventSystems;
 
 namespace E7.NotchSolution
 {
-    public class NotchSimulator : EditorWindow, IPreprocessBuildWithReport //For bugfix hack
+    /// <summary>
+    /// Notch Solution components can receive simulated device values in editor from this instead of the usual <see cref="Screen"> API.
+    /// 
+    /// Also the mockup overlay is provided by an invisible full screen canvas game object with <see cref="HideFlags.HideAndDontSave">.
+    /// </summary>
+    public class NotchSimulator : EditorWindow , IPreprocessBuildWithReport //For bugfix hack
     {
         internal static NotchSimulator win;
         Vector2 gameviewResolution;
@@ -152,9 +157,9 @@ namespace E7.NotchSolution
             var simulatedCutoutsRelative = NotchSimulatorUtility.enableSimulation && NotchSimulatorUtility.selectedDevice != null ? NotchSimulatorUtility.CalculateSimulatorCutoutsRelative() : new Rect[0];
 
             //This value could be used by the component statically.
-            NotchSolutionUtility.SimulatedSafeAreaRelative = simulatedRectRelative;
+            NotchSolutionUtilityEditor.SimulatedSafeAreaRelative = simulatedRectRelative;
 #if UNITY_2019_2_OR_NEWER
-            NotchSolutionUtility.SimulatedCutoutsRelative = simulatedCutoutsRelative;
+            NotchSolutionUtilityEditor.SimulatedCutoutsRelative = simulatedCutoutsRelative;
 #endif
 
             var normalSceneSimTargets = GameObject.FindObjectsOfType<UIBehaviour>().OfType<INotchSimulatorTarget>();
@@ -328,7 +333,13 @@ namespace E7.NotchSolution
 
                     if (Application.isPlaying)
                     {
-                        DontDestroyOnLoad(canvasObject);
+                        canvasObject = instantiated.GetComponent<MockupCanvas>();
+                        instantiated.hideFlags = overlayCanvasFlag;
+
+                        if (Application.isPlaying)
+                        {
+                            DontDestroyOnLoad(canvasObject);
+                        }
                     }
                 }
 

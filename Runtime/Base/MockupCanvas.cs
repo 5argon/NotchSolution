@@ -1,61 +1,29 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
-using E7.NotchSolution;
 
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 
-public class MockupCanvas : MonoBehaviour
+namespace E7.NotchSolution
 {
-    public Image mockupImage;
-    public bool PrefabStage { private get; set; }
-
-    const float proColor = 40 / 255f;
-    const float personalColor = 49 / 255f;
-
-    public void Hide()
+    public class MockupCanvas : MonoBehaviour
     {
-        mockupImage.enabled = false;
-    }
+        public Image mockupImage;
+        public bool PrefabStage { private get; set; }
 
-    public void Show()
-    {
-        mockupImage.enabled = true;
-    }
+        const float proColor = 40 / 255f;
+        const float personalColor = 49 / 255f;
 
-    // public void UpdateColor(
-    // {
-    //     //mockupImage.color = 
-    // }
-
-    // public void OnDestroy()
-    // {
-    //     Debug.Log($"DESTROY");
-    // }
-
-    // public void OnDisable()
-    // {
-    //     Debug.Log($"DISABLE");
-    // }
-
-    // public void OnEnable()
-    // {
-    //     Debug.Log($"ENABLE");
-    // }
-
-    public void SetMockupSprite(Sprite sprite, ScreenOrientation orientation, bool simulate, bool flipped)
-    {
-        if (!simulate)
+        public void Hide()
         {
             mockupImage.enabled = false;
         }
-        else
+
+        public void Show()
         {
             mockupImage.enabled = true;
+        }
 
 #if UNITY_EDITOR
             if (sprite == null) mockupImage.color = new Color(0, 0, 0, 0);
@@ -74,9 +42,11 @@ public class MockupCanvas : MonoBehaviour
                 1
             );
 
-            //Force refreshing the mockup
-            mockupImage.enabled = false;
-            mockupImage.enabled = true;
+                //Force refreshing the mockup
+                mockupImage.enabled = false;
+                mockupImage.enabled = true;
+            }
         }
     }
+
 }

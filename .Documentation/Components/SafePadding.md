@@ -1,10 +1,10 @@
 [Back to the summary](../Components.md)
 
-# <img src="../../Icons/SafeAreaPaddingIcon.png" width="30"> SafeAreaPadding
+# <img src="../../Icons/SafeAreaPaddingIcon.png" width="30"> SafePadding
 
 ![screenshot](../images/ssSafePad.gif)
 
-This script trust the return value of [`Screen.safeArea`](https://docs.unity3d.com/ScriptReference/Screen-safeArea.html) and pad the `RectTransform` accordingly. If you anchor your child UI game objects on the padded side of the parent with `SafeAreaPadding`, you have avoided the notched area naturally with uGUI's auto-layout system.
+This script trust the return value of [`Screen.safeArea`](https://docs.unity3d.com/ScriptReference/Screen-safeArea.html) and pad the `RectTransform` accordingly. If you anchor your child UI game objects on the padded side of the parent with `SafePadding`, you have avoided the notched area naturally with uGUI's auto-layout system.
 
 ## How it works
 
@@ -13,7 +13,7 @@ It can "drive" the `RectTransform` thanks to `ILayoutSelfController` and `UIBeha
 - You should attach this script to a direct child of top level `Canvas`, or a deeper child of full-canvas `RectTransform`.
 - It will drive the anchor point to full stretch. The `RectTransform` now enters "offset from each side by how much" mode.
 - `Screen.width/height` is divided by values from `Screen.safeArea`, producing relative safe area.
-- Find root game object from the object with `SafeAreaPadding`. This should be your `Canvas`. It will ask for `RectTransform` coordinate from that `Canvas`.
+- Find root game object from the object with `SafePadding`. This should be your `Canvas`. It will ask for `RectTransform` coordinate from that `Canvas`.
 - Then it will drive self's `RectTransform` other values according to relative safe area applied to `Canvas`'s `RectTransform`.
 
 ## Settings 
@@ -22,9 +22,9 @@ It can "drive" the `RectTransform` thanks to `ILayoutSelfController` and `UIBeha
 
 For each side in your current orientation, you can select from 3 modes.
 
-- **Safe** : Pad this side according to `Screen.safeArea`.
-- **Safe Balanced** : Pad this side according to `Screen.safeArea`, but if the opposite side has a larger padding then pad by that value instead.
-- **Zero** : The padding will be zero, edge of your `RectTransform` will be locked to the canvas's edge.
+- **On** : Pad this side according to `Screen.safeArea`.
+- **Balanced** : Pad this side according to `Screen.safeArea`, but if the opposite side has a larger padding then pad by that value instead.
+- **Off** : The padding will be zero, edge of your `RectTransform` will be locked to the canvas's edge.
 
 Note that each side is referring to **the phone** not its `RectTransform` this component is attaced to. (e.g. top = top edge of the phone.) Therefore, even if the entire canvas is rotated 180 degree, the "top" is still referring to the top edge of the phone.
 

@@ -24,10 +24,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- "Adaptation" components added. This series of components could adapt anything including non-UI stuff with help from **animation playables API**. This is needed because with `SafeAreaPadding` we were relying on uGUI layout system to move the entire hierarchy tree, and it is not usable outside of uGUI. The adaptation component is more flexible, as long as something is animation keyable, it could be responsive to a presence of notch & other things.
-    - `SafeAreaAdaptation` :  Adapt according to relative screen space taken by a selectable single side of safe area.
-    - `AspectRatioAdaptation` : Like `SafeAreaAdaptation` but use aspect ratio number of the screen. Doesn't sounds notch-related, but it is a part of "notch solution" because I have use this together to solve arrangement problems.
-- New script icon for `SafeAreaPadding` since I lose the original vector project file, and I want the newly made component icons to look similar to it. ([Affinity Designer](https://affinity.serif.com/en-gb/designer/) icon project file is also added to `Icons` folder in the repo now to prevent losing it again.)
+- "Adaptation" components added. This series of components could adapt anything including non-UI stuff with help from **animation playables API**. This is needed because with `SafePadding` we were relying on uGUI layout system to move the entire hierarchy tree, and it is not usable outside of uGUI. The adaptation component is more flexible, as long as something is animation keyable, it could be responsive to a presence of notch & other things.
+    - `SafeAdaptation` :  Adapt according to relative screen space taken by a selectable single side of safe area.
+    - `AspectRatioAdaptation` : Like `SafeAdaptation` but use aspect ratio number of the screen. Doesn't sounds notch-related, but it is a part of "notch solution" because I have use this together to solve arrangement problems.
+- New script icon for `SafePadding` since I lose the original vector project file, and I want the newly made component icons to look similar to it. ([Affinity Designer](https://affinity.serif.com/en-gb/designer/) icon project file is also added to `Icons` folder in the repo now to prevent losing it again.)
 - Cutout information propagated to layout components, but currently unused.  (Contributed by [06Games](https://github.com/06Games))
 
 ### Fixed
@@ -50,14 +50,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- `influence` added to `SafeAreaPadding`, it is default to 1 that means the safe area taking full effect. It applies to all sides.
+- `influence` added to `SafePadding`, it is default to 1 that means the safe area taking full effect. It applies to all sides.
 - "Dual Orientation" choice now only show up in Inspector if in your Player Settings, Resolution and Presentation section, you have Orientation settings in a way that it is possible to get both portrait and landscape orientation.
 - Shortcut for toggling notch simulation added with the new `UnityEditor.ShortcutManagement` shortcut API. Bound to `Alt+N` by default.
 - Cutout database for all available devices. Although they are not used yet currently.
 
 ### Fixed
 
-- Removed `[ExecuteInEditMode]` from `SafeAreaPadding`.
+- Removed `[ExecuteInEditMode]` from `SafePadding`.
 - Simulation database for One Plus 6T and Huawei Mate 20 Pro was incorrect. It is now updated according to submitted debug data in [this thread](https://github.com/5argon/NotchSolution/issues/2).
 - `HideFlags` mistake fixed.
 
@@ -72,7 +72,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Aspect ratio number in the Notch Simulator warning help box is rounded to nice number.
-- `SafeAreaPadding`'s delayed update is now using `WaitForEndOfFrame` instead of wait for the next frame.
+- `SafePadding`'s delayed update is now using `WaitForEndOfFrame` instead of wait for the next frame.
 
 ## [1.1.0] - 2019-02-11
 
@@ -80,7 +80,7 @@ This is not an actual version since I just keep a changelog starting from 1.2.0,
 
 ### Added
 
-- Debug scene added. It is now possible to distribute a test APK to collect cutout data of various phone. 2019.2's `Screen.cutouts` is supported in the debug scene, but no actual use by the `SafeAreaPadding` yet.
+- Debug scene added. It is now possible to distribute a test APK to collect cutout data of various phone. 2019.2's `Screen.cutouts` is supported in the debug scene, but no actual use by the `SafePadding` yet.
 - Overlay color matches Personal and Professional skin.
 - Two new devices: Huawei Mate 20 Pro & OnePlus 6T. (Contributed by [06Games](https://github.com/06Games))
 - Added a warning about wrong Game tab aspect not matching notch preview device.
@@ -88,7 +88,7 @@ This is not an actual version since I just keep a changelog starting from 1.2.0,
 
 ### Fixed
 
-- `OnEnable` of `SafeAreaPadding` changed to delayed update. (Contributed by [Froghut](https://github.com/Froghut))
+- `OnEnable` of `SafePadding` changed to delayed update. (Contributed by [Froghut](https://github.com/Froghut))
 - Screen ratio function fixed. (Contributed by [06Games](https://github.com/06Games))
 - Get the correct root canvas when you have multiple nested `Canvas` on the hierarchy. (Contributed by [mmatvein](https://github.com/mmatvein))
 

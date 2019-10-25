@@ -6,9 +6,9 @@ namespace E7.NotchSolution
 {
     public static class NotchSimulatorUtility
     {
-        const string enableSimulationKey = NotchSolutionUtility.prefix + "enableSimulation";
-        const string simulationDeviceKey = NotchSolutionUtility.prefix + "simulationDevice";
-        const string flipOrientationKey = NotchSolutionUtility.prefix + "flipOrientation";
+        const string enableSimulationKey = NotchSolutionUtilityEditor.prefix + "enableSimulation";
+        const string simulationDeviceKey = NotchSolutionUtilityEditor.prefix + "simulationDevice";
+        const string flipOrientationKey = NotchSolutionUtilityEditor.prefix + "flipOrientation";
 
         internal static Rect CalculateSimulatorSafeAreaRelative()
         {

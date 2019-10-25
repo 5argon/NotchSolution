@@ -1,15 +1,10 @@
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.UIElements;
-using UnityEditor.UIElements;
 
 namespace E7.NotchSolution
 {
-    [CustomEditor(typeof(AspectRatioAdaptation))]
-    public class AspectRatioAdaptationDrawer : AdaptationBaseDrawer { }
-
-    [CustomEditor(typeof(SafeAreaAdaptation))]
-    public class SafeAreaAdaptationDrawer : AdaptationBaseDrawer
+    [CustomEditor(typeof(SafeAdaptation))]
+    public class SafeAdaptationDrawer : AdaptationBaseDrawer
     {
         public override void OnInspectorGUI()
         {
