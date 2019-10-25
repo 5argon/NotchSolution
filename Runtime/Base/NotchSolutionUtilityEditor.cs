@@ -1,4 +1,4 @@
-#if UNITY_EDITOR
+﻿#if UNITY_EDITOR
 using UnityEditor;
 #endif
 
@@ -192,7 +192,6 @@ namespace E7.NotchSolution
             var integerRatio = new Vector2(screen.x / gcd, screen.y / gcd);
             return CommonAspectLookup(integerRatio);
         }
-
-    }
 #endif
+    }
 }
