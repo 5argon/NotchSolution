@@ -8,7 +8,7 @@ using UnityEngine.Rendering;
 namespace E7.NotchSolution
 {
     [Serializable]
-    public class DeviceInfo
+    public class SimulationDevice
     {
         public MetaData Meta;
         public ScreenData[] Screens;

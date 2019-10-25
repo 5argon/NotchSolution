@@ -6,6 +6,7 @@ namespace E7.NotchSolution
 {
     public static class NotchSimulatorUtility
     {
+        const string devicesPathKey = NotchSolutionUtilityEditor.prefix + "devicesPath";
         const string enableSimulationKey = NotchSolutionUtilityEditor.prefix + "enableSimulation";
         const string simulationDeviceKey = NotchSolutionUtilityEditor.prefix + "simulationDevice";
         const string flipOrientationKey = NotchSolutionUtilityEditor.prefix + "flipOrientation";
@@ -86,12 +87,14 @@ namespace E7.NotchSolution
 #endif
         }
 
-        internal static string devicesPath {
-            get {
-                var path = EditorPrefs.GetString(NotchSolutionUtility.prefix + "devicesPath");
+        internal static string devicesPath
+        {
+            get
+            {
+                var path = EditorPrefs.GetString(devicesPathKey);
                 return string.IsNullOrEmpty(path) ? "Assets/NotchSolution/Editor/Devices/" : path + "/";
             }
-            set { EditorPrefs.SetString(NotchSolutionUtility.prefix + "devicesPath", value.TrimEnd('/', '\\')); }
+            set { EditorPrefs.SetString(devicesPathKey, value.TrimEnd('/', '\\')); }
         }
 
         internal static bool enableSimulation
@@ -106,10 +109,10 @@ namespace E7.NotchSolution
             set { EditorPrefs.SetBool(flipOrientationKey, value); }
         }
 
-        internal static DeviceInfo selectedDevice
+        internal static SimulationDevice selectedDevice
         {
-            get { return SimulationDatabase.Get(EditorPrefs.GetString(simulationDeviceKey));}
-            set { EditorPrefs.SetString(simulationDeviceKey, value == null ? null: value.Meta.friendlyName); }
+            get { return SimulationDatabase.Get(EditorPrefs.GetString(simulationDeviceKey)); }
+            set { EditorPrefs.SetString(simulationDeviceKey, value == null ? null : value.Meta.friendlyName); }
         }
     }
 }

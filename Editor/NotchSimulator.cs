@@ -19,7 +19,7 @@ namespace E7.NotchSolution
     /// 
     /// Also the mockup overlay is provided by an invisible full screen canvas game object with <see cref="HideFlags.HideAndDontSave">.
     /// </summary>
-    public class NotchSimulator : EditorWindow , IPreprocessBuildWithReport //For bugfix hack
+    public class NotchSimulator : EditorWindow, IPreprocessBuildWithReport //For bugfix hack
     {
         internal static NotchSimulator win;
         Vector2 gameviewResolution;
@@ -107,14 +107,14 @@ namespace E7.NotchSolution
 
             int index = SimulationDatabase.db.IndexOf(NotchSimulatorUtility.selectedDevice);
             int selectedIndex = EditorGUILayout.Popup(index >= 0 ? index : 0, SimulationDatabase.db.Select(d => d.Meta.friendlyName).ToArray());
-            NotchSimulatorUtility.selectedDevice = selectedIndex >= 0 & selectedIndex < SimulationDatabase.db.Count ? SimulationDatabase.db[selectedIndex]: null;
-            if(GUILayout.Button("Refresh List")) SimulationDatabase.Refresh();
+            NotchSimulatorUtility.selectedDevice = selectedIndex >= 0 & selectedIndex < SimulationDatabase.db.Count ? SimulationDatabase.db[selectedIndex] : null;
+            if (GUILayout.Button("Refresh List")) SimulationDatabase.Refresh();
             NotchSimulatorUtility.flipOrientation = EditorGUILayout.Toggle("Flip Orientation", NotchSimulatorUtility.flipOrientation);
 
             var simulationDevice = NotchSimulatorUtility.selectedDevice;
 
             //Draw warning about wrong aspect ratio
-            if (enableSimulation & simulationDevice != null)
+            if (enableSimulation && simulationDevice != null)
             {
                 ScreenOrientation gameViewOrientation = NotchSimulatorUtility.GetGameViewOrientation();
 
@@ -127,8 +127,8 @@ namespace E7.NotchSolution
                 }
 
                 var screen = simulationDevice.Screens.FirstOrDefault();
-                var simAspect = NotchSolutionUtility.ScreenRatio(new Vector2(screen.width, screen.height));
-                var gameViewAspect = NotchSolutionUtility.ScreenRatio(gameViewSize);
+                var simAspect = NotchSolutionUtilityEditor.ScreenRatio(new Vector2(screen.width, screen.height));
+                var gameViewAspect = NotchSolutionUtilityEditor.ScreenRatio(gameViewSize);
                 var aspectDiff = Math.Abs((simAspect.x / simAspect.y) - (gameViewAspect.x / gameViewAspect.y));
                 if (aspectDiff > 0.01f)
                 {
@@ -268,7 +268,6 @@ namespace E7.NotchSolution
                     if (mockupSprite == null) Debug.LogWarning($"No mockup image named {name} in {NotchSimulatorUtility.devicesPath} folder!");
                 }
 
-
                 foreach (var mockup in AllMockupCanvases)
                 {
                     mockup.Show();
@@ -328,104 +327,102 @@ namespace E7.NotchSolution
                     (GameObject)(PrefabUtility.InstantiatePrefab(mockupCanvasPrefab, prefabStage.scene)) :
                     (GameObject)PrefabUtility.InstantiatePrefab(mockupCanvasPrefab);
 
-                    canvasObject = instantiated.GetComponent<MockupCanvas>();
-                    //instantiated.hideFlags = overlayCanvasFlag;
-
-                    if (Application.isPlaying)
+                    //It sometimes instantiated into null on script reloading when starting Unity?
+                    if (instantiated != null)
                     {
                         canvasObject = instantiated.GetComponent<MockupCanvas>();
-                        instantiated.hideFlags = overlayCanvasFlag;
+                        //instantiated.hideFlags = overlayCanvasFlag;
 
                         if (Application.isPlaying)
                         {
                             DontDestroyOnLoad(canvasObject);
                         }
                     }
-                }
 
-                canvasObject.PrefabStage = prefabMode;
-                if (prefabMode) prefabMockupCanvas = canvasObject;
-                else mockupCanvas = canvasObject;
+                    canvasObject.PrefabStage = prefabMode;
+                    if (prefabMode) prefabMockupCanvas = canvasObject;
+                    else mockupCanvas = canvasObject;
 
-                if (eventAdded == false)
-                {
-                    eventAdded = true;
-
-                    //Add clean up event.
-                    EditorApplication.playModeStateChanged += PlayModeStateChangeAction;
-                    // EditorSceneManager.sceneClosing += (a, b) =>
-                    // {
-                    //     DebugTransitions($"Scene closing {a} {b}");
-                    // };
-                    // EditorSceneManager.sceneClosed += (a) =>
-                    // {
-                    //     DebugTransitions($"Scene closed {a}");
-                    // };
-                    // EditorSceneManager.sceneLoaded += (a, b) =>
-                    //  {
-                    //      DebugTransitions($"Scene loaded {a} {b}");
-                    //  };
-                    // EditorSceneManager.sceneUnloaded += (a) =>
-                    //  {
-                    //      DebugTransitions($"Scene unloaded {a}");
-                    //  };
-                    PrefabStage.prefabStageOpened += (ps) =>
+                    if (eventAdded == false)
                     {
-                        DebugTransitions($"Prefab opening {ps.scene.GetRootGameObjects().First().name} {ps.prefabContentsRoot.name}");
+                        eventAdded = true;
 
-                        //On open prefab, the "dont save" objects on the main scene will disappear too.
-                        //So that we could still see it in the game view WHILE editing a prefab, we make it back.
-                        //Along with this the prefab mode canvas will also be updated.
-                        UpdateAllMockups();
-
-                        //On entering prefab mode, the Notch Simulator panel did not get OnGUI().
-                        UpdateSimulatorTargets();
-                    };
-
-                    PrefabStage.prefabStageClosing += (ps) =>
-                    {
-                        DebugTransitions($"Prefab closing {ps.scene.GetRootGameObjects().First().name} {ps.prefabContentsRoot.name}");
-                        //There is no problem on closing prefab stage, no need to restore the outer mockup.
-                    };
-
-                    EditorSceneManager.sceneOpening += (a, b) =>
-                    {
-                        DebugTransitions($"Scene opening {a} {b}");
-                        DestroyHiddenCanvas();
-                    };
-
-                    EditorSceneManager.sceneOpened += (a, b) =>
-                    {
-                        DebugTransitions($"Scene opened {a} {b}");
-                        UpdateAllMockups();
-                    };
-
-                    void PlayModeStateChangeAction(PlayModeStateChange state)
-                    {
-                        DebugTransitions($"Changed state PLAY {EditorApplication.isPlaying} PLAY or WILL CHANGE {EditorApplication.isPlayingOrWillChangePlaymode}");
-                        switch (state)
+                        //Add clean up event.
+                        EditorApplication.playModeStateChanged += PlayModeStateChangeAction;
+                        // EditorSceneManager.sceneClosing += (a, b) =>
+                        // {
+                        //     DebugTransitions($"Scene closing {a} {b}");
+                        // };
+                        // EditorSceneManager.sceneClosed += (a) =>
+                        // {
+                        //     DebugTransitions($"Scene closed {a}");
+                        // };
+                        // EditorSceneManager.sceneLoaded += (a, b) =>
+                        //  {
+                        //      DebugTransitions($"Scene loaded {a} {b}");
+                        //  };
+                        // EditorSceneManager.sceneUnloaded += (a) =>
+                        //  {
+                        //      DebugTransitions($"Scene unloaded {a}");
+                        //  };
+                        PrefabStage.prefabStageOpened += (ps) =>
                         {
-                            case PlayModeStateChange.EnteredEditMode:
-                                DebugTransitions($"Entered Edit {canvasObject}");
-                                AddOverlayInPlayMode(); //For when coming back from play mode.
-                                break;
-                            case PlayModeStateChange.EnteredPlayMode:
-                                DebugTransitions($"Entered Play {canvasObject}");
-                                break;
-                            case PlayModeStateChange.ExitingEditMode:
-                                DebugTransitions($"Exiting Edit {canvasObject}");
-                                DestroyHiddenCanvas();//Clean up the DontSave canvas we made in edit mode.
-                                break;
-                            case PlayModeStateChange.ExitingPlayMode:
-                                DebugTransitions($"Exiting Play {canvasObject}");
-                                DestroyHiddenCanvas();//Clean up the DontSave canvas we made in play mode.
-                                break;
+                            DebugTransitions($"Prefab opening {ps.scene.GetRootGameObjects().First().name} {ps.prefabContentsRoot.name}");
+
+                            //On open prefab, the "dont save" objects on the main scene will disappear too.
+                            //So that we could still see it in the game view WHILE editing a prefab, we make it back.
+                            //Along with this the prefab mode canvas will also be updated.
+                            UpdateAllMockups();
+
+                            //On entering prefab mode, the Notch Simulator panel did not get OnGUI().
+                            UpdateSimulatorTargets();
+                        };
+
+                        PrefabStage.prefabStageClosing += (ps) =>
+                        {
+                            DebugTransitions($"Prefab closing {ps.scene.GetRootGameObjects().First().name} {ps.prefabContentsRoot.name}");
+                            //There is no problem on closing prefab stage, no need to restore the outer mockup.
+                        };
+
+                        EditorSceneManager.sceneOpening += (a, b) =>
+                        {
+                            DebugTransitions($"Scene opening {a} {b}");
+                            DestroyHiddenCanvas();
+                        };
+
+                        EditorSceneManager.sceneOpened += (a, b) =>
+                        {
+                            DebugTransitions($"Scene opened {a} {b}");
+                            UpdateAllMockups();
+                        };
+
+                        void PlayModeStateChangeAction(PlayModeStateChange state)
+                        {
+                            DebugTransitions($"Changed state PLAY {EditorApplication.isPlaying} PLAY or WILL CHANGE {EditorApplication.isPlayingOrWillChangePlaymode}");
+                            switch (state)
+                            {
+                                case PlayModeStateChange.EnteredEditMode:
+                                    DebugTransitions($"Entered Edit {canvasObject}");
+                                    AddOverlayInPlayMode(); //For when coming back from play mode.
+                                    break;
+                                case PlayModeStateChange.EnteredPlayMode:
+                                    DebugTransitions($"Entered Play {canvasObject}");
+                                    break;
+                                case PlayModeStateChange.ExitingEditMode:
+                                    DebugTransitions($"Exiting Edit {canvasObject}");
+                                    DestroyHiddenCanvas();//Clean up the DontSave canvas we made in edit mode.
+                                    break;
+                                case PlayModeStateChange.ExitingPlayMode:
+                                    DebugTransitions($"Exiting Play {canvasObject}");
+                                    DestroyHiddenCanvas();//Clean up the DontSave canvas we made in play mode.
+                                    break;
+                            }
                         }
+
                     }
-
                 }
-            }
 
+            }
         }
     }
 }
