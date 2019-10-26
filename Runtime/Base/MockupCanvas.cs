@@ -64,8 +64,6 @@ namespace E7.NotchSolution
 #endif
 
                 mockupImage.transform.rotation = Quaternion.Euler(0, 0, orientation == ScreenOrientation.Landscape ? 90 : 0);
-                Vector2 screenSize = mockupImage.transform.parent.GetComponent<RectTransform>().sizeDelta;
-                mockupImage.GetComponent<RectTransform>().sizeDelta = orientation == ScreenOrientation.Landscape ? new Vector2(screenSize.y, screenSize.x) : screenSize;
                 mockupImage.sprite = sprite;
                 mockupImage.transform.localScale = new Vector3(
                     flipped ? -1 : 1,

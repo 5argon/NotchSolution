@@ -132,7 +132,7 @@ namespace E7.NotchSolution
                 var aspectDiff = Math.Abs((simAspect.x / simAspect.y) - (gameViewAspect.x / gameViewAspect.y));
                 if (aspectDiff > 0.01f)
                 {
-                    EditorGUILayout.HelpBox($"The selected simulation device has an aspect ratio of {simAspect.y}:{simAspect.x} ({screen.height}x{screen.width}) but your game view is currently in aspect {gameViewAspect.y}:{gameViewAspect.x} ({gameViewSize.y}x{gameViewSize.x}). The overlay mockup will be stretched from its intended ratio.", MessageType.Warning);
+                    EditorGUILayout.HelpBox($"The selected simulation device has an aspect ratio of {simAspect.y}:{simAspect.x} ({screen.height}x{screen.width}) but your game view is currently in aspect {gameViewAspect.y}:{gameViewAspect.x} ({gameViewSize.y}x{gameViewSize.x}). The overlay mockup won't be displayed correctly.", MessageType.Warning);
                 }
             }
 
@@ -331,7 +331,7 @@ namespace E7.NotchSolution
                     if (instantiated != null)
                     {
                         canvasObject = instantiated.GetComponent<MockupCanvas>();
-                        //instantiated.hideFlags = overlayCanvasFlag;
+                        instantiated.hideFlags = overlayCanvasFlag;
 
                         if (Application.isPlaying)
                         {
