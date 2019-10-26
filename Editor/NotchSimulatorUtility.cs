@@ -92,7 +92,11 @@ namespace E7.NotchSolution
             get
             {
                 var path = EditorPrefs.GetString(devicesPathKey);
-                return string.IsNullOrEmpty(path) ? "Assets/NotchSolution/Editor/Devices/" : path + "/";
+                if (string.IsNullOrEmpty(path)) {
+                    var deviceFile = AssetDatabase.GUIDToAssetPath(AssetDatabase.FindAssets(".device").FirstOrDefault());
+                    path = System.IO.Path.GetDirectoryName(deviceFile).Replace("\\", "/");
+                }
+                return path + "/";
             }
             set { EditorPrefs.SetString(devicesPathKey, value.TrimEnd('/', '\\')); }
         }
