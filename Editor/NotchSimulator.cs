@@ -267,7 +267,16 @@ namespace E7.NotchSolution
                 if (!string.IsNullOrEmpty(name))
                 {
                     mockupSprite = AssetDatabase.LoadAssetAtPath<Sprite>(NotchSimulatorUtility.devicesPath + name);
-                    if (mockupSprite == null) Debug.LogWarning($"No mockup image named {name} in {NotchSimulatorUtility.devicesPath} folder!");
+                    if (mockupSprite == null)
+                    {
+                        if (System.IO.File.Exists(NotchSimulatorUtility.devicesPath + name))
+                        {
+                            Texture2D tex = new Texture2D(1, 1);
+                            tex.LoadImage(System.IO.File.ReadAllBytes(NotchSimulatorUtility.devicesPath + name));
+                            mockupSprite = Sprite.Create(tex, new Rect(0.0f, 0.0f, tex.width, tex.height), new Vector2(0.5f, 0.5f), 100.0f);
+                        }
+                        else Debug.LogWarning($"No mockup image named {name} in {NotchSimulatorUtility.devicesPath} folder!");
+                    }
                 }
 
                 foreach (var mockup in AllMockupCanvases)
