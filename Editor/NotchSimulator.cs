@@ -194,14 +194,15 @@ namespace E7.NotchSolution
         {
             get
             {
-                if (mockupCanvas != null)
+                if (mockupCanvas == null) mockupCanvas = GameObject.Find(mockupCanvasName)?.GetComponent<MockupCanvas>();
+                if (mockupCanvas != null) yield return mockupCanvas;
+
+                if (prefabMockupCanvas == null)
                 {
-                    yield return mockupCanvas;
+                    var prefabStage = PrefabStageUtility.GetCurrentPrefabStage();
+                    if (prefabStage != null) prefabMockupCanvas = prefabStage.stageHandle.FindComponentOfType<MockupCanvas>();
                 }
-                if (prefabMockupCanvas != null)
-                {
-                    yield return prefabMockupCanvas;
-                }
+                if (prefabMockupCanvas != null) yield return prefabMockupCanvas;
             }
         }
 
@@ -233,9 +234,10 @@ namespace E7.NotchSolution
 
         private static void DestroyHiddenCanvas()
         {
-            if (mockupCanvas != null)
+            foreach (var mockup in AllMockupCanvases)
             {
-                GameObject.DestroyImmediate(mockupCanvas.gameObject);
+                if (EditorApplication.isPlaying) Destroy(mockup.gameObject);
+                else DestroyImmediate(mockup.gameObject, false);
             }
         }
 
@@ -279,13 +281,7 @@ namespace E7.NotchSolution
                      );
                 }
             }
-            else
-            {
-                foreach (var mockup in AllMockupCanvases)
-                {
-                    mockup.Hide();
-                }
-            }
+            else DestroyHiddenCanvas();
         }
 
         private static void DebugTransitions(string s)
