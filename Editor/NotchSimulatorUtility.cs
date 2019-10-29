@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace E7.NotchSolution
 {
-    public static class NotchSimulatorUtility
+    internal static class NotchSimulatorUtility
     {
         const string devicesPathKey = NotchSolutionUtilityEditor.prefix + "devicesPath";
         const string enableSimulationKey = NotchSolutionUtilityEditor.prefix + "enableSimulation";
@@ -87,18 +87,17 @@ namespace E7.NotchSolution
 #endif
         }
 
+        internal static string devicesPathCached;
         internal static string devicesPath
         {
             get
             {
-                var path = EditorPrefs.GetString(devicesPathKey);
-                if (string.IsNullOrEmpty(path)) {
-                    var deviceFile = AssetDatabase.GUIDToAssetPath(AssetDatabase.FindAssets(".device").FirstOrDefault());
-                    path = System.IO.Path.GetDirectoryName(deviceFile).Replace("\\", "/");
+                if (string.IsNullOrEmpty(devicesPathCached))
+                {
+                    devicesPathCached = AssetDatabase.GUIDToAssetPath("e6ee4d37d64882c4fac2dc0b3aad29cb");
                 }
-                return path + "/";
+                return devicesPathCached;
             }
-            set { EditorPrefs.SetString(devicesPathKey, value.TrimEnd('/', '\\')); }
         }
 
         internal static bool enableSimulation

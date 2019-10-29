@@ -53,12 +53,9 @@ namespace E7.NotchSolution
             padRect.Add(colorField);
 
             var devicesPath = new TextField("Device Directory");
+            devicesPath.SetEnabled(false);
             devicesPath.value = NotchSimulatorUtility.devicesPath;
-            devicesPath.RegisterValueChangedCallback(path =>
-            {
-                NotchSimulatorUtility.devicesPath = path.newValue;
-                SimulationDatabase.Refresh();
-            });
+            
             padRect.Add(devicesPath);
 
             string shortcutString = ShortcutManager.instance.GetShortcutBinding(NotchSolutionShortcuts.switchNarrowestWidestShortcut).ToString();

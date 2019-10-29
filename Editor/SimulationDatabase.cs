@@ -12,7 +12,7 @@ namespace E7.NotchSolution
         public static List<SimulationDevice> db = new List<SimulationDevice>();
         public static void Refresh()
         {
-            db = new List<SimulationDevice>();
+            db.Clear();
 
             var deviceDirectory = new System.IO.DirectoryInfo(NotchSimulatorUtility.devicesPath);
             if (!deviceDirectory.Exists) return;
