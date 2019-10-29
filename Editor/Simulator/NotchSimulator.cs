@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEditor.Build; //For bugfix hack
@@ -19,9 +20,9 @@ namespace E7.NotchSolution
     /// 
     /// Also the mockup overlay is provided by an invisible full screen canvas game object with <see cref="HideFlags.HideAndDontSave">.
     /// </summary>
-    public class NotchSimulator : EditorWindow, IPreprocessBuildWithReport //For bugfix hack
+    public class NotchSimulator : EditorWindow, IHasCustomMenu, IPreprocessBuildWithReport //For bugfix hack
     {
-        internal static NotchSimulator win;
+        private static NotchSimulator win;
         Vector2 gameviewResolution;
 
         [MenuItem("Window/General/Notch Simulator")]
@@ -31,7 +32,37 @@ namespace E7.NotchSolution
             win.titleContent = new GUIContent("Notch Simulator");
         }
 
-        [ExecuteInEditMode] private void OnEnable() { EditorApplication.update += RespawnMockup; }
+        //IHasCustomMenu
+        public void AddItemsToMenu(GenericMenu menu)
+        {
+            var flip = Settings.Instance.FlipOrientation;
+            menu.AddItem(new GUIContent("Flip Orientation"), on: flip, () =>
+            {
+                var settings = Settings.Instance;
+                settings.FlipOrientation = !settings.FlipOrientation;
+                settings.Save();
+                UpdateAllMockups();
+                UpdateSimulatorTargets();
+            });
+
+            menu.AddSeparator(string.Empty);
+            menu.AddItem(new GUIContent("Reset Settings"), on: false, ResetSettings);
+            menu.AddItem(new GUIContent("Refresh Device List"), on: false, SimulationDatabase.Refresh);
+        }
+
+        private void ResetSettings()
+        {
+            Settings.Instance.Reset();
+            Debug.Log($"Reset all Notch Solution settings.");
+        }
+
+        [ExecuteInEditMode]
+        private void OnEnable()
+        {
+            SimulationDatabase.Refresh();
+            EditorApplication.update += RespawnMockup;
+        }
+
         [ExecuteInEditMode] private void OnDisable() { EditorApplication.update -= RespawnMockup; }
         void RespawnMockup()
         {
@@ -87,34 +118,45 @@ namespace E7.NotchSolution
             }
         }
 
+        internal static void Redraw() => win?.Repaint();
+
         /// <summary>
         /// It is currently active only when Notch Simulator tab is present.
         /// </summary>
         void OnGUI()
         {
             win = this;
+
             //Sometimes even with flag I can see it in hierarchy until I move a mouse over it??
             EditorApplication.RepaintHierarchyWindow();
-            SimulationDatabase.Refresh();
 
-            bool enableSimulation = NotchSimulatorUtility.enableSimulation;
             EditorGUI.BeginChangeCheck();
 
-            string shortcut = ShortcutManager.instance.GetShortcutBinding(NotchSolutionShortcuts.toggleSimulationShortcut).ToString();
-            if (string.IsNullOrEmpty(shortcut)) shortcut = "None";
-            NotchSimulatorUtility.enableSimulation = EditorGUILayout.BeginToggleGroup($"Simulate ({shortcut})", NotchSimulatorUtility.enableSimulation);
-            EditorGUI.indentLevel++;
+            var settings = Settings.Instance;
 
-            int index = SimulationDatabase.db.IndexOf(NotchSimulatorUtility.selectedDevice);
-            int selectedIndex = EditorGUILayout.Popup(index >= 0 ? index : 0, SimulationDatabase.db.Select(d => d.Meta.friendlyName).ToArray());
-            NotchSimulatorUtility.selectedDevice = selectedIndex >= 0 & selectedIndex < SimulationDatabase.db.Count ? SimulationDatabase.db[selectedIndex] : null;
-            if (GUILayout.Button("Refresh List")) SimulationDatabase.Refresh();
-            NotchSimulatorUtility.flipOrientation = EditorGUILayout.Toggle("Flip Orientation", NotchSimulatorUtility.flipOrientation);
+            string switchConfigShortcut = ShortcutManager.instance.GetShortcutBinding(NotchSolutionShortcuts.switchConfigurationShortcut).ToString();
+            if (string.IsNullOrEmpty(switchConfigShortcut)) switchConfigShortcut = "None";
+            string simulateShortcut = ShortcutManager.instance.GetShortcutBinding(NotchSolutionShortcuts.toggleSimulationShortcut).ToString();
+            if (string.IsNullOrEmpty(simulateShortcut)) simulateShortcut = "None";
 
-            var simulationDevice = NotchSimulatorUtility.selectedDevice;
+            settings.EnableSimulation = EditorGUILayout.BeginToggleGroup($"Simulate ({simulateShortcut})", settings.EnableSimulation);
+
+            int previousIndex = settings.ActiveConfiguration.DeviceIndex;
+            int currentIndex = Mathf.Clamp(settings.ActiveConfiguration.DeviceIndex, 0, SimulationDatabase.KeyList.Length - 1);
+
+            int selectedIndex = EditorGUILayout.Popup(currentIndex, SimulationDatabase.KeyList);
+            if (GUILayout.Button($"{settings.ActiveConfiguration.ConfigurationName} ({switchConfigShortcut})", EditorStyles.helpBox))
+            {
+                NotchSolutionShortcuts.SwitchConfiguration();
+            }
+            EditorGUILayout.EndToggleGroup();
+
+            settings.ActiveConfiguration.DeviceIndex = selectedIndex;
+
+            var simulationDevice = SimulationDatabase.Get(SimulationDatabase.KeyList[selectedIndex]);
 
             //Draw warning about wrong aspect ratio
-            if (enableSimulation && simulationDevice != null)
+            if (settings.EnableSimulation && simulationDevice != null)
             {
                 ScreenOrientation gameViewOrientation = NotchSimulatorUtility.GetGameViewOrientation();
 
@@ -136,13 +178,12 @@ namespace E7.NotchSolution
                 }
             }
 
-            EditorGUI.indentLevel--;
-            EditorGUILayout.EndToggleGroup();
             bool changed = EditorGUI.EndChangeCheck();
 
             if (changed)
             {
                 UpdateAllMockups();
+                settings.Save();
             }
 
             UpdateSimulatorTargets();
@@ -153,16 +194,13 @@ namespace E7.NotchSolution
         /// </summary>
         internal static void UpdateSimulatorTargets()
         {
-            var simulatedRectRelative = NotchSimulatorUtility.enableSimulation && NotchSimulatorUtility.selectedDevice != null ? NotchSimulatorUtility.CalculateSimulatorSafeAreaRelative() : new Rect(0, 0, 1, 1);
-            var simulatedCutoutsRelative = NotchSimulatorUtility.enableSimulation && NotchSimulatorUtility.selectedDevice != null ? NotchSimulatorUtility.CalculateSimulatorCutoutsRelative() : new Rect[0];
+            var enableSimulation = Settings.Instance.EnableSimulation;
+            var selectedDevice = SimulationDatabase.ByIndex(Settings.Instance.ActiveConfiguration.DeviceIndex);
 
-            //This value could be used by the component statically.
-            NotchSolutionUtilityEditor.SimulatedSafeAreaRelative = simulatedRectRelative;
-#if UNITY_2019_2_OR_NEWER
-            NotchSolutionUtilityEditor.SimulatedCutoutsRelative = simulatedCutoutsRelative;
-#endif
+            var simulatedRectRelative = enableSimulation && selectedDevice != null ? NotchSimulatorUtility.CalculateSimulatorSafeAreaRelative(selectedDevice) : NotchSolutionUtility.defaultSafeArea;
+            var simulatedCutoutsRelative = enableSimulation && selectedDevice != null ? NotchSimulatorUtility.CalculateSimulatorCutoutsRelative(selectedDevice) : NotchSolutionUtility.defaultCutouts;
 
-            var normalSceneSimTargets = GameObject.FindObjectsOfType<UIBehaviour>().OfType<INotchSimulatorTarget>();
+            var normalSceneSimTargets = GameObject.FindObjectsOfType<MonoBehaviour>().OfType<INotchSimulatorTarget>();
             foreach (var nst in normalSceneSimTargets)
             {
                 nst.SimulatorUpdate(simulatedRectRelative, simulatedCutoutsRelative);
@@ -172,7 +210,7 @@ namespace E7.NotchSolution
             PrefabStage prefabStage = PrefabStageUtility.GetCurrentPrefabStage();
             if (prefabStage != null)
             {
-                var prefabSceneSimTargets = prefabStage.stageHandle.FindComponentsOfType<UIBehaviour>().OfType<INotchSimulatorTarget>();
+                var prefabSceneSimTargets = prefabStage.stageHandle.FindComponentsOfType<MonoBehaviour>().OfType<INotchSimulatorTarget>();
                 foreach (var nst in prefabSceneSimTargets)
                 {
                     nst.SimulatorUpdate(simulatedRectRelative, simulatedCutoutsRelative);
@@ -259,34 +297,39 @@ namespace E7.NotchSolution
                 EnsureCanvasAndEventSetup(prefabStage: prefabStage);
             }
 
-            bool enableSimulation = NotchSimulatorUtility.enableSimulation;
-            if (enableSimulation && NotchSimulatorUtility.selectedDevice != null)
+            var settings = Settings.Instance;
+            bool enableSimulation = settings.EnableSimulation;
+            var selectedDevice = SimulationDatabase.ByIndex(Settings.Instance.ActiveConfiguration.DeviceIndex);
+
+            if (enableSimulation && selectedDevice != null)
             {
-                var name = NotchSimulatorUtility.selectedDevice.Meta.overlay;
+                var name = selectedDevice.Meta.overlay;
                 Sprite mockupSprite = null;
                 if (!string.IsNullOrEmpty(name))
                 {
-                    mockupSprite = AssetDatabase.LoadAssetAtPath<Sprite>(NotchSimulatorUtility.devicesPath + name);
+                    var filePath = Path.Combine(NotchSimulatorUtility.DevicesFolder, name);
+                    mockupSprite = AssetDatabase.LoadAssetAtPath<Sprite>(filePath);
                     if (mockupSprite == null)
                     {
-                        if (System.IO.File.Exists(NotchSimulatorUtility.devicesPath + name))
+                        if (System.IO.File.Exists(filePath))
                         {
                             Texture2D tex = new Texture2D(1, 1);
-                            tex.LoadImage(System.IO.File.ReadAllBytes(NotchSimulatorUtility.devicesPath + name));
+                            tex.LoadImage(System.IO.File.ReadAllBytes(filePath));
                             mockupSprite = Sprite.Create(tex, new Rect(0.0f, 0.0f, tex.width, tex.height), new Vector2(0.5f, 0.5f), 100.0f);
                         }
-                        else Debug.LogWarning($"No mockup image named {name} in {NotchSimulatorUtility.devicesPath} folder!");
+                        else Debug.LogWarning($"No mockup image named {name} in {NotchSimulatorUtility.DevicesFolder} folder!");
                     }
                 }
 
+
                 foreach (var mockup in AllMockupCanvases)
                 {
-                    mockup.Show();
-                    mockup.SetMockupSprite(
+                    mockup.UpdateMockupSprite(
                          sprite: mockupSprite,
                          orientation: NotchSimulatorUtility.GetGameViewOrientation(),
                          simulate: enableSimulation,
-                         flipped: NotchSimulatorUtility.flipOrientation
+                         flipped: settings.FlipOrientation,
+                         prefabModeOverlayColor: Settings.Instance.PrefabModeOverlayColor
                      );
                 }
             }

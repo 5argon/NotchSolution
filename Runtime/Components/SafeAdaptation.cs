@@ -27,7 +27,7 @@ namespace E7.NotchSolution
     /// </summary>
 
     [HelpURL("https://github.com/5argon/NotchSolution/blob/master/.Documentation/Components/AdaptationComponents.md#-safeadaptation")]
-    public class SafeAdaptation : AdaptationBase, INotchSimulatorTarget
+    public class SafeAdaptation : AdaptationBase
     {
 #pragma warning disable 0649
         [SerializeField] RectTransform.Edge adaptToEdge;
@@ -43,16 +43,13 @@ namespace E7.NotchSolution
             landscapeAdaptation = new BlendedClipsAdaptor(AnimationCurve.Linear(0, 0, iPhoneXNotchHeightRelative, 1));
         }
 
-        public void SimulatorUpdate(Rect simulatedSafeAreaRelative, Rect[] simulatedCutoutsRelative) 
-            => AdaptWithRelativeSafeArea(simulatedSafeAreaRelative);
-
         /// <summary>
         /// At runtime <see cref="SafeAdaptation"> only take effect on `Start`, since safe area is not expected to change dynamically, 
         /// and unlike uGUI and <see cref="SafePadding">  a frequent recalculation is not expected. 
         /// 
         /// This method applies that adaptation manually again.
         /// </summary>
-        public override void Adapt() => AdaptWithRelativeSafeArea(NotchSolutionUtility.SafeAreaRelative);
+        public override void Adapt() => AdaptWithRelativeSafeArea(SafeAreaRelative);
 
 #if UNITY_EDITOR
         public float latestSimulatedSpaceTakenRelative;

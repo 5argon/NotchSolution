@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using E7.NotchSolution;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -8,6 +7,7 @@ using UnityEditor;
 
 namespace E7.NotchSolution
 {
+#if UNITY_EDITOR
     public class MockupCanvas : MonoBehaviour
     {
         public Image mockupImage;
@@ -16,20 +16,34 @@ namespace E7.NotchSolution
         const float proColor = 40 / 255f;
         const float personalColor = 49 / 255f;
 
-        public void Hide()
+        public void UpdateMockupSprite(Sprite sprite, ScreenOrientation orientation, bool simulate, bool flipped, Color prefabModeOverlayColor)
         {
-            mockupImage.enabled = false;
-        }
+            if (!simulate)
+            {
+                mockupImage.enabled = false;
+            }
+            else
+            {
+                mockupImage.enabled = true;
 
-        public void Show()
-        {
-            mockupImage.enabled = true;
-        }
+                if (sprite == null) mockupImage.color = new Color(0, 0, 0, 0);
+                else if (PrefabStage) mockupImage.color = prefabModeOverlayColor;
+                else if (EditorGUIUtility.isProSkin) mockupImage.color = new Color(proColor, proColor, proColor, 1);
+                else mockupImage.color = new Color(personalColor, personalColor, personalColor, 1);
 
-        // public void UpdateColor(
-        // {
-        //     //mockupImage.color = 
-        // }
+                mockupImage.transform.rotation = Quaternion.Euler(0, 0, orientation == ScreenOrientation.Landscape ? 90 : 0);
+                mockupImage.sprite = sprite;
+                mockupImage.transform.localScale = new Vector3(
+                    flipped ? -1 : 1,
+                    flipped ? -1 : 1,
+                    1
+                );
+
+                //Force refreshing the mockup
+                mockupImage.enabled = false;
+                mockupImage.enabled = true;
+            }
+        }
 
         // public void OnDestroy()
         // {
@@ -45,36 +59,6 @@ namespace E7.NotchSolution
         // {
         //     Debug.Log($"ENABLE");
         // }
-
-        public void SetMockupSprite(Sprite sprite, ScreenOrientation orientation, bool simulate, bool flipped)
-        {
-            if (!simulate)
-            {
-                mockupImage.enabled = false;
-            }
-            else
-            {
-                mockupImage.enabled = true;
-
-#if UNITY_EDITOR
-                if (sprite == null) mockupImage.color = new Color(0, 0, 0, 0);
-                else if (PrefabStage) mockupImage.color = NotchSolutionUtilityEditor.PrefabModeOverlayColor;
-                else if (EditorGUIUtility.isProSkin) mockupImage.color = new Color(proColor, proColor, proColor, 1);
-                else mockupImage.color = new Color(personalColor, personalColor, personalColor, 1);
-#endif
-
-                mockupImage.transform.rotation = Quaternion.Euler(0, 0, orientation == ScreenOrientation.Landscape ? 90 : 0);
-                mockupImage.sprite = sprite;
-                mockupImage.transform.localScale = new Vector3(
-                    flipped ? -1 : 1,
-                    flipped ? -1 : 1,
-                    1
-                );
-
-                //Force refreshing the mockup
-                mockupImage.enabled = false;
-                mockupImage.enabled = true;
-            }
-        }
     }
+#endif
 }

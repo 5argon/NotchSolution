@@ -7,7 +7,7 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class NotchSolutionDebugger : MonoBehaviour
+public class NotchSolutionDebugger : MonoBehaviour, INotchSimulatorTarget
 {
     public Text debugText;
     public GameObject debugRectPrefab;
@@ -20,6 +20,14 @@ public class NotchSolutionDebugger : MonoBehaviour
     public enum Menu { Home, Extracting }
     public Menu menu;
 
+    private Rect storedSimulatedSafeAreaRelative = NotchSolutionUtility.defaultSafeArea;
+    private Rect[] storedSimulatedCutoutsRelative = NotchSolutionUtility.defaultCutouts;
+    public void SimulatorUpdate(Rect simulatedSafeAreaRelative, Rect[] simulatedCutoutsRelative)
+    {
+        this.storedSimulatedSafeAreaRelative = simulatedSafeAreaRelative;
+        this.storedSimulatedCutoutsRelative = simulatedCutoutsRelative;
+    }
+
     void Update()
     {
         sb.Clear();
@@ -31,11 +39,8 @@ public class NotchSolutionDebugger : MonoBehaviour
                 export.gameObject.SetActive(true);
                 sb.AppendLine($"<b>-- PLEASE ROTATE THE DEVICE TO GET BOTH ORIENTATION'S DETAILS! --</b>\n");
 
-#if UNITY_EDITOR
-                var safeArea = RealSize(NotchSolutionUtilityEditor.SimulatedSafeAreaRelative);
-#else
-                var safeArea = Screen.safeArea;
-#endif
+                var safeArea = RelativeToReal(NotchSolutionUtility.ShouldUseNotchSimulatorValue ? storedSimulatedSafeAreaRelative : NotchSolutionUtility.ScreenSafeAreaRelative);
+
                 PlaceRect(safeArea, Color.red);
                 if (Screen.orientation != NotchSolutionUtility.GetCurrentOrientation())
                     safeArea.Set(Screen.width - safeArea.x, Screen.height - safeArea.y, safeArea.width, safeArea.height);
@@ -43,9 +48,9 @@ public class NotchSolutionDebugger : MonoBehaviour
 
 #if UNITY_2019_2_OR_NEWER
 #if UNITY_EDITOR
-                var relativeCutouts = NotchSolutionUtilityEditor.SimulatedCutoutsRelative;
+                var relativeCutouts = NotchSolutionUtility.ShouldUseNotchSimulatorValue ? storedSimulatedCutoutsRelative : NotchSolutionUtility.ScreenCutoutsRelative;
                 List<Rect> rectCutouts = new List<Rect>();
-                foreach (Rect rect in relativeCutouts) rectCutouts.Add(RealSize(rect));
+                foreach (Rect rect in relativeCutouts) rectCutouts.Add(RelativeToReal(rect));
                 var cutouts = rectCutouts.ToArray();
 #else
                 var cutouts = Screen.cutouts;
@@ -86,7 +91,7 @@ public class NotchSolutionDebugger : MonoBehaviour
         debugText.text = sb.ToString();
     }
 
-    Rect RealSize(Rect relative)
+    Rect RelativeToReal(Rect relative)
     {
         return new Rect(
             relative.x * Screen.width,

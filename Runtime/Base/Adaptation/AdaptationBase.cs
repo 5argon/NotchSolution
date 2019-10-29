@@ -1,6 +1,4 @@
 using UnityEngine;
-using UnityEngine.Playables;
-using UnityEngine.Animations;
 
 namespace E7.NotchSolution
 {
@@ -10,7 +8,7 @@ namespace E7.NotchSolution
     /// </summary>
     [ExecuteAlways]
     [RequireComponent(typeof(Animator))]
-    public abstract class AdaptationBase : MonoBehaviour
+    public abstract class AdaptationBase : MonoBehaviour, INotchSimulatorTarget
     {
 #pragma warning disable 0649
         [SerializeField] protected SupportedOrientations supportedOrientations;
@@ -78,6 +76,18 @@ namespace E7.NotchSolution
         /// This should ended up calling <see cref="Adapt(BlendedClipsAdaptor, float)"> somehow.
         /// </summary>
         public abstract void Adapt();
+
+        private Rect storedSimulatedSafeAreaRelative = NotchSolutionUtility.defaultSafeArea;
+        private Rect[] storedSimulatedCutoutsRelative = NotchSolutionUtility.defaultCutouts;
+        public void SimulatorUpdate(Rect simulatedSafeAreaRelative, Rect[] simulatedCutoutsRelative)
+        {
+            this.storedSimulatedSafeAreaRelative = simulatedSafeAreaRelative;
+            this.storedSimulatedCutoutsRelative = simulatedCutoutsRelative;
+            Adapt();
+        }
+
+        protected Rect SafeAreaRelative
+            => NotchSolutionUtility.ShouldUseNotchSimulatorValue ? storedSimulatedSafeAreaRelative : NotchSolutionUtility.ScreenSafeAreaRelative;
 
     }
 

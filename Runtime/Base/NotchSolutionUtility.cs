@@ -7,65 +7,100 @@ namespace E7.NotchSolution
 {
     public static class NotchSolutionUtility
     {
-        public static ScreenOrientation GetCurrentOrientation()
-        {
-            return Screen.width > Screen.height ? ScreenOrientation.Landscape : ScreenOrientation.Portrait;
-        }
+        internal static Rect defaultSafeArea = new Rect(0, 0, 1, 1);
+        internal static Rect[] defaultCutouts = new Rect[0];
+
+        internal static ScreenOrientation GetCurrentOrientation()
+            => Screen.width > Screen.height ? ScreenOrientation.Landscape : ScreenOrientation.Portrait;
 
         /// <summary>
-        /// A smart accessor which returns Notch Solution simulated relative safe area in-editor,
-        /// hijacked safe area and other device information in 2019.3 with Unity Device Simulator package,
-        /// or a real one outside of editor.
+        /// If `true`, should trust the values sent to <see cref="INotchSimulatorTarget">.
+        /// If `false`, should trust <see cref="Screen"> API.
         /// </summary>
-        public static Rect SafeAreaRelative
+        internal static bool ShouldUseNotchSimulatorValue
         {
             get
             {
 #if UNITY_EDITOR
-                bool useNotchSimulator = true;
 #if UNITY_2019_3_OR_NEWER
-                if (UnityDeviceSimulatorActive)
+                if (NotchSolutionUtilityEditor.UnityDeviceSimulatorActive)
                 {
-                    //Trust the Unity-modified `Screen.safeArea`, do the same thing as runtime.
-                    useNotchSimulator = false;
+                    return false;
                 }
 #endif
-                if (useNotchSimulator)
-                {
-                    // Need the simulator to calculate this for us.
-                    return NotchSolutionUtilityEditor.SimulatedSafeAreaRelative;
-                }
+                return true;
+#else
+                return false;
 #endif
-
-                Rect absolutePaddings = Screen.safeArea;
-                return new Rect(
-                    absolutePaddings.x / Screen.width,
-                    absolutePaddings.y / Screen.height,
-                    absolutePaddings.width / Screen.width,
-                    absolutePaddings.height / Screen.height
-                );
             }
         }
 
-#if UNITY_2019_3_OR_NEWER
-        static System.Type T = System.Type.GetType("UnityEditor.PlayModeView,UnityEditor");
-        static System.Reflection.MethodInfo GetMainPlayModeView = T.GetMethod("GetMainPlayModeView", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
+        internal static Rect cachedScreenSafeArea;
+        internal static Rect cachedScreenSafeAreaRelative;
+        internal static bool safeAreaRelativeCached; 
 
         /// <summary>
-        /// With [Device Simulator](https://docs.unity3d.com/Packages/com.unity.device-simulator@latest) installed it can use a secondary
-        /// game view (also a new internal feature in 2019.3) and take control of the screen size and etc. If we detect that active, disable our
-        /// own overrides and just go along with Device Simulator simulated value.
+        /// Calculated from <see cref="Screen"> API without caring about simulated value.
+        /// Note that 2019.3 Unity Device Simulator can mock the <see cref="Screen"> so this is not
+        /// necessary real in editor.
         /// </summary>
-        private static bool UnityDeviceSimulatorActive
+        // TODO : Cache potential, but many pitfalls awaits so I have not done it.
+        // - Some first frames (1~3) Unity didn't return a rect that take account of safe area for some reason. If we cache that then we failed.
+        // - Orientation change requries clearing the cache again. Manually or automatically? How?
+        internal static Rect ScreenSafeAreaRelative
         {
             get
             {
-                var mainPlayModeView = GetMainPlayModeView.Invoke(null,null);
-                var name = mainPlayModeView.GetType().FullName;
-                //I am lazy so I will simply do a class name check with the one in that package.
-                return name == "Unity.DeviceSimulator.SimulatorWindow";
+                Rect absolutePaddings = Screen.safeArea;
+                cachedScreenSafeAreaRelative = ToScreenRelativeRect(absolutePaddings);
+                cachedScreenSafeArea = absolutePaddings;
+                safeAreaRelativeCached = true;
+                return cachedScreenSafeAreaRelative;
+            }
+        }
+
+        private static Rect ToScreenRelativeRect(Rect absoluteRect)
+        {
+            int w = Screen.width;
+            int h = Screen.height;
+            return new Rect(
+                absoluteRect.x / w,
+                absoluteRect.y / h,
+                absoluteRect.width / w,
+                absoluteRect.height / h
+            );
+        }
+
+#if UNITY_2019_2_OR_NEWER
+        internal static Rect[] cachedScreenCutouts;
+        internal static Rect[] cachedScreenCutoutsRelative;
+        internal static bool cutoutsRelativeCached;
+
+        /// <summary>
+        /// Calculated from <see cref="Screen"> API without caring about simulated value.
+        /// Note that 2019.3 Unity Device Simulator can mock the <see cref="Screen"> so this is not
+        /// necessary real in editor.
+        /// </summary>
+        // TODO : Cache potential, but many pitfalls awaits so I have not done it.
+        // - Some first frames (1~3) Unity didn't return a rect that take account of safe area for some reason. If we cache that then we failed.
+        // - Orientation change requries clearing the cache again. Manually or automatically? How?/// 
+        internal static Rect[] ScreenCutoutsRelative
+        {
+            get
+            {
+                Rect[] absoluteCutouts = Screen.cutouts;
+
+                cachedScreenCutoutsRelative = new Rect[absoluteCutouts.Length];
+                for(int i = 0; i < absoluteCutouts.Length; i ++)
+                {
+                    cachedScreenCutoutsRelative[i] = ToScreenRelativeRect(absoluteCutouts[i]);
+                }
+                cachedScreenCutouts = absoluteCutouts;
+                cutoutsRelativeCached = true;
+                return cachedScreenCutoutsRelative;
             }
         }
 #endif
+
     }
 }

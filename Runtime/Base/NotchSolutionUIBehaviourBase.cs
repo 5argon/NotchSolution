@@ -25,6 +25,18 @@ namespace E7.NotchSolution
             }
         }
 
+        private Rect storedSimulatedSafeAreaRelative = NotchSolutionUtility.defaultSafeArea;
+        private Rect[] storedSimulatedCutoutsRelative = NotchSolutionUtility.defaultCutouts;
+        public void SimulatorUpdate(Rect simulatedSafeAreaRelative, Rect[] simulatedCutoutsRelative)
+        {
+            this.storedSimulatedSafeAreaRelative = simulatedSafeAreaRelative;
+            this.storedSimulatedCutoutsRelative = simulatedCutoutsRelative;
+            UpdateRectBase();
+        }
+
+        protected Rect SafeAreaRelative
+            => NotchSolutionUtility.ShouldUseNotchSimulatorValue ? storedSimulatedSafeAreaRelative : NotchSolutionUtility.ScreenSafeAreaRelative;
+
         [System.NonSerialized]
         private RectTransform m_Rect;
         private protected RectTransform rectTransform
@@ -52,11 +64,14 @@ namespace E7.NotchSolution
             base.OnDisable();
         }
 
+        /// <summary>
+        /// This doesn't work when flipping the orientation to opposite side (180 deg). It only works for 90 deg. rotation because that
+        /// makes the rect transform changes dimension.
+        /// </summary>
         protected override void OnRectTransformDimensionsChange()
         {
             UpdateRectBase();
         }
-
 
 #if UNITY_EDITOR
         protected override void Reset()
@@ -73,11 +88,6 @@ namespace E7.NotchSolution
         }
 #endif
 
-        //INotchSimulatorTarget
-        public void SimulatorUpdate(Rect simulatedSafeArea, Rect[] simulatedCutouts)
-        {
-            UpdateRectBase();
-        }
 
         //ILayoutController
         public void SetLayoutHorizontal()

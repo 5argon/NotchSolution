@@ -6,15 +6,9 @@ namespace E7.NotchSolution
 {
     internal static class NotchSimulatorUtility
     {
-        const string devicesPathKey = NotchSolutionUtilityEditor.prefix + "devicesPath";
-        const string enableSimulationKey = NotchSolutionUtilityEditor.prefix + "enableSimulation";
-        const string simulationDeviceKey = NotchSolutionUtilityEditor.prefix + "simulationDevice";
-        const string flipOrientationKey = NotchSolutionUtilityEditor.prefix + "flipOrientation";
-
-        internal static Rect CalculateSimulatorSafeAreaRelative()
+        internal static Rect CalculateSimulatorSafeAreaRelative(SimulationDevice device)
         {
             var orientation = GetGameViewOrientation();
-            var device = selectedDevice;
             var safe = device.Screens.FirstOrDefault().orientations[orientation].safeArea;
             var screenSize = new Vector2(device.Screens.FirstOrDefault().width, device.Screens.FirstOrDefault().height);
             if (orientation == ScreenOrientation.Landscape)
@@ -26,10 +20,9 @@ namespace E7.NotchSolution
             return GetRectRelativeToScreenSize(safe, screenSize);
         }
 
-        internal static Rect[] CalculateSimulatorCutoutsRelative()
+        internal static Rect[] CalculateSimulatorCutoutsRelative(SimulationDevice device)
         {
             var orientation = GetGameViewOrientation();
-            var device = selectedDevice;
             var cutouts = device.Screens.FirstOrDefault().orientations[orientation].cutouts;
             if (cutouts is null) return new Rect[0];
             var screenSize = new Vector2(device.Screens.FirstOrDefault().width, device.Screens.FirstOrDefault().height);
@@ -50,7 +43,7 @@ namespace E7.NotchSolution
         {
             var relativeCutout = new Rect(original.xMin / screenSize.x, original.yMin / screenSize.y, original.width / screenSize.x, original.height / screenSize.y);
             //Debug.Log($"Calc relative {original} {screenSize} {relativeCutout}");
-            if (flipOrientation)
+            if (Settings.Instance.FlipOrientation)
             {
                 return new Rect(
                     1 - (relativeCutout.width + relativeCutout.xMin),
@@ -87,35 +80,17 @@ namespace E7.NotchSolution
 #endif
         }
 
-        internal static string devicesPathCached;
-        internal static string devicesPath
+        internal static string devicesFolderCached;
+        internal static string DevicesFolder
         {
             get
             {
-                if (string.IsNullOrEmpty(devicesPathCached))
+                if (string.IsNullOrEmpty(devicesFolderCached))
                 {
-                    devicesPathCached = AssetDatabase.GUIDToAssetPath("e6ee4d37d64882c4fac2dc0b3aad29cb");
+                    devicesFolderCached = AssetDatabase.GUIDToAssetPath("e6ee4d37d64882c4fac2dc0b3aad29cb");
                 }
-                return devicesPathCached;
+                return devicesFolderCached;
             }
-        }
-
-        internal static bool enableSimulation
-        {
-            get { return EditorPrefs.GetBool(enableSimulationKey); }
-            set { EditorPrefs.SetBool(enableSimulationKey, value); }
-        }
-
-        internal static bool flipOrientation
-        {
-            get { return EditorPrefs.GetBool(flipOrientationKey); }
-            set { EditorPrefs.SetBool(flipOrientationKey, value); }
-        }
-
-        internal static SimulationDevice selectedDevice
-        {
-            get { return SimulationDatabase.Get(EditorPrefs.GetString(simulationDeviceKey)); }
-            set { EditorPrefs.SetString(simulationDeviceKey, value == null ? null : value.Meta.friendlyName); }
         }
     }
 }

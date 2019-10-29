@@ -9,24 +9,17 @@ namespace E7.NotchSolution
     {
         private const string notchSolutionPrefPrefix = "Notch Solution/";
         internal const string toggleSimulationShortcut = notchSolutionPrefPrefix + "Toggle Notch Simulator";
-        internal const string switchNarrowestWidestShortcut = notchSolutionPrefPrefix + "Switch narrowest-widest aspect";
+        internal const string switchConfigurationShortcut = notchSolutionPrefPrefix + "Switch configuration";
 
         /// <summary>
         /// Switch between narrowest and widest aspect specified in the preferences to validate design. Switch to narrowest if currently on neither aspects.
         /// </summary>
-        [Shortcut(switchNarrowestWidestShortcut, null, KeyCode.M, ShortcutModifiers.Alt)]
-        static void SwitchNarrowestWidest()
+        [Shortcut(switchConfigurationShortcut, null, KeyCode.M, ShortcutModifiers.Alt)]
+        internal static void SwitchConfiguration()
         {
+            Settings.Instance.NextConfiguration();
 
-            var gameView = typeof(Editor).Assembly.GetType("UnityEditor.GameView");
-            var sizeIndex = gameView.GetProperty("selectedSizeIndex",
-                    BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-            var window = EditorWindow.GetWindow(gameView);
-
-            int currentIndex = (int)sizeIndex.GetValue(window);
-            currentIndex = currentIndex == NotchSolutionUtilityEditor.NarrowestAspectIndex ? NotchSolutionUtilityEditor.WidestAspectIndex : NotchSolutionUtilityEditor.NarrowestAspectIndex;
-            sizeIndex.SetValue(window, currentIndex, null);
-
+            NotchSimulator.Redraw();
             NotchSimulator.UpdateAllMockups();
             NotchSimulator.UpdateSimulatorTargets();
 
@@ -40,10 +33,12 @@ namespace E7.NotchSolution
         [Shortcut(toggleSimulationShortcut, null, KeyCode.N, ShortcutModifiers.Alt)]
         static void ToggleSimulation()
         {
-            NotchSimulatorUtility.enableSimulation = !NotchSimulatorUtility.enableSimulation;
+            var settings  = Settings.Instance;
+            settings.EnableSimulation = !settings.EnableSimulation;
+            settings.Save();
             NotchSimulator.UpdateAllMockups();
             NotchSimulator.UpdateSimulatorTargets();
-            NotchSimulator.win?.Repaint();
+            NotchSimulator.Redraw();
         }
     }
 }

@@ -75,7 +75,7 @@ namespace E7.NotchSolution
             rectTransform.anchorMax = Vector2.one;
 
             var topRect = GetCanvasRect();
-            var safeAreaRelative = NotchSolutionUtility.SafeAreaRelative;
+            var safeAreaRelative = SafeAreaRelative;
 
 #if DEBUG_NOTCH_SOLUTION
             Debug.Log($"Top {topRect} safe {safeAreaRelative} min {safeAreaRelative.xMin} {safeAreaRelative.yMin}");
