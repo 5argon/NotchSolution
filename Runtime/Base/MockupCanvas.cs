@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using E7.NotchSolution;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -56,20 +57,13 @@ namespace E7.NotchSolution
                 mockupImage.enabled = true;
 
 #if UNITY_EDITOR
-                if (PrefabStage)
-                {
-                    mockupImage.color = NotchSolutionUtilityEditor.PrefabModeOverlayColor;
-                }
-                else if (EditorGUIUtility.isProSkin)
-                {
-                    mockupImage.color = new Color(proColor, proColor, proColor, 1);
-                }
-                else
-                {
-                    mockupImage.color = new Color(personalColor, personalColor, personalColor, 1);
-                }
+                if (sprite == null) mockupImage.color = new Color(0, 0, 0, 0);
+                else if (PrefabStage) mockupImage.color = NotchSolutionUtilityEditor.PrefabModeOverlayColor;
+                else if (EditorGUIUtility.isProSkin) mockupImage.color = new Color(proColor, proColor, proColor, 1);
+                else mockupImage.color = new Color(personalColor, personalColor, personalColor, 1);
 #endif
 
+                mockupImage.transform.rotation = Quaternion.Euler(0, 0, orientation == ScreenOrientation.Landscape ? 90 : 0);
                 mockupImage.sprite = sprite;
                 mockupImage.transform.localScale = new Vector3(
                     flipped ? -1 : 1,
@@ -83,5 +77,4 @@ namespace E7.NotchSolution
             }
         }
     }
-
 }
