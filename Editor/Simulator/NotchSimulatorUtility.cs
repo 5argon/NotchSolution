@@ -2,7 +2,7 @@
 using UnityEditor;
 using System.Linq;
 
-namespace E7.NotchSolution
+namespace E7.NotchSolution.Editor
 {
     internal static class NotchSimulatorUtility
     {

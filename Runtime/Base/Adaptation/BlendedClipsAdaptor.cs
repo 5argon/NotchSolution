@@ -10,10 +10,15 @@ using UnityEditor;
 namespace E7.NotchSolution
 {
     /// <summary>
-    /// Performs an adaptation by calling <see cref="Adapt(float, Animator)">.
+    /// Holds 2 <see cref="AnimationClip"/>. With any weight `float` given,
+    /// it performs an adaptation with Playables API in <see cref="Adapt(float, Animator)"/>, you
+    /// provide the target <see cref="Animator"/> each time you use it.
     /// </summary>
+    /// <remarks>
+    /// It is an "adaptor" because it is the one that cause an adaptation.
+    /// </remarks>
     [Serializable]
-    public class BlendedClipsAdaptor
+    internal class BlendedClipsAdaptor
     {
 #pragma warning disable 0649
         [SerializeField] AnimationClip normalState;
@@ -53,13 +58,16 @@ namespace E7.NotchSolution
             this.adaptationCurve = defaultCurve;
         }
 
-        public bool Adaptable => !(adaptationCurve == null || normalState == null || fullyAdaptedState == null);
+        /// <summary>
+        /// Check if all required data are not `null` : the curve, and the 2 <see cref="AnimationClip"/>.
+        /// </summary>
+        internal bool Adaptable => !(adaptationCurve == null || normalState == null || fullyAdaptedState == null);
 
         /// <summary>
         /// Use animation Playables API to control keyed values, blended between the first frame of 2 animation clips.
         /// </summary>
         /// <param name="valueForAdaptationCurve">A value to evaluate into adaptation curve producing a real blend value for 2 clips.</param>
-        /// <param name="animator">Required for animation playables. The clips used must be able to control the keyed fields traveling down from this animator component.</param>
+        /// <param name="animator">The control target for animation playables. The clips used must be able to control the keyed fields traveling down from this animator component.</param>
         public void Adapt(float valueForAdaptationCurve, Animator animator)
         {
             if (!Adaptable) return;

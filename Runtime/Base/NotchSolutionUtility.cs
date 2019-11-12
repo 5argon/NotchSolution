@@ -5,6 +5,9 @@ using UnityEngine;
 
 namespace E7.NotchSolution
 {
+    /// <summary>
+    /// Helper methods for Notch Solution's components.
+    /// </summary>
     public static class NotchSolutionUtility
     {
         internal static Rect defaultSafeArea = new Rect(0, 0, 1, 1);
@@ -14,10 +17,14 @@ namespace E7.NotchSolution
             => Screen.width > Screen.height ? ScreenOrientation.Landscape : ScreenOrientation.Portrait;
 
         /// <summary>
-        /// If `true`, should trust the values sent to <see cref="INotchSimulatorTarget">.
-        /// If `false`, should trust <see cref="Screen"> API.
+        /// You can use it in any of your component that uses <see cref="INotchSimulatorTarget"/>.
+        /// 
+        /// - If `true`, should trust the values sent to <see cref="INotchSimulatorTarget"/>.
+        /// - If `false`, should trust <see cref="Screen"/> API because we detected something like
+        ///  [Device Simulator package](https://docs.unity3d.com/Packages/com.unity.device-simulator@latest/) is
+        /// controlling the <see cref="Screen"/> value and it is now useful in editor.
         /// </summary>
-        internal static bool ShouldUseNotchSimulatorValue
+        public static bool ShouldUseNotchSimulatorValue
         {
             get
             {
@@ -40,8 +47,8 @@ namespace E7.NotchSolution
         internal static bool safeAreaRelativeCached; 
 
         /// <summary>
-        /// Calculated from <see cref="Screen"> API without caring about simulated value.
-        /// Note that 2019.3 Unity Device Simulator can mock the <see cref="Screen"> so this is not
+        /// Calculated from <see cref="Screen"/> API without caring about simulated value.
+        /// Note that 2019.3 Unity Device Simulator can mock the <see cref="Screen"/> so this is not
         /// necessary real in editor.
         /// </summary>
         // TODO : Cache potential, but many pitfalls awaits so I have not done it.
@@ -77,8 +84,8 @@ namespace E7.NotchSolution
         internal static bool cutoutsRelativeCached;
 
         /// <summary>
-        /// Calculated from <see cref="Screen"> API without caring about simulated value.
-        /// Note that 2019.3 Unity Device Simulator can mock the <see cref="Screen"> so this is not
+        /// Calculated from <see cref="Screen"/> API without caring about simulated value.
+        /// Note that 2019.3 Unity Device Simulator can mock the <see cref="Screen"/> so this is not
         /// necessary real in editor.
         /// </summary>
         // TODO : Cache potential, but many pitfalls awaits so I have not done it.

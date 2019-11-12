@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace E7.NotchSolution
+namespace E7.NotchSolution.Editor
 {
     /// <summary>
     /// Please add more! [How to get device's safe area and cutouts](https://github.com/5argon/NotchSolution/issues/2).

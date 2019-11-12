@@ -1,10 +1,10 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace E7.NotchSolution
+namespace E7.NotchSolution.Editor
 {
     [CustomEditor(typeof(SafeAdaptation))]
-    public class SafeAdaptationDrawer : AdaptationBaseDrawer
+    internal class SafeAdaptationDrawer : AdaptationBaseDrawer
     {
         public override void OnInspectorGUI()
         {

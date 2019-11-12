@@ -8,7 +8,7 @@ using UnityEngine.Rendering;
 namespace E7.NotchSolution
 {
     [Serializable]
-    public class SimulationDevice
+    internal class SimulationDevice
     {
         public MetaData Meta;
         public ScreenData[] Screens;
@@ -21,7 +21,7 @@ namespace E7.NotchSolution
     }
 
     [Serializable]
-    public class MetaData
+    internal class MetaData
     {
         public string friendlyName;
         public string overlay;
@@ -32,7 +32,7 @@ namespace E7.NotchSolution
     }
 
     [Serializable]
-    public class ScreenData : ISerializationCallbackReceiver
+    internal class ScreenData : ISerializationCallbackReceiver
     {
         public int width;
         public int height;
@@ -60,14 +60,14 @@ namespace E7.NotchSolution
     }
 
     [Serializable]
-    public class OrientationDependentData
+    internal class OrientationDependentData
     {
         public Rect safeArea;
         public Rect[] cutouts;
     }
 
     [Serializable]
-    public class SystemInfoData
+    internal class SystemInfoData
     {
         public string deviceModel;
         public DeviceType deviceType;
@@ -87,7 +87,7 @@ namespace E7.NotchSolution
     }
 
     [Serializable]
-    public class GraphicsDependentSystemInfoData
+    internal class GraphicsDependentSystemInfoData
     {
         public GraphicsDeviceType graphicsDeviceType;
         public int graphicsMemorySize;

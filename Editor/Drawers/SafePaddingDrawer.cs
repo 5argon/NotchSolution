@@ -1,9 +1,9 @@
 using UnityEditor;
 
-namespace E7.NotchSolution
+namespace E7.NotchSolution.Editor
 {
     [CustomEditor(typeof(SafePadding))]
-    public class SafePaddingDrawer : Editor
+    internal class SafePaddingDrawer : UnityEditor.Editor
     {
         public override void OnInspectorGUI()
         {

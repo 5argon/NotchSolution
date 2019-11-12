@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace E7.NotchSolution
+namespace E7.NotchSolution.Editor
 {
     /// <summary>
     /// When switching platforms the list of aspect ratio index changes completely.

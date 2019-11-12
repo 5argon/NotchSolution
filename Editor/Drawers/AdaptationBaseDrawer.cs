@@ -2,11 +2,10 @@ using System.IO;
 using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
-using UnityEngine.UI;
 
-namespace E7.NotchSolution
+namespace E7.NotchSolution.Editor
 {
-    public class AdaptationBaseDrawer : Editor
+    internal class AdaptationBaseDrawer : UnityEditor.Editor
     {
         private void DrawGenButton(AdaptationBase ab, bool forPortrait)
         {
@@ -86,7 +85,7 @@ namespace E7.NotchSolution
         }
 
         /// <summary>
-        /// Draw the part of fields in <see cref="AdaptationBase">.
+        /// Draw the part of fields in <see cref="AdaptationBase"/>.
         /// </summary>
         //public static void Draw(SerializedObject serializedObject)
         public override void OnInspectorGUI()
