@@ -2,8 +2,8 @@
 using UnityEngine;
 using System.Linq;
 
-namespace E7.NotchSolution
+namespace E7.NotchSolution.Editor
 {
     [CustomPropertyDrawer(typeof(SupportedOrientations))]
-    public class SupportedOrientationsDrawer : EnumButtonsDrawer { }
+    internal class SupportedOrientationsDrawer : EnumButtonsDrawer { }
 }

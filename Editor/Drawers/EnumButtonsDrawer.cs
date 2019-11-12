@@ -1,12 +1,10 @@
 using UnityEditor;
 using UnityEngine;
 using System.Linq;
-using UnityEngine.UIElements;
-using UnityEditor.UIElements;
 
-namespace E7.NotchSolution
+namespace E7.NotchSolution.Editor
 {
-    public class EnumButtonsDrawer : PropertyDrawer
+    internal class EnumButtonsDrawer : PropertyDrawer
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {

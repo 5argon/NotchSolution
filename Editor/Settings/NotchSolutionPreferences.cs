@@ -4,9 +4,9 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace E7.NotchSolution
+namespace E7.NotchSolution.Editor
 {
-    public class NotchSolutionPreferences : SettingsProvider
+    internal class NotchSolutionPreferences : SettingsProvider
     {
 
         public NotchSolutionPreferences(string path, SettingsScope scopes, IEnumerable<string> keywords = null) : base(path, scopes, keywords)

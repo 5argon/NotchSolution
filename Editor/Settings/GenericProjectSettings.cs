@@ -1,29 +1,29 @@
 using System.IO;
 using UnityEngine;
 
-namespace E7.NotchSolution
+namespace E7.NotchSolution.Editor
 {
     /// <summary>
     /// Helper base class to handle IO between any Unity-serializable class and the ProjectSettings folder.
-    /// Uses Unity <see cref="JsonUtility"> with the class instance. A subclass of <see cref="ScriptableObject">
+    /// Uses Unity <see cref="JsonUtility"/> with the class instance. A subclass of <see cref="ScriptableObject"/>
     /// is not really needed but may increases compatibility with something like inspector editor code.
     /// </summary>
     /// <remarks>
-    /// I saw a public `UnityEditor.ScriptableSingleton<T>` with almost identical purpose except that `FilePathAttribute`
+    /// I saw a public `UnityEditor.ScriptableSingleton` with almost identical purpose except that `FilePathAttribute`
     /// required for it is `internal`. WHY??
     /// </remarks>
-    public abstract class GenericProjectSettings<T> where T : GenericProjectSettings<T>, new()
+    internal abstract class GenericProjectSettings<T> where T : GenericProjectSettings<T>, new()
     {
         /// <summary>
         /// Point this to a constant number. It allows you to deprecate the old serialized file and start over.
-        /// If file loaded has <see cref="SerializedVersion"> lower than this, the loaded instance will be
+        /// If file loaded has <see cref="SerializedVersion"/> lower than this, the loaded instance will be
         /// a new instance instead.
         /// </summary>
         protected abstract int DataVersion { get; }
 
         /// <summary>
         /// Point this to a field that is serialized. When loading back this can be used to compare with
-        /// <see cref="DataVersion"> if we should trust the serialized file or not.
+        /// <see cref="DataVersion"/> if we should trust the serialized file or not.
         /// </summary>
         protected abstract int SerializedVersion { get; set; }
 

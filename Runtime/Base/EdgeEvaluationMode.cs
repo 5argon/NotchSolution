@@ -14,7 +14,7 @@ namespace E7.NotchSolution
         On,
 
         /// <summary>
-        /// Like <see cref="On"> but also look at the opposite edge, 
+        /// Like <see cref="On"/> but also look at the opposite edge, 
         /// if the value reported is higher on the other side, assume that value instead.
         /// </summary>
         Balanced,

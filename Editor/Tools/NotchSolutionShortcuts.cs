@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEditor.ShortcutManagement;
 using UnityEngine;
 
-namespace E7.NotchSolution
+namespace E7.NotchSolution.Editor
 {
     internal static class NotchSolutionShortcuts
     {

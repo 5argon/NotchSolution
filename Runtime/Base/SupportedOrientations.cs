@@ -1,6 +1,6 @@
 ﻿namespace E7.NotchSolution
 {
-    public enum SupportedOrientations
+    internal enum SupportedOrientations
     {
         /// <summary>
         /// The game is fixed on only portrait or landscape. Device rotation maybe possible to rotate 180 degree to the opposite side.

@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-namespace E7.NotchSolution
+namespace E7.NotchSolution.Editor
 {
     [Serializable]
     internal class Settings : GenericProjectSettings<Settings>
@@ -42,7 +42,7 @@ namespace E7.NotchSolution
         }
 
         /// <summary>
-        /// Cause <see cref="ActiveConfiguration"> to go forward or wrap around to the first one when it can't.
+        /// Cause <see cref="ActiveConfiguration"/> to go forward or wrap around to the first one when it can't.
         /// </summary>
         public NotchSimulatorConfiguration NextConfiguration()
         {

@@ -13,14 +13,14 @@ using UnityEditor.ShortcutManagement;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace E7.NotchSolution
+namespace E7.NotchSolution.Editor
 {
     /// <summary>
-    /// Notch Solution components can receive simulated device values in editor from this instead of the usual <see cref="Screen"> API.
+    /// Notch Solution components can receive simulated device values in editor from this instead of the usual <see cref="Screen"/> API.
     /// 
-    /// Also the mockup overlay is provided by an invisible full screen canvas game object with <see cref="HideFlags.HideAndDontSave">.
+    /// Also the mockup overlay is provided by an invisible full screen canvas game object with <see cref="HideFlags.HideAndDontSave"/>.
     /// </summary>
-    public class NotchSimulator : EditorWindow, IHasCustomMenu, IPreprocessBuildWithReport //For bugfix hack
+    internal class NotchSimulator : EditorWindow, IHasCustomMenu, IPreprocessBuildWithReport //For bugfix hack
     {
         private static NotchSimulator win;
         Vector2 gameviewResolution;
@@ -190,7 +190,7 @@ namespace E7.NotchSolution
         }
 
         /// <summary>
-        /// Get all <see cref="INotchSimulatorTarget"> and update them.
+        /// Get all <see cref="INotchSimulatorTarget"/> and update them.
         /// </summary>
         internal static void UpdateSimulatorTargets()
         {

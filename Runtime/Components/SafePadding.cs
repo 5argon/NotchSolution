@@ -5,8 +5,8 @@ using UnityEngine;
 namespace E7.NotchSolution
 {
     /// <summary>
-    /// Make the <see cref="RectTransform"> of object with this component driven into full stretch to its immediate parent, 
-    /// then apply padding according to device's reported <see cref="Screen.safeArea">.
+    /// Make the <see cref="RectTransform"/> of object with this component driven into full stretch to its immediate parent, 
+    /// then apply padding according to device's reported <see cref="Screen.safeArea"/>.
     /// Therefore makes an area inside this object safe for input-receiving components.
     /// 
     /// Then it is possible to make other objects safe area responsive by anchoring thier positions to this object's edges while being a child object.
@@ -15,10 +15,10 @@ namespace E7.NotchSolution
     /// Safe area defines an area on the phone's screen where it is safe to place your game-related input receiving components without colliding with
     /// other on-screen features on the phone. Usually this means it is also "visually safe" as all possible notches should be outside of safe area.
     /// 
-    /// The amount of padding is a <see cref="Screen.safeArea"> interpolated into <see cref="RectTransform"> of root <see cref="Canvas"> found traveling up from this object.
+    /// The amount of padding is a <see cref="Screen.safeArea"/> interpolated into <see cref="RectTransform"/> of root <see cref="Canvas"/> found traveling up from this object.
     /// 
     /// It should be a direct child of top canvas, or deeper child of some similarly full stretch rect in order to look right,
-    /// although in reality it just pad in the shape of <see cref="Screen.safeArea"> regardless of its parent rectangle size.
+    /// although in reality it just pad in the shape of <see cref="Screen.safeArea"/> regardless of its parent rectangle size.
     /// </remarks>
     [DisallowMultipleComponent]
     [RequireComponent(typeof(RectTransform))]

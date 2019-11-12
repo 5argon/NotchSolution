@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.8.0] - 2019-10-24
+## [1.8.0] - 2019-10-30
 
 ## Added
 - Configuration system : you are given 2 configurations for each build platform. In each one it can remember its own overlay. This is used in a workflow where you constantly check between two extreme setups (e.g. iPhone - iPad) while iterating on the game UI.
