@@ -10,7 +10,7 @@ namespace E7.NotchSolution
     /// By default, the curve is setup so that lower aspect ratio (wider screen) is "normal" and higher number (narrower screen) is "adapted".
     /// So the leftmost node in the curve represents a device like an iPad.
     /// </remarks>
-    [HelpURL("https://github.com/5argon/NotchSolution/blob/master/.Documentation/Components/AdaptationComponents.md#-aspectratioadaptation")]
+    [HelpURL("http://exceed7.com/notch-solution/components/adaptation/aspect-ratio-adaptation.html")]
     public class AspectRatioAdaptation : AdaptationBase
     {
         /// <inheritdoc/>

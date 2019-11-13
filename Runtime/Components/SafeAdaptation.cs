@@ -26,7 +26,7 @@ namespace E7.NotchSolution
     /// In edit mode, it also apply on notch simulator update. So it is almost like the adaptation always lock your fields. 
     /// In real play it is possible to adjust these adapted fields later freely since it's only on `Start`.
     /// </remarks>
-    [HelpURL("https://github.com/5argon/NotchSolution/blob/master/.Documentation/Components/AdaptationComponents.md#-safeadaptation")]
+    [HelpURL("http://exceed7.com/notch-solution/components/adaptation/safe-adaptation.html")]
     public class SafeAdaptation : AdaptationBase
     {
 #pragma warning disable 0649

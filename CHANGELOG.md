@@ -1,17 +1,28 @@
 # Changelog
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.9.0] - Unreleased
+
+### Changed
+
+- Massive documentation structure change. They are now able to be used with [DocFx](https://dotnet.github.io/docfx/) while still quite readable from code editor. (But instead we could make a static site or even a PDF now.)
+- XML triple slash code comments update across all files so DocFx could generate an online documentation correctly.
+- Access modifiers revised, many wrong `public` are now properly `internal` for example. It also make DocFx generates only what the user should care about. If you were using some of those wrong `public` your code may break, however.
+
 ## [1.8.0] - 2019-10-30
 
-## Added
+### Added
+
 - Configuration system : you are given 2 configurations for each build platform. In each one it can remember its own overlay. This is used in a workflow where you constantly check between two extreme setups (e.g. iPhone - iPad) while iterating on the game UI.
 - It now use asset file in `ProjectSettings` instead of `EditorPrefs`. Settings is now persisted per-project. Code related to `EditorPrefs` has been refactored everywhere.
 - Device database migrated to definition file based in the same format as Unity Device Simulator package in 2019.3 is using. (Contributed by [06Games](https://github.com/06Games))
 
-## Removed
+### Removed
+
 - Alt+M to switch Game View between 2 settings has been removed along with `EditorPrefs`. This funtionality will be added back to the new configuration system later.
 
 ## [1.7.0] - 2019-10-24
@@ -49,7 +60,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-![preference](.Documentation/images/pref.png)
+![preference](.documentation/simulator/images/pref.png)
 
 - Preference item added under "Notch Solution". You can adjust overlay color of prefab mode there.
 - New shortcut to quick switch between 2 Game view aspect ratio. Set this up in the preference menu. This is ideal for mobile development where if you could ensure that narrowest and widest screen looks nice, everything in-between should also work.

@@ -22,7 +22,7 @@ namespace E7.NotchSolution
     /// </remarks>
     [DisallowMultipleComponent]
     [RequireComponent(typeof(RectTransform))]
-    [HelpURL("https://github.com/5argon/NotchSolution/blob/master/.Documentation/Components/SafePadding.md")]
+    [HelpURL("http://exceed7.com/notch-solution/components/ui-behaviour/safe-padding.html")]
     public class SafePadding : NotchSolutionUIBehaviourBase
     {
 #pragma warning disable 0649
