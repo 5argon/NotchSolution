@@ -2,7 +2,7 @@
 
 ![screenshot](images/notch-simulator.png)
 
-Many of Notch Solution's [component](../components/index.md) rely on [`Screen` API](https://docs.unity3d.com/ScriptReference/Screen.html), which the value such as `safeArea` or `cutouts` are not useful until in runtime.
+Many of Notch Solution's [component](../components/overview.md) rely on [`Screen` API](https://docs.unity3d.com/ScriptReference/Screen.html), which the value such as `safeArea` or `cutouts` are not useful until in runtime.
 
 - Notch Simulator helps tell those components (which are all `INotchSimulatorTarget`) a simulated safe area and cutouts for use at design time. You will see them adapt immediately on toggling on-off the simulator or changing devices so you can iterate your UI design.
 - It also shows an overlay of respective device to help you better picture the obstacles on the screen.
@@ -37,7 +37,7 @@ If you found some bugs or want to mess with the code this should be helpful :
 - Portrait or landscape orientation is determined from width vs height of the current game view's size. The overlay will be flipped accordingly.
 - All `INotchSimulatorTarget` found will be sent a simulated `Rect` of `safeArea` and `Rect[]` of `cutouts`. You can keep the data in the component to use it later.
 
-The overlay is also useful for aiming roughly what can fit in the corner around the notch, because you can see the notch's width and also rounded corner visually where safe area does not cover such information. (Safe area is a rectangle.) Although please note that Apple advise agaist intentionally trying to design on that gap.
+The overlay is also useful for aiming roughly what can fit in the corner around the notch, because you can see the notch's width and also rounded corner visually where safe area does not cover such information. (Safe area is a rectangle.) Although please note that Apple advise against intentionally trying to design on that gap.
 
 ## Preferences
 

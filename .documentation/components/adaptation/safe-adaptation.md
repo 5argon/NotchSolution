@@ -1,4 +1,4 @@
-## <img src="../../../Icons/SafeAreaAdaptationIcon.png" width="30"> Safe Adaptation
+# <img src="../../../Icons/SafeAreaAdaptationIcon.png" width="30"> Safe Adaptation
 
 This is like `AspectRatioAdaptation` but this time, the time value to evaluate the Playable graph is a **relative screen space taken** by a **single side** of safe area.
 

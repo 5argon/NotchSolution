@@ -54,9 +54,9 @@ Also the remarks about matching insets, it is exactly what `SafeBalanced` mode c
 
 ![cutout problem 1](images/cutout-problem-1.jpg)
 
-When using `SafePadding` you may face this dilemma : It already looks nice on iPhone X because the UI stays in the "hole" made by that center notch. You could say it says "unsafe" because it is out of `safeArea` reported, but luckily it survives the notch. So you **skip** using `SafePadding` on it.
+When using `SafePadding` you may face this dilemma : It already looks nice on iPhone X because the UI stays in the "hole" made by that center notch. You could say it is "unsafe" because it is out of `safeArea` reported, but luckily it survives the notch. So you **skip** using `SafePadding` on it. No device will probably have any bigger notch than iPhone X anyways, or so you thought.
 
-However you forgot a device like Galaxy S10+ exists, which put a notch at the location you thought staying unsafe is probably fine. Now the hole punched through and you want to use `SafePadding` to move it down. However now on iPhone X it is also moved down, that hole looks like a wasted opportunity for something to be there.
+However you forgot a device like Galaxy S10+ exists. Thanks Samsung! Which put a notch at the location you thought staying unsafe is probably fine. Now the hole punched through and you want to use `SafePadding` to move it down. However by doing so now on iPhone X it is also moved down, that hole looks like a wasted opportunity for something to be there.
 
 ![cutout problem 2](images/cutout-problem-2.jpg)
 

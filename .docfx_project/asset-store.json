@@ -1,0 +1,20 @@
+{
+    "getitList": [
+        {
+            "name": "Asset Store (coming soon)"
+        },
+        {
+            "name": "GitHub",
+            "link": "https://github.com/5argon/NotchSolution"
+        }
+    ],
+    "contactList": [
+        {
+            "name": "5argon@exceed7.com"
+        },
+        {
+            "name": "Discord",
+            "link": "https://discord.gg/J4sCcj4"
+        }
+    ]
+}

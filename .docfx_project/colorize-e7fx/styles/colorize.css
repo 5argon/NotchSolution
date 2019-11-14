@@ -1,0 +1,118 @@
+code
+{
+    color:#5d307d;
+    background: linear-gradient(90deg, rgba(201, 174, 255, 0.15) 0%, rgba(255, 200, 236, 0.15) 100%);
+}
+
+
+.cross-promotion-row .cross-promotion-item + .cross-promotion-item:before
+{
+    color: #f9e0a7;
+}
+
+button,
+a,
+a code,
+.toc .nav > li.active > a,
+.affix ul > li.active > a,
+.affix ul > li.active > a:before,
+.affix > ul > li.active > a,
+.affix > ul > li.active > a:before
+{
+  color: #ea1616;
+}
+
+button:hover,
+button:focus,
+a:hover,
+a:focus,
+a code:hover,
+a code:focus,
+.toc .nav > li.active > a:hover,
+.toc .nav > li.active > a:focus 
+ {
+  color:#821111;
+}
+
+.navbar-inverse {
+    background-color: white;
+    border-color: #a55a33;
+}
+
+.navbar-default {
+   background-color: #fbf6f4;
+   border-color: #efe1dc;
+}
+
+.navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.active>a:focus, .navbar-inverse .navbar-nav>.active>a:hover {
+    color: #fff;
+    background-color: #523434;
+}
+
+.navbar-inverse .navbar-nav>li>a:focus, .navbar-inverse .navbar-nav>li>a:hover {
+    color: #b95454;
+}
+
+.navbar-inverse .navbar-nav>li>a, .navbar-inverse .navbar-text {
+    color: #986262;
+}
+
+.navbar-nav>li:last-child>a::before{
+    content: "♥ ";
+}
+
+.navbar-inverse .navbar-toggle .icon-bar {
+    background-color: #131010;
+}
+
+.navbar-inverse .navbar-toggle:focus, .navbar-inverse .navbar-toggle:hover {
+    background-color: #e27373;
+}
+
+.breadcrumb li a
+{
+    color: #b99090;
+}
+
+.breadcrumb li a:hover,
+.breadcrumb li a:focus
+{
+    color:#e9b9b9
+}
+
+.breadcrumb > li + li:before {
+    color:#b85a5a;
+}
+
+.toc .nav > li > .expand-stub::before, .toc .nav > li.active > .expand-stub::before {
+    color:#330192;
+}
+
+.tryspan:hover {
+  background-color: #3b8bd0;
+  color: white;
+  border-color: #3b8bd0;
+}
+
+#toc, .cross-promotion, .gradient-box
+{
+  border-image: conic-gradient(#ffcb17, #f14325, #ff002f, #f044ff, #2828d4, #ffbfb1, #ffcb17) 1;
+}
+
+.tabGroup a[role="tab"]:hover, .tabGroup a[role="tab"]:focus, .tabGroup a[role="tab"][aria-selected="true"] {
+    border-bottom: 2px solid #0050C5; }
+.tabGroup a[role="tab"][aria-selected="true"] {
+    color: #222; }
+.tabGroup a[role="tab"]:hover, .tabGroup a[role="tab"]:focus {
+    color: #0050C5; }
+.tabGroup a[role="tab"]:focus {
+    outline: 1px solid #0050C5;
+    outline-offset: -1px; }
+
+a.disable,
+a.disable:hover 
+a code.disable,
+a code.disable:hover 
+{
+  color: #000000;
+}

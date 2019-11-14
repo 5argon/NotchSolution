@@ -1,0 +1,12 @@
+- name: Components
+  href: components/
+- name: Simulator
+  href: simulator/
+- name: How-to
+  href: how-to/index.md
+- name: API
+  href: api/
+- name: Changelog
+  href: ../CHANGELOG.md
+- name: Get Notch Soution
+  href: https://github.com/5argon/NotchSolution

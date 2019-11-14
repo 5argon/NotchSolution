@@ -11,25 +11,20 @@
       ],
       "dest": "../.documentation/api",
       "disableGitFeatures": true,
-      "disableDefaultFilter": false
+      "disableDefaultFilter": false,
+      "filter": "filterConfig.yml"
     }
   ],
   "build": {
     "content": [
       {
-        "src" : "..",
+        "src": "..",
         "files": [
           "CHANGELOG.md"
         ]
       },
       {
-        "files": [
-          "api/*.yml"
-        ],
-        "dest" : "api"
-      },
-      {
-        "src" : "../.documentation",
+        "src": "../.documentation",
         "files": [
           "*.md",
           "*.yml",
@@ -40,29 +35,45 @@
     ],
     "resource": [
       {
-        "src" : "../.documentation",
+        "files": [
+          "logo.png",
+          "splashImage.png",
+          "ogimage.png"
+        ]
+      },
+      {
+        "src": "../.documentation",
         "files": [
           "**/images/*"
         ]
       },
       {
-        "src" : "../",
+        "src": "../",
         "files": [
           "Icons/*"
         ]
       }
     ],
     "dest": "_site",
-    "globalMetadataFiles": [],
-    "fileMetadataFiles": [],
+    "globalMetadataFiles": [
+      "global.json",
+      "asset-store.json",
+      "/Users/Sargon/Documents/5argon Work/e7fx/cross-promotion.json",
+      "/Users/Sargon/Documents/5argon Work/e7fx/global.json"
+    ],
+    "fileMetadataFiles": [
+      "/Users/Sargon/Documents/5argon Work/e7fx/file.json"
+    ],
     "template": [
-      "default"
+      "default",
+      "/Users/Sargon/Documents/5argon Work/e7fx",
+      "colorize-e7fx"
     ],
     "postProcessors": [],
     "markdownEngineName": "markdig",
     "noLangKeyword": false,
     "keepFileLink": false,
     "cleanupCacheHistory": false,
-    "disableGitFeatures": true 
+    "disableGitFeatures": true
   }
 }

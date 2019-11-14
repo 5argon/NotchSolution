@@ -1,5 +1,5 @@
 - name: Overview
-  href: index.md
+  href: overview.md
 - name: UIBehaviour Components
   href: ui-behaviour/toc.md
   homepage: ui-behaviour/ui-behaviour-components.md

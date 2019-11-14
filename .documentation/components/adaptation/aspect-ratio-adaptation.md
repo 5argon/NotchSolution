@@ -1,4 +1,4 @@
-## <img src="../../../Icons/AspectRatioAdaptationIcon.png" width="30"> Aspect Ratio Adaptation
+# <img src="../../../Icons/AspectRatioAdaptationIcon.png" width="30"> Aspect Ratio Adaptation
 
 An adaptation where the time value for the adaptation curve came from screen aspect ratio number. The number is always assumed to be width/height regardless of game's orientation, so for example, it is always 1.3333 (4/3) for iPad. You could use this to **indirectly** fix notch problem, without knowing if the notch exists or not. (Things respond to aspect ratio and not the notch.)
 

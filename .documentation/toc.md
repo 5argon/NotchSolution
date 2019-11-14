@@ -1,6 +1,0 @@
-# [Introduction](index.md)
-# [Changelog](../CHANGELOG.md)
-# [Components](components/)
-# [Simulator](simulator/)
-# [How-to](how-to/index.md)
-# [API Documentation](api/)
