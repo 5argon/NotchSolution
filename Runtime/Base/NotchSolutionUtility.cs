@@ -1,7 +1,4 @@
-﻿#if UNITY_EDITOR
-#endif
-
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace E7.NotchSolution
 {
@@ -68,8 +65,9 @@ namespace E7.NotchSolution
 
         private static Rect ToScreenRelativeRect(Rect absoluteRect)
         {
-            int w = Screen.width;
-            int h = Screen.height;
+            int w = Screen.currentResolution.width;
+            int h = Screen.currentResolution.height;
+            //Debug.Log($"{w} {h} {Screen.currentResolution} {absoluteRect}");
             return new Rect(
                 absoluteRect.x / w,
                 absoluteRect.y / h,

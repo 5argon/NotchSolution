@@ -1,6 +1,6 @@
 # Notch Simulator
 
-![screenshot](images/notch-simulator.png)
+![Notch Simulator](images/notch-simulator.png)
 
 Many of Notch Solution's [component](../components/overview.md) rely on [`Screen` API](https://docs.unity3d.com/ScriptReference/Screen.html), which the value such as `safeArea` or `cutouts` are not useful until in runtime.
 

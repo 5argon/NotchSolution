@@ -7,11 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.9.0] - Unreleased
 
+### Added
+
+- New dedicated website http://exceed7.com/notch-solution which sync with offline `.documentation` hidden folder of this package.
+
 ### Changed
 
 - Massive documentation structure change. They are now able to be used with [DocFx](https://dotnet.github.io/docfx/) while still quite readable from code editor. (But instead we could make a static site or even a PDF now.)
 - XML triple slash code comments update across all files so DocFx could generate an online documentation correctly.
 - Access modifiers revised, many wrong `public` are now properly `internal` for example. It also make DocFx generates only what the user should care about. If you were using some of those wrong `public` your code may break, however.
+
+### Fixed
+
+- Fixed a problem that Device Simulator was simulating `Screen.currentResolution` instead of `Screen.width/height` and Notch Solution components were looking to `Screen.width/height` and getting wrong modifications.
 
 ## [1.8.0] - 2019-10-30
 

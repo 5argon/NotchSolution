@@ -1,8 +1,8 @@
 # Integration with Unity Device Simulator
 
-![Device simulator presentation](images/device-simulator.png)
 
-- Watch the [Unite Copenhagen 2019 talk](https://youtu.be/KFJcMG3mlDA?t=720).
+![Device simulator integration](images/device-simulator-integration.png)
+
 - [Unity Device Simulator Package](https://docs.unity3d.com/Packages/com.unity.device-simulator@latest/) UPM page.
 
 This package augments a **secondary `GameView`**, there is a new drop down added to your Game tab. When in this new "Simulator" `GameView`, the `Screen` and `SystemInfo` API will change depending on selected device. Therefore anything that relies on `Screen` or `SystemInfo` could be realistically presented in editor.
@@ -10,6 +10,10 @@ This package augments a **secondary `GameView`**, there is a new drop down added
 Also it comes with several overlays, which goes beyond the device screen to an actual device's edge. (Unlike Notch Simulator which is only the screen area.) It has more tricks than that, including simulating device temperature, etc. It is a very complete package.
 
 Both "more than 1 `GameView`" and the `Screen`/`SystemInfo` hacking from inside-out are only available after 2019.3 in the engine code if you look at [UnityCsReference](https://github.com/Unity-Technologies/UnityCsReference/). You cannot use this package before this version.
+
+![Device simulator presentation](images/device-simulator.png)
+
+- Watch the [Unite Copenhagen 2019 talk](https://youtu.be/KFJcMG3mlDA?t=720).
 
 ## So it supercede Notch Solution?
 
@@ -21,7 +25,17 @@ So the "integration" is basically, there is a code to detect that if the current
 
 ## So it supercede Notch *Simulator*?
 
-Uh, yes. But wait : 
+```
+ ___________________
+( am I useless now? )
+ -------------------
+        \  
+         \ 
+```
+
+![Notch Simulator](images/notch-simulator.png)
+
+But wait : 
 
 - If you are before 2019.3 then you cannot use that package.
 - The overlay is drawn on the Game tab with a shader. It doesn't exist on Scene tab unlike our "hacky" [full screen hidden `Canvas` approach](notch-simulator.md). If you want to see the overlay in Scene tab too then you can still find Notch Simulator useful.

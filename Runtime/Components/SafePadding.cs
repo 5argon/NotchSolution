@@ -1,6 +1,9 @@
 ﻿//#define DEBUG_NOTCH_SOLUTION
 
 using UnityEngine;
+#if DEBUG_NOTCH_SOLUTION
+using System.Linq;
+#endif
 
 namespace E7.NotchSolution
 {
