@@ -1,0 +1,399 @@
+### YamlMime:ManagedReference
+items:
+- uid: E7.NotchSolution.SafePadding
+  commentId: T:E7.NotchSolution.SafePadding
+  id: SafePadding
+  parent: E7.NotchSolution
+  children: []
+  langs:
+  - csharp
+  - vb
+  name: SafePadding
+  nameWithType: SafePadding
+  fullName: E7.NotchSolution.SafePadding
+  type: Class
+  source:
+    id: SafePadding
+    path: /Users/Sargon/Documents/Unity Projects/Open Sources/NotchSolution/Assets/NotchSolution/Runtime/Components/SafePadding.cs
+    startLine: 22
+  assemblies:
+  - E7.NotchSolution
+  namespace: E7.NotchSolution
+  summary: "\nMake the <xref href=\"UnityEngine.RectTransform\" data-throw-if-not-resolved=\"false\"></xref> of object with this component driven into full stretch to its immediate parent, \nthen apply padding according to device&apos;s reported <xref href=\"UnityEngine.Screen.safeArea\" data-throw-if-not-resolved=\"false\"></xref>.\nTherefore makes an area inside this object safe for input-receiving components.\n\nThen it is possible to make other objects safe area responsive by anchoring thier positions to this object&apos;s edges while being a child object.\n"
+  remarks: "\nSafe area defines an area on the phone&apos;s screen where it is safe to place your game-related input receiving components without colliding with\nother on-screen features on the phone. Usually this means it is also &quot;visually safe&quot; as all possible notches should be outside of safe area.\n\nThe amount of padding is a <xref href=\"UnityEngine.Screen.safeArea\" data-throw-if-not-resolved=\"false\"></xref> interpolated into <xref href=\"UnityEngine.RectTransform\" data-throw-if-not-resolved=\"false\"></xref> of root <xref href=\"UnityEngine.Canvas\" data-throw-if-not-resolved=\"false\"></xref> found traveling up from this object.\n\nIt should be a direct child of top canvas, or deeper child of some similarly full stretch rect in order to look right,\nalthough in reality it just pad in the shape of <xref href=\"UnityEngine.Screen.safeArea\" data-throw-if-not-resolved=\"false\"></xref> regardless of its parent rectangle size.\n"
+  example: []
+  syntax:
+    content: >-
+      [DisallowMultipleComponent]
+
+      [RequireComponent(typeof(RectTransform))]
+
+      [HelpURL("http://exceed7.com/notch-solution/components/ui-behaviour/safe-padding.html")]
+
+      public class SafePadding : NotchSolutionUIBehaviourBase, ILayoutSelfController, ILayoutController, INotchSimulatorTarget
+    content.vb: >-
+      <DisallowMultipleComponent>
+
+      <RequireComponent(GetType(RectTransform))>
+
+      <HelpURL("http://exceed7.com/notch-solution/components/ui-behaviour/safe-padding.html")>
+
+      Public Class SafePadding
+          Inherits NotchSolutionUIBehaviourBase
+          Implements ILayoutSelfController, ILayoutController, INotchSimulatorTarget
+  inheritance:
+  - System.Object
+  - UnityEngine.Object
+  - UnityEngine.Component
+  - UnityEngine.Behaviour
+  - UnityEngine.MonoBehaviour
+  - UnityEngine.EventSystems.UIBehaviour
+  - E7.NotchSolution.NotchSolutionUIBehaviourBase
+  implements:
+  - UnityEngine.UI.ILayoutSelfController
+  - UnityEngine.UI.ILayoutController
+  - E7.NotchSolution.INotchSimulatorTarget
+  inheritedMembers:
+  - E7.NotchSolution.NotchSolutionUIBehaviourBase.E7#NotchSolution#INotchSimulatorTarget#SimulatorUpdate(UnityEngine.Rect,UnityEngine.Rect[])
+  - E7.NotchSolution.NotchSolutionUIBehaviourBase.SafeAreaRelative
+  - E7.NotchSolution.NotchSolutionUIBehaviourBase.OnEnable
+  - E7.NotchSolution.NotchSolutionUIBehaviourBase.OnDisable
+  - E7.NotchSolution.NotchSolutionUIBehaviourBase.OnRectTransformDimensionsChange
+  - E7.NotchSolution.NotchSolutionUIBehaviourBase.UnityEngine#UI#ILayoutController#SetLayoutHorizontal
+  - E7.NotchSolution.NotchSolutionUIBehaviourBase.UnityEngine#UI#ILayoutController#SetLayoutVertical
+  attributes:
+  - type: UnityEngine.DisallowMultipleComponent
+    ctor: UnityEngine.DisallowMultipleComponent.#ctor
+    arguments: []
+  - type: UnityEngine.HelpURLAttribute
+    ctor: UnityEngine.HelpURLAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: http://exceed7.com/notch-solution/components/ui-behaviour/safe-padding.html
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+references:
+- uid: UnityEngine.RectTransform
+  commentId: T:UnityEngine.RectTransform
+  isExternal: true
+- uid: UnityEngine.Screen.safeArea
+  commentId: P:UnityEngine.Screen.safeArea
+  isExternal: true
+- uid: UnityEngine.Canvas
+  commentId: T:UnityEngine.Canvas
+  isExternal: true
+- uid: E7.NotchSolution
+  commentId: N:E7.NotchSolution
+  name: E7.NotchSolution
+  nameWithType: E7.NotchSolution
+  fullName: E7.NotchSolution
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: UnityEngine.Object
+  commentId: T:UnityEngine.Object
+  parent: UnityEngine
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: UnityEngine.Object
+- uid: UnityEngine.Component
+  commentId: T:UnityEngine.Component
+  parent: UnityEngine
+  isExternal: true
+  name: Component
+  nameWithType: Component
+  fullName: UnityEngine.Component
+- uid: UnityEngine.Behaviour
+  commentId: T:UnityEngine.Behaviour
+  parent: UnityEngine
+  isExternal: true
+  name: Behaviour
+  nameWithType: Behaviour
+  fullName: UnityEngine.Behaviour
+- uid: UnityEngine.MonoBehaviour
+  commentId: T:UnityEngine.MonoBehaviour
+  parent: UnityEngine
+  isExternal: true
+  name: MonoBehaviour
+  nameWithType: MonoBehaviour
+  fullName: UnityEngine.MonoBehaviour
+- uid: UnityEngine.EventSystems.UIBehaviour
+  commentId: T:UnityEngine.EventSystems.UIBehaviour
+  parent: UnityEngine.EventSystems
+  isExternal: true
+  name: UIBehaviour
+  nameWithType: UIBehaviour
+  fullName: UnityEngine.EventSystems.UIBehaviour
+- uid: E7.NotchSolution.NotchSolutionUIBehaviourBase
+  commentId: T:E7.NotchSolution.NotchSolutionUIBehaviourBase
+  parent: E7.NotchSolution
+  name: NotchSolutionUIBehaviourBase
+  nameWithType: NotchSolutionUIBehaviourBase
+  fullName: E7.NotchSolution.NotchSolutionUIBehaviourBase
+- uid: UnityEngine.UI.ILayoutSelfController
+  commentId: T:UnityEngine.UI.ILayoutSelfController
+  parent: UnityEngine.UI
+  isExternal: true
+  name: ILayoutSelfController
+  nameWithType: ILayoutSelfController
+  fullName: UnityEngine.UI.ILayoutSelfController
+- uid: UnityEngine.UI.ILayoutController
+  commentId: T:UnityEngine.UI.ILayoutController
+  parent: UnityEngine.UI
+  isExternal: true
+  name: ILayoutController
+  nameWithType: ILayoutController
+  fullName: UnityEngine.UI.ILayoutController
+- uid: E7.NotchSolution.INotchSimulatorTarget
+  commentId: T:E7.NotchSolution.INotchSimulatorTarget
+  parent: E7.NotchSolution
+  name: INotchSimulatorTarget
+  nameWithType: INotchSimulatorTarget
+  fullName: E7.NotchSolution.INotchSimulatorTarget
+- uid: E7.NotchSolution.NotchSolutionUIBehaviourBase.E7#NotchSolution#INotchSimulatorTarget#SimulatorUpdate(UnityEngine.Rect,UnityEngine.Rect[])
+  commentId: M:E7.NotchSolution.NotchSolutionUIBehaviourBase.E7#NotchSolution#INotchSimulatorTarget#SimulatorUpdate(UnityEngine.Rect,UnityEngine.Rect[])
+  parent: E7.NotchSolution.NotchSolutionUIBehaviourBase
+  isExternal: true
+  name: INotchSimulatorTarget.SimulatorUpdate(Rect, Rect[])
+  nameWithType: NotchSolutionUIBehaviourBase.INotchSimulatorTarget.SimulatorUpdate(Rect, Rect[])
+  fullName: E7.NotchSolution.NotchSolutionUIBehaviourBase.E7.NotchSolution.INotchSimulatorTarget.SimulatorUpdate(UnityEngine.Rect, UnityEngine.Rect[])
+  nameWithType.vb: NotchSolutionUIBehaviourBase.E7.NotchSolution.INotchSimulatorTarget.SimulatorUpdate(Rect, Rect())
+  fullName.vb: E7.NotchSolution.NotchSolutionUIBehaviourBase.E7.NotchSolution.INotchSimulatorTarget.SimulatorUpdate(UnityEngine.Rect, UnityEngine.Rect())
+  name.vb: E7.NotchSolution.INotchSimulatorTarget.SimulatorUpdate(Rect, Rect())
+  spec.csharp:
+  - uid: E7.NotchSolution.NotchSolutionUIBehaviourBase.E7#NotchSolution#INotchSimulatorTarget#SimulatorUpdate(UnityEngine.Rect,UnityEngine.Rect[])
+    name: INotchSimulatorTarget.SimulatorUpdate
+    nameWithType: NotchSolutionUIBehaviourBase.INotchSimulatorTarget.SimulatorUpdate
+    fullName: E7.NotchSolution.NotchSolutionUIBehaviourBase.E7.NotchSolution.INotchSimulatorTarget.SimulatorUpdate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Rect
+    name: Rect
+    nameWithType: Rect
+    fullName: UnityEngine.Rect
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.Rect
+    name: Rect
+    nameWithType: Rect
+    fullName: UnityEngine.Rect
+    isExternal: true
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: E7.NotchSolution.NotchSolutionUIBehaviourBase.E7#NotchSolution#INotchSimulatorTarget#SimulatorUpdate(UnityEngine.Rect,UnityEngine.Rect[])
+    name: E7.NotchSolution.INotchSimulatorTarget.SimulatorUpdate
+    nameWithType: NotchSolutionUIBehaviourBase.E7.NotchSolution.INotchSimulatorTarget.SimulatorUpdate
+    fullName: E7.NotchSolution.NotchSolutionUIBehaviourBase.E7.NotchSolution.INotchSimulatorTarget.SimulatorUpdate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Rect
+    name: Rect
+    nameWithType: Rect
+    fullName: UnityEngine.Rect
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.Rect
+    name: Rect
+    nameWithType: Rect
+    fullName: UnityEngine.Rect
+    isExternal: true
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: E7.NotchSolution.NotchSolutionUIBehaviourBase.SafeAreaRelative
+  commentId: P:E7.NotchSolution.NotchSolutionUIBehaviourBase.SafeAreaRelative
+  parent: E7.NotchSolution.NotchSolutionUIBehaviourBase
+  name: SafeAreaRelative
+  nameWithType: NotchSolutionUIBehaviourBase.SafeAreaRelative
+  fullName: E7.NotchSolution.NotchSolutionUIBehaviourBase.SafeAreaRelative
+- uid: E7.NotchSolution.NotchSolutionUIBehaviourBase.OnEnable
+  commentId: M:E7.NotchSolution.NotchSolutionUIBehaviourBase.OnEnable
+  parent: E7.NotchSolution.NotchSolutionUIBehaviourBase
+  name: OnEnable()
+  nameWithType: NotchSolutionUIBehaviourBase.OnEnable()
+  fullName: E7.NotchSolution.NotchSolutionUIBehaviourBase.OnEnable()
+  spec.csharp:
+  - uid: E7.NotchSolution.NotchSolutionUIBehaviourBase.OnEnable
+    name: OnEnable
+    nameWithType: NotchSolutionUIBehaviourBase.OnEnable
+    fullName: E7.NotchSolution.NotchSolutionUIBehaviourBase.OnEnable
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: E7.NotchSolution.NotchSolutionUIBehaviourBase.OnEnable
+    name: OnEnable
+    nameWithType: NotchSolutionUIBehaviourBase.OnEnable
+    fullName: E7.NotchSolution.NotchSolutionUIBehaviourBase.OnEnable
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: E7.NotchSolution.NotchSolutionUIBehaviourBase.OnDisable
+  commentId: M:E7.NotchSolution.NotchSolutionUIBehaviourBase.OnDisable
+  parent: E7.NotchSolution.NotchSolutionUIBehaviourBase
+  name: OnDisable()
+  nameWithType: NotchSolutionUIBehaviourBase.OnDisable()
+  fullName: E7.NotchSolution.NotchSolutionUIBehaviourBase.OnDisable()
+  spec.csharp:
+  - uid: E7.NotchSolution.NotchSolutionUIBehaviourBase.OnDisable
+    name: OnDisable
+    nameWithType: NotchSolutionUIBehaviourBase.OnDisable
+    fullName: E7.NotchSolution.NotchSolutionUIBehaviourBase.OnDisable
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: E7.NotchSolution.NotchSolutionUIBehaviourBase.OnDisable
+    name: OnDisable
+    nameWithType: NotchSolutionUIBehaviourBase.OnDisable
+    fullName: E7.NotchSolution.NotchSolutionUIBehaviourBase.OnDisable
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: E7.NotchSolution.NotchSolutionUIBehaviourBase.OnRectTransformDimensionsChange
+  commentId: M:E7.NotchSolution.NotchSolutionUIBehaviourBase.OnRectTransformDimensionsChange
+  parent: E7.NotchSolution.NotchSolutionUIBehaviourBase
+  name: OnRectTransformDimensionsChange()
+  nameWithType: NotchSolutionUIBehaviourBase.OnRectTransformDimensionsChange()
+  fullName: E7.NotchSolution.NotchSolutionUIBehaviourBase.OnRectTransformDimensionsChange()
+  spec.csharp:
+  - uid: E7.NotchSolution.NotchSolutionUIBehaviourBase.OnRectTransformDimensionsChange
+    name: OnRectTransformDimensionsChange
+    nameWithType: NotchSolutionUIBehaviourBase.OnRectTransformDimensionsChange
+    fullName: E7.NotchSolution.NotchSolutionUIBehaviourBase.OnRectTransformDimensionsChange
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: E7.NotchSolution.NotchSolutionUIBehaviourBase.OnRectTransformDimensionsChange
+    name: OnRectTransformDimensionsChange
+    nameWithType: NotchSolutionUIBehaviourBase.OnRectTransformDimensionsChange
+    fullName: E7.NotchSolution.NotchSolutionUIBehaviourBase.OnRectTransformDimensionsChange
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: E7.NotchSolution.NotchSolutionUIBehaviourBase.UnityEngine#UI#ILayoutController#SetLayoutHorizontal
+  commentId: M:E7.NotchSolution.NotchSolutionUIBehaviourBase.UnityEngine#UI#ILayoutController#SetLayoutHorizontal
+  parent: E7.NotchSolution.NotchSolutionUIBehaviourBase
+  name: ILayoutController.SetLayoutHorizontal()
+  nameWithType: NotchSolutionUIBehaviourBase.ILayoutController.SetLayoutHorizontal()
+  fullName: E7.NotchSolution.NotchSolutionUIBehaviourBase.UnityEngine.UI.ILayoutController.SetLayoutHorizontal()
+  nameWithType.vb: NotchSolutionUIBehaviourBase.UnityEngine.UI.ILayoutController.SetLayoutHorizontal()
+  name.vb: UnityEngine.UI.ILayoutController.SetLayoutHorizontal()
+  spec.csharp:
+  - uid: E7.NotchSolution.NotchSolutionUIBehaviourBase.UnityEngine#UI#ILayoutController#SetLayoutHorizontal
+    name: ILayoutController.SetLayoutHorizontal
+    nameWithType: NotchSolutionUIBehaviourBase.ILayoutController.SetLayoutHorizontal
+    fullName: E7.NotchSolution.NotchSolutionUIBehaviourBase.UnityEngine.UI.ILayoutController.SetLayoutHorizontal
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: E7.NotchSolution.NotchSolutionUIBehaviourBase.UnityEngine#UI#ILayoutController#SetLayoutHorizontal
+    name: UnityEngine.UI.ILayoutController.SetLayoutHorizontal
+    nameWithType: NotchSolutionUIBehaviourBase.UnityEngine.UI.ILayoutController.SetLayoutHorizontal
+    fullName: E7.NotchSolution.NotchSolutionUIBehaviourBase.UnityEngine.UI.ILayoutController.SetLayoutHorizontal
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: E7.NotchSolution.NotchSolutionUIBehaviourBase.UnityEngine#UI#ILayoutController#SetLayoutVertical
+  commentId: M:E7.NotchSolution.NotchSolutionUIBehaviourBase.UnityEngine#UI#ILayoutController#SetLayoutVertical
+  parent: E7.NotchSolution.NotchSolutionUIBehaviourBase
+  name: ILayoutController.SetLayoutVertical()
+  nameWithType: NotchSolutionUIBehaviourBase.ILayoutController.SetLayoutVertical()
+  fullName: E7.NotchSolution.NotchSolutionUIBehaviourBase.UnityEngine.UI.ILayoutController.SetLayoutVertical()
+  nameWithType.vb: NotchSolutionUIBehaviourBase.UnityEngine.UI.ILayoutController.SetLayoutVertical()
+  name.vb: UnityEngine.UI.ILayoutController.SetLayoutVertical()
+  spec.csharp:
+  - uid: E7.NotchSolution.NotchSolutionUIBehaviourBase.UnityEngine#UI#ILayoutController#SetLayoutVertical
+    name: ILayoutController.SetLayoutVertical
+    nameWithType: NotchSolutionUIBehaviourBase.ILayoutController.SetLayoutVertical
+    fullName: E7.NotchSolution.NotchSolutionUIBehaviourBase.UnityEngine.UI.ILayoutController.SetLayoutVertical
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: E7.NotchSolution.NotchSolutionUIBehaviourBase.UnityEngine#UI#ILayoutController#SetLayoutVertical
+    name: UnityEngine.UI.ILayoutController.SetLayoutVertical
+    nameWithType: NotchSolutionUIBehaviourBase.UnityEngine.UI.ILayoutController.SetLayoutVertical
+    fullName: E7.NotchSolution.NotchSolutionUIBehaviourBase.UnityEngine.UI.ILayoutController.SetLayoutVertical
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: UnityEngine
+  commentId: N:UnityEngine
+  isExternal: true
+  name: UnityEngine
+  nameWithType: UnityEngine
+  fullName: UnityEngine
+- uid: UnityEngine.EventSystems
+  commentId: N:UnityEngine.EventSystems
+  isExternal: true
+  name: UnityEngine.EventSystems
+  nameWithType: UnityEngine.EventSystems
+  fullName: UnityEngine.EventSystems
+- uid: UnityEngine.UI
+  commentId: N:UnityEngine.UI
+  isExternal: true
+  name: UnityEngine.UI
+  nameWithType: UnityEngine.UI
+  fullName: UnityEngine.UI

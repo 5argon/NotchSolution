@@ -1,0 +1,15 @@
+{
+    "name": "E7.NotchSolution.Samples.DebugScene",
+    "references": [
+        "Unity.ugui",
+        "E7.NotchSolution"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
+}

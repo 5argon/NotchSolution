@@ -5,17 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.9.0] - Unreleased
+## [1.9.0] - 2019-11-25
 
 ### Added
 
-- New dedicated website http://exceed7.com/notch-solution which sync with offline `.documentation` hidden folder of this package.
+- Asset Store version is now available! It's been almost a year since start, right now I think I am quite confident about the package.
+- New dedicated website http://exceed7.com/notch-solution which sync with the also new offline `Documentation~` hidden folder of this package.
+- The debug scene is now compatible with UPM's import samples button.
 
 ### Changed
 
 - Massive documentation structure change. They are now able to be used with [DocFx](https://dotnet.github.io/docfx/) while still quite readable from code editor. (But instead we could make a static site or even a PDF now.)
 - XML triple slash code comments update across all files so DocFx could generate an online documentation correctly.
 - Access modifiers revised, many wrong `public` are now properly `internal` for example. It also make DocFx generates only what the user should care about. If you were using some of those wrong `public` your code may break, however.
+- The debug scene is moved to `/Samples~` to support [UPM sample importing](https://forum.unity.com/threads/samples-in-packages-manual-setup.623080/). (To maintainers : remove `~` when you want to edit, then add back when finished.) More scene which will actually be a sample of how to build the UI will be added in this proper format. Tutorial is also added to [the website](http://exceed7.com/notch-solution/simulator/debug-scene.html).
+- `LICENSE` changed to `LICENSE.md` because otherwise the "license" link in UPM will not link to it.
 
 ### Fixed
 
@@ -68,7 +72,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-![preference](.documentation/simulator/images/pref.png)
+![preference](Documentation~/simulator/images/pref.png)
 
 - Preference item added under "Notch Solution". You can adjust overlay color of prefab mode there.
 - New shortcut to quick switch between 2 Game view aspect ratio. Set this up in the preference menu. This is ideal for mobile development where if you could ensure that narrowest and widest screen looks nice, everything in-between should also work.

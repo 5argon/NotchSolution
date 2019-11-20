@@ -1,0 +1,66 @@
+### YamlMime:ManagedReference
+items:
+- uid: E7.NotchSolution
+  commentId: N:E7.NotchSolution
+  id: E7.NotchSolution
+  children:
+  - E7.NotchSolution.AdaptationBase
+  - E7.NotchSolution.AspectRatioAdaptation
+  - E7.NotchSolution.INotchSimulatorTarget
+  - E7.NotchSolution.NotchSolutionUIBehaviourBase
+  - E7.NotchSolution.NotchSolutionUtility
+  - E7.NotchSolution.SafeAdaptation
+  - E7.NotchSolution.SafePadding
+  langs:
+  - csharp
+  - vb
+  name: E7.NotchSolution
+  nameWithType: E7.NotchSolution
+  fullName: E7.NotchSolution
+  type: Namespace
+  assemblies:
+  - E7.NotchSolution
+references:
+- uid: E7.NotchSolution.AdaptationBase
+  commentId: T:E7.NotchSolution.AdaptationBase
+  parent: E7.NotchSolution
+  name: AdaptationBase
+  nameWithType: AdaptationBase
+  fullName: E7.NotchSolution.AdaptationBase
+- uid: E7.NotchSolution.INotchSimulatorTarget
+  commentId: T:E7.NotchSolution.INotchSimulatorTarget
+  parent: E7.NotchSolution
+  name: INotchSimulatorTarget
+  nameWithType: INotchSimulatorTarget
+  fullName: E7.NotchSolution.INotchSimulatorTarget
+- uid: E7.NotchSolution.NotchSolutionUIBehaviourBase
+  commentId: T:E7.NotchSolution.NotchSolutionUIBehaviourBase
+  parent: E7.NotchSolution
+  name: NotchSolutionUIBehaviourBase
+  nameWithType: NotchSolutionUIBehaviourBase
+  fullName: E7.NotchSolution.NotchSolutionUIBehaviourBase
+- uid: E7.NotchSolution.NotchSolutionUtility
+  commentId: T:E7.NotchSolution.NotchSolutionUtility
+  name: NotchSolutionUtility
+  nameWithType: NotchSolutionUtility
+  fullName: E7.NotchSolution.NotchSolutionUtility
+- uid: E7.NotchSolution.AspectRatioAdaptation
+  commentId: T:E7.NotchSolution.AspectRatioAdaptation
+  name: AspectRatioAdaptation
+  nameWithType: AspectRatioAdaptation
+  fullName: E7.NotchSolution.AspectRatioAdaptation
+- uid: E7.NotchSolution.SafeAdaptation
+  commentId: T:E7.NotchSolution.SafeAdaptation
+  name: SafeAdaptation
+  nameWithType: SafeAdaptation
+  fullName: E7.NotchSolution.SafeAdaptation
+- uid: E7.NotchSolution.SafePadding
+  commentId: T:E7.NotchSolution.SafePadding
+  name: SafePadding
+  nameWithType: SafePadding
+  fullName: E7.NotchSolution.SafePadding
+- uid: E7.NotchSolution
+  commentId: N:E7.NotchSolution
+  name: E7.NotchSolution
+  nameWithType: E7.NotchSolution
+  fullName: E7.NotchSolution

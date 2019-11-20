@@ -1,6 +1,5 @@
 # Integration with Unity Device Simulator
 
-
 ![Device simulator integration](images/device-simulator-integration.png)
 
 - [Unity Device Simulator Package](https://docs.unity3d.com/Packages/com.unity.device-simulator@latest/) UPM page.

@@ -1,0 +1,111 @@
+### YamlMime:ManagedReference
+items:
+- uid: E7.NotchSolution.NotchSolutionUtility
+  commentId: T:E7.NotchSolution.NotchSolutionUtility
+  id: NotchSolutionUtility
+  parent: E7.NotchSolution
+  children:
+  - E7.NotchSolution.NotchSolutionUtility.ShouldUseNotchSimulatorValue
+  langs:
+  - csharp
+  - vb
+  name: NotchSolutionUtility
+  nameWithType: NotchSolutionUtility
+  fullName: E7.NotchSolution.NotchSolutionUtility
+  type: Class
+  source:
+    id: NotchSolutionUtility
+    path: /Users/Sargon/Documents/Unity Projects/Open Sources/NotchSolution/Assets/NotchSolution/Runtime/Base/NotchSolutionUtility.cs
+    startLine: 10
+  assemblies:
+  - E7.NotchSolution
+  namespace: E7.NotchSolution
+  summary: "\nHelper methods for Notch Solution&apos;s components.\n"
+  example: []
+  syntax:
+    content: public static class NotchSolutionUtility
+    content.vb: Public Module NotchSolutionUtility
+  inheritance:
+  - System.Object
+  modifiers.csharp:
+  - public
+  - static
+  - class
+  modifiers.vb:
+  - Public
+  - Module
+- uid: E7.NotchSolution.NotchSolutionUtility.ShouldUseNotchSimulatorValue
+  commentId: P:E7.NotchSolution.NotchSolutionUtility.ShouldUseNotchSimulatorValue
+  id: ShouldUseNotchSimulatorValue
+  parent: E7.NotchSolution.NotchSolutionUtility
+  langs:
+  - csharp
+  - vb
+  name: ShouldUseNotchSimulatorValue
+  nameWithType: NotchSolutionUtility.ShouldUseNotchSimulatorValue
+  fullName: E7.NotchSolution.NotchSolutionUtility.ShouldUseNotchSimulatorValue
+  type: Property
+  source:
+    id: ShouldUseNotchSimulatorValue
+    path: /Users/Sargon/Documents/Unity Projects/Open Sources/NotchSolution/Assets/NotchSolution/Runtime/Base/NotchSolutionUtility.cs
+    startLine: 26
+  assemblies:
+  - E7.NotchSolution
+  namespace: E7.NotchSolution
+  summary: "\nYou can use it in any of your component that uses <xref href=\"E7.NotchSolution.INotchSimulatorTarget\" data-throw-if-not-resolved=\"false\"></xref>.\n\n- If `true`, should trust the values sent to <xref href=\"E7.NotchSolution.INotchSimulatorTarget\" data-throw-if-not-resolved=\"false\"></xref>.\n- If `false`, should trust <xref href=\"UnityEngine.Screen\" data-throw-if-not-resolved=\"false\"></xref> API because we detected something like\n[Device Simulator package](https://docs.unity3d.com/Packages/com.unity.device-simulator@latest/) is\ncontrolling the <xref href=\"UnityEngine.Screen\" data-throw-if-not-resolved=\"false\"></xref> value and it is now useful in editor.\n"
+  example: []
+  syntax:
+    content: public static bool ShouldUseNotchSimulatorValue { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Shared ReadOnly Property ShouldUseNotchSimulatorValue As Boolean
+  overload: E7.NotchSolution.NotchSolutionUtility.ShouldUseNotchSimulatorValue*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+references:
+- uid: E7.NotchSolution
+  commentId: N:E7.NotchSolution
+  name: E7.NotchSolution
+  nameWithType: E7.NotchSolution
+  fullName: E7.NotchSolution
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: E7.NotchSolution.INotchSimulatorTarget
+  commentId: T:E7.NotchSolution.INotchSimulatorTarget
+  parent: E7.NotchSolution
+  name: INotchSimulatorTarget
+  nameWithType: INotchSimulatorTarget
+  fullName: E7.NotchSolution.INotchSimulatorTarget
+- uid: UnityEngine.Screen
+  commentId: T:UnityEngine.Screen
+  isExternal: true
+- uid: E7.NotchSolution.NotchSolutionUtility.ShouldUseNotchSimulatorValue*
+  commentId: Overload:E7.NotchSolution.NotchSolutionUtility.ShouldUseNotchSimulatorValue
+  name: ShouldUseNotchSimulatorValue
+  nameWithType: NotchSolutionUtility.ShouldUseNotchSimulatorValue
+  fullName: E7.NotchSolution.NotchSolutionUtility.ShouldUseNotchSimulatorValue
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean

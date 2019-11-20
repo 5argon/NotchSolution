@@ -9,7 +9,7 @@
           ]
         }
       ],
-      "dest": "../.documentation/api",
+      "dest": "../Documentation~/api",
       "disableGitFeatures": true,
       "disableDefaultFilter": false,
       "filter": "filterConfig.yml"
@@ -24,7 +24,7 @@
         ]
       },
       {
-        "src": "../.documentation",
+        "src": "../Documentation~",
         "files": [
           "*.md",
           "*.yml",
@@ -42,7 +42,7 @@
         ]
       },
       {
-        "src": "../.documentation",
+        "src": "../Documentation~",
         "files": [
           "**/images/*"
         ]

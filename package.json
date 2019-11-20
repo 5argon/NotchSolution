@@ -2,7 +2,7 @@
     "name": "com.e7.notch-solution",
     "author": "Sirawat Pitaksarit / 5argon - Exceed7 Experiments",
     "displayName": "Notch Solution",
-    "version": "1.8.0",
+    "version": "1.9.0",
     "unity": "2019.1",
     "keywords": [
         "UI",
@@ -11,5 +11,12 @@
         "User Interface",
         "Responsive"
     ],
-    "description": "Runtime components and design tools to solve notched/cutout phones layout problems."
+    "description": "Runtime components and design tools to solve notched/cutout phones layout problems.",
+    "samples": [
+        {
+            "displayName": "Debug Scene",
+            "description": "A scene displaying safe area and cutouts, device's information, and some basic Notch Solution component doing work. You can build this scene to a real device to check runtime behaviour.",
+            "path": "Samples~/DebugScene"
+        }
+    ]
 }
