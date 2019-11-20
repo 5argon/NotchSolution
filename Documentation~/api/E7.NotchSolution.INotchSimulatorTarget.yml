@@ -1,0 +1,128 @@
+### YamlMime:ManagedReference
+items:
+- uid: E7.NotchSolution.INotchSimulatorTarget
+  commentId: T:E7.NotchSolution.INotchSimulatorTarget
+  id: INotchSimulatorTarget
+  parent: E7.NotchSolution
+  children:
+  - E7.NotchSolution.INotchSimulatorTarget.SimulatorUpdate(UnityEngine.Rect,UnityEngine.Rect[])
+  langs:
+  - csharp
+  - vb
+  name: INotchSimulatorTarget
+  nameWithType: INotchSimulatorTarget
+  fullName: E7.NotchSolution.INotchSimulatorTarget
+  type: Interface
+  source:
+    id: INotchSimulatorTarget
+    path: /Users/Sargon/Documents/Unity Projects/Open Sources/NotchSolution/Assets/NotchSolution/Runtime/Base/INotchSimulatorTarget.cs
+    startLine: 13
+  assemblies:
+  - E7.NotchSolution
+  namespace: E7.NotchSolution
+  summary: "\nPut it on any component to make it receive simulation calls from the Notch Simulator.\nBecause in editor <xref href=\"UnityEngine.Screen\" data-throw-if-not-resolved=\"false\"></xref> API is useless, instead we could receive some\nsimulated values depending on what we have selected.\n"
+  remarks: "\nAfter 2019.3 finally there is an API that <xref href=\"UnityEngine.Screen\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"UnityEngine.SystemInfo\" data-throw-if-not-resolved=\"false\"></xref> could\nbe overridden. It is a base for Unity&apos;s own [Device Simulator package](https://docs.unity3d.com/Packages/com.unity.device-simulator@latest/).\n"
+  example: []
+  syntax:
+    content: public interface INotchSimulatorTarget
+    content.vb: Public Interface INotchSimulatorTarget
+  modifiers.csharp:
+  - public
+  - interface
+  modifiers.vb:
+  - Public
+  - Interface
+- uid: E7.NotchSolution.INotchSimulatorTarget.SimulatorUpdate(UnityEngine.Rect,UnityEngine.Rect[])
+  commentId: M:E7.NotchSolution.INotchSimulatorTarget.SimulatorUpdate(UnityEngine.Rect,UnityEngine.Rect[])
+  id: SimulatorUpdate(UnityEngine.Rect,UnityEngine.Rect[])
+  parent: E7.NotchSolution.INotchSimulatorTarget
+  langs:
+  - csharp
+  - vb
+  name: SimulatorUpdate(Rect, Rect[])
+  nameWithType: INotchSimulatorTarget.SimulatorUpdate(Rect, Rect[])
+  fullName: E7.NotchSolution.INotchSimulatorTarget.SimulatorUpdate(UnityEngine.Rect, UnityEngine.Rect[])
+  type: Method
+  source:
+    id: SimulatorUpdate
+    path: /Users/Sargon/Documents/Unity Projects/Open Sources/NotchSolution/Assets/NotchSolution/Runtime/Base/INotchSimulatorTarget.cs
+    startLine: 28
+  assemblies:
+  - E7.NotchSolution
+  namespace: E7.NotchSolution
+  summary: "\nCalled frequently while the Notch Simulator is running.\n"
+  remarks: "\nIf you have [Device Simulator package](https://docs.unity3d.com/Packages/com.unity.device-simulator@latest/), it is **still called**.\nYour script using this should decide if you want to stop using these values when you can now trust the <xref href=\"UnityEngine.Screen\" data-throw-if-not-resolved=\"false\"></xref>\nor <xref href=\"UnityEngine.SystemInfo\" data-throw-if-not-resolved=\"false\"></xref> that is now modified. (You may use this helper : <xref href=\"E7.NotchSolution.NotchSolutionUtility.ShouldUseNotchSimulatorValue\" data-throw-if-not-resolved=\"false\"></xref>)\n"
+  example: []
+  syntax:
+    content: void SimulatorUpdate(Rect simulatedSafeAreaRelative, Rect[] simulatedCutoutsRelative)
+    parameters:
+    - id: simulatedSafeAreaRelative
+      type: UnityEngine.Rect
+      description: Each values in the rect is 0~1, relative to the current screen size of active simulation device.
+    - id: simulatedCutoutsRelative
+      type: UnityEngine.Rect[]
+      description: "\nEach values in the rect is 0~1, relative to the current screen size of active simulation device.\nYou can always get this even if you are running 2019.1 where cutout API is not available. The simulated cutouts are always available in editor.\n"
+    content.vb: Sub SimulatorUpdate(simulatedSafeAreaRelative As Rect, simulatedCutoutsRelative As Rect())
+  overload: E7.NotchSolution.INotchSimulatorTarget.SimulatorUpdate*
+  nameWithType.vb: INotchSimulatorTarget.SimulatorUpdate(Rect, Rect())
+  fullName.vb: E7.NotchSolution.INotchSimulatorTarget.SimulatorUpdate(UnityEngine.Rect, UnityEngine.Rect())
+  name.vb: SimulatorUpdate(Rect, Rect())
+references:
+- uid: UnityEngine.Screen
+  commentId: T:UnityEngine.Screen
+  isExternal: true
+- uid: UnityEngine.SystemInfo
+  commentId: T:UnityEngine.SystemInfo
+  isExternal: true
+- uid: E7.NotchSolution
+  commentId: N:E7.NotchSolution
+  name: E7.NotchSolution
+  nameWithType: E7.NotchSolution
+  fullName: E7.NotchSolution
+- uid: E7.NotchSolution.NotchSolutionUtility.ShouldUseNotchSimulatorValue
+  commentId: P:E7.NotchSolution.NotchSolutionUtility.ShouldUseNotchSimulatorValue
+  isExternal: true
+- uid: E7.NotchSolution.INotchSimulatorTarget.SimulatorUpdate*
+  commentId: Overload:E7.NotchSolution.INotchSimulatorTarget.SimulatorUpdate
+  name: SimulatorUpdate
+  nameWithType: INotchSimulatorTarget.SimulatorUpdate
+  fullName: E7.NotchSolution.INotchSimulatorTarget.SimulatorUpdate
+- uid: UnityEngine.Rect
+  commentId: T:UnityEngine.Rect
+  parent: UnityEngine
+  isExternal: true
+  name: Rect
+  nameWithType: Rect
+  fullName: UnityEngine.Rect
+- uid: UnityEngine.Rect[]
+  isExternal: true
+  name: Rect[]
+  nameWithType: Rect[]
+  fullName: UnityEngine.Rect[]
+  nameWithType.vb: Rect()
+  fullName.vb: UnityEngine.Rect()
+  name.vb: Rect()
+  spec.csharp:
+  - uid: UnityEngine.Rect
+    name: Rect
+    nameWithType: Rect
+    fullName: UnityEngine.Rect
+    isExternal: true
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  spec.vb:
+  - uid: UnityEngine.Rect
+    name: Rect
+    nameWithType: Rect
+    fullName: UnityEngine.Rect
+    isExternal: true
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+- uid: UnityEngine
+  commentId: N:UnityEngine
+  isExternal: true
+  name: UnityEngine
+  nameWithType: UnityEngine
+  fullName: UnityEngine

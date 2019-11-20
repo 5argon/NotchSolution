@@ -1,7 +1,9 @@
 {
+    "github" : "https://github.com/5argon/NotchSolution",
     "getitList": [
         {
-            "name": "Asset Store (coming soon)"
+            "name": "Asset Store",
+            "link": "http://u3d.as/1FEw"
         },
         {
             "name": "GitHub",

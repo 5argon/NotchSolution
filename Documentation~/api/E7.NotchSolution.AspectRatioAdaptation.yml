@@ -1,0 +1,305 @@
+### YamlMime:ManagedReference
+items:
+- uid: E7.NotchSolution.AspectRatioAdaptation
+  commentId: T:E7.NotchSolution.AspectRatioAdaptation
+  id: AspectRatioAdaptation
+  parent: E7.NotchSolution
+  children:
+  - E7.NotchSolution.AspectRatioAdaptation.Adapt
+  langs:
+  - csharp
+  - vb
+  name: AspectRatioAdaptation
+  nameWithType: AspectRatioAdaptation
+  fullName: E7.NotchSolution.AspectRatioAdaptation
+  type: Class
+  source:
+    id: AspectRatioAdaptation
+    path: /Users/Sargon/Documents/Unity Projects/Open Sources/NotchSolution/Assets/NotchSolution/Runtime/Components/AspectRatioAdaptation.cs
+    startLine: 12
+  assemblies:
+  - E7.NotchSolution
+  namespace: E7.NotchSolution
+  summary: "\nLike <xref href=\"E7.NotchSolution.SafeAdaptation\" data-throw-if-not-resolved=\"false\"></xref> but use the current screen aspect ratio number instead.\nThe ratio is width/height ratio when on **landscape** orientation (e.g. 4/3, 16/9, 2/1) regardless of your game&apos;s orientation.\n"
+  remarks: "\nBy default, the curve is setup so that lower aspect ratio (wider screen) is &quot;normal&quot; and higher number (narrower screen) is &quot;adapted&quot;.\nSo the leftmost node in the curve represents a device like an iPad.\n"
+  example: []
+  syntax:
+    content: >-
+      [HelpURL("http://exceed7.com/notch-solution/components/adaptation/aspect-ratio-adaptation.html")]
+
+      public class AspectRatioAdaptation : AdaptationBase, INotchSimulatorTarget
+    content.vb: >-
+      <HelpURL("http://exceed7.com/notch-solution/components/adaptation/aspect-ratio-adaptation.html")>
+
+      Public Class AspectRatioAdaptation
+          Inherits AdaptationBase
+          Implements INotchSimulatorTarget
+  inheritance:
+  - System.Object
+  - UnityEngine.Object
+  - UnityEngine.Component
+  - UnityEngine.Behaviour
+  - UnityEngine.MonoBehaviour
+  - E7.NotchSolution.AdaptationBase
+  implements:
+  - E7.NotchSolution.INotchSimulatorTarget
+  inheritedMembers:
+  - E7.NotchSolution.AdaptationBase.Adapt(System.Single)
+  - E7.NotchSolution.AdaptationBase.E7#NotchSolution#INotchSimulatorTarget#SimulatorUpdate(UnityEngine.Rect,UnityEngine.Rect[])
+  - E7.NotchSolution.AdaptationBase.SafeAreaRelative
+  attributes:
+  - type: UnityEngine.HelpURLAttribute
+    ctor: UnityEngine.HelpURLAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: http://exceed7.com/notch-solution/components/adaptation/aspect-ratio-adaptation.html
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: E7.NotchSolution.AspectRatioAdaptation.Adapt
+  commentId: M:E7.NotchSolution.AspectRatioAdaptation.Adapt
+  id: Adapt
+  parent: E7.NotchSolution.AspectRatioAdaptation
+  langs:
+  - csharp
+  - vb
+  name: Adapt()
+  nameWithType: AspectRatioAdaptation.Adapt()
+  fullName: E7.NotchSolution.AspectRatioAdaptation.Adapt()
+  type: Method
+  source:
+    id: Adapt
+    path: /Users/Sargon/Documents/Unity Projects/Open Sources/NotchSolution/Assets/NotchSolution/Runtime/Components/AspectRatioAdaptation.cs
+    startLine: 16
+  assemblies:
+  - E7.NotchSolution
+  namespace: E7.NotchSolution
+  summary: "\nAny adaptation component will be &quot;adapted&quot; **only once** on `Start()`, but\nthis call could make that happen again on-demand.\n"
+  remarks: "\nThis should ended up calling <xref href=\"E7.NotchSolution.AdaptationBase.Adapt(System.Single)\" data-throw-if-not-resolved=\"false\"></xref> somehow in the implementation.\n"
+  example: []
+  syntax:
+    content: public override void Adapt()
+    content.vb: Public Overrides Sub Adapt
+  overridden: E7.NotchSolution.AdaptationBase.Adapt
+  overload: E7.NotchSolution.AspectRatioAdaptation.Adapt*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+references:
+- uid: E7.NotchSolution.SafeAdaptation
+  commentId: T:E7.NotchSolution.SafeAdaptation
+  name: SafeAdaptation
+  nameWithType: SafeAdaptation
+  fullName: E7.NotchSolution.SafeAdaptation
+- uid: E7.NotchSolution
+  commentId: N:E7.NotchSolution
+  name: E7.NotchSolution
+  nameWithType: E7.NotchSolution
+  fullName: E7.NotchSolution
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: UnityEngine.Object
+  commentId: T:UnityEngine.Object
+  parent: UnityEngine
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: UnityEngine.Object
+- uid: UnityEngine.Component
+  commentId: T:UnityEngine.Component
+  parent: UnityEngine
+  isExternal: true
+  name: Component
+  nameWithType: Component
+  fullName: UnityEngine.Component
+- uid: UnityEngine.Behaviour
+  commentId: T:UnityEngine.Behaviour
+  parent: UnityEngine
+  isExternal: true
+  name: Behaviour
+  nameWithType: Behaviour
+  fullName: UnityEngine.Behaviour
+- uid: UnityEngine.MonoBehaviour
+  commentId: T:UnityEngine.MonoBehaviour
+  parent: UnityEngine
+  isExternal: true
+  name: MonoBehaviour
+  nameWithType: MonoBehaviour
+  fullName: UnityEngine.MonoBehaviour
+- uid: E7.NotchSolution.AdaptationBase
+  commentId: T:E7.NotchSolution.AdaptationBase
+  parent: E7.NotchSolution
+  name: AdaptationBase
+  nameWithType: AdaptationBase
+  fullName: E7.NotchSolution.AdaptationBase
+- uid: E7.NotchSolution.INotchSimulatorTarget
+  commentId: T:E7.NotchSolution.INotchSimulatorTarget
+  parent: E7.NotchSolution
+  name: INotchSimulatorTarget
+  nameWithType: INotchSimulatorTarget
+  fullName: E7.NotchSolution.INotchSimulatorTarget
+- uid: E7.NotchSolution.AdaptationBase.Adapt(System.Single)
+  commentId: M:E7.NotchSolution.AdaptationBase.Adapt(System.Single)
+  parent: E7.NotchSolution.AdaptationBase
+  isExternal: true
+  name: Adapt(Single)
+  nameWithType: AdaptationBase.Adapt(Single)
+  fullName: E7.NotchSolution.AdaptationBase.Adapt(System.Single)
+  spec.csharp:
+  - uid: E7.NotchSolution.AdaptationBase.Adapt(System.Single)
+    name: Adapt
+    nameWithType: AdaptationBase.Adapt
+    fullName: E7.NotchSolution.AdaptationBase.Adapt
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Single
+    name: Single
+    nameWithType: Single
+    fullName: System.Single
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: E7.NotchSolution.AdaptationBase.Adapt(System.Single)
+    name: Adapt
+    nameWithType: AdaptationBase.Adapt
+    fullName: E7.NotchSolution.AdaptationBase.Adapt
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Single
+    name: Single
+    nameWithType: Single
+    fullName: System.Single
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: E7.NotchSolution.AdaptationBase.E7#NotchSolution#INotchSimulatorTarget#SimulatorUpdate(UnityEngine.Rect,UnityEngine.Rect[])
+  commentId: M:E7.NotchSolution.AdaptationBase.E7#NotchSolution#INotchSimulatorTarget#SimulatorUpdate(UnityEngine.Rect,UnityEngine.Rect[])
+  parent: E7.NotchSolution.AdaptationBase
+  isExternal: true
+  name: INotchSimulatorTarget.SimulatorUpdate(Rect, Rect[])
+  nameWithType: AdaptationBase.INotchSimulatorTarget.SimulatorUpdate(Rect, Rect[])
+  fullName: E7.NotchSolution.AdaptationBase.E7.NotchSolution.INotchSimulatorTarget.SimulatorUpdate(UnityEngine.Rect, UnityEngine.Rect[])
+  nameWithType.vb: AdaptationBase.E7.NotchSolution.INotchSimulatorTarget.SimulatorUpdate(Rect, Rect())
+  fullName.vb: E7.NotchSolution.AdaptationBase.E7.NotchSolution.INotchSimulatorTarget.SimulatorUpdate(UnityEngine.Rect, UnityEngine.Rect())
+  name.vb: E7.NotchSolution.INotchSimulatorTarget.SimulatorUpdate(Rect, Rect())
+  spec.csharp:
+  - uid: E7.NotchSolution.AdaptationBase.E7#NotchSolution#INotchSimulatorTarget#SimulatorUpdate(UnityEngine.Rect,UnityEngine.Rect[])
+    name: INotchSimulatorTarget.SimulatorUpdate
+    nameWithType: AdaptationBase.INotchSimulatorTarget.SimulatorUpdate
+    fullName: E7.NotchSolution.AdaptationBase.E7.NotchSolution.INotchSimulatorTarget.SimulatorUpdate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Rect
+    name: Rect
+    nameWithType: Rect
+    fullName: UnityEngine.Rect
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.Rect
+    name: Rect
+    nameWithType: Rect
+    fullName: UnityEngine.Rect
+    isExternal: true
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: E7.NotchSolution.AdaptationBase.E7#NotchSolution#INotchSimulatorTarget#SimulatorUpdate(UnityEngine.Rect,UnityEngine.Rect[])
+    name: E7.NotchSolution.INotchSimulatorTarget.SimulatorUpdate
+    nameWithType: AdaptationBase.E7.NotchSolution.INotchSimulatorTarget.SimulatorUpdate
+    fullName: E7.NotchSolution.AdaptationBase.E7.NotchSolution.INotchSimulatorTarget.SimulatorUpdate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Rect
+    name: Rect
+    nameWithType: Rect
+    fullName: UnityEngine.Rect
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.Rect
+    name: Rect
+    nameWithType: Rect
+    fullName: UnityEngine.Rect
+    isExternal: true
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: E7.NotchSolution.AdaptationBase.SafeAreaRelative
+  commentId: P:E7.NotchSolution.AdaptationBase.SafeAreaRelative
+  parent: E7.NotchSolution.AdaptationBase
+  name: SafeAreaRelative
+  nameWithType: AdaptationBase.SafeAreaRelative
+  fullName: E7.NotchSolution.AdaptationBase.SafeAreaRelative
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: UnityEngine
+  commentId: N:UnityEngine
+  isExternal: true
+  name: UnityEngine
+  nameWithType: UnityEngine
+  fullName: UnityEngine
+- uid: E7.NotchSolution.AdaptationBase.Adapt
+  commentId: M:E7.NotchSolution.AdaptationBase.Adapt
+  parent: E7.NotchSolution.AdaptationBase
+  name: Adapt()
+  nameWithType: AdaptationBase.Adapt()
+  fullName: E7.NotchSolution.AdaptationBase.Adapt()
+  spec.csharp:
+  - uid: E7.NotchSolution.AdaptationBase.Adapt
+    name: Adapt
+    nameWithType: AdaptationBase.Adapt
+    fullName: E7.NotchSolution.AdaptationBase.Adapt
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: E7.NotchSolution.AdaptationBase.Adapt
+    name: Adapt
+    nameWithType: AdaptationBase.Adapt
+    fullName: E7.NotchSolution.AdaptationBase.Adapt
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: E7.NotchSolution.AspectRatioAdaptation.Adapt*
+  commentId: Overload:E7.NotchSolution.AspectRatioAdaptation.Adapt
+  name: Adapt
+  nameWithType: AspectRatioAdaptation.Adapt
+  fullName: E7.NotchSolution.AspectRatioAdaptation.Adapt
