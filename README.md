@@ -6,6 +6,8 @@ A set of components and tools to solve notched/cutout phones layout problems for
 
 Whether you like it or not, the time has come for us designers to design in context of a notch and embrace it instead of hiding it. This tool also enables design-time preview which help you iterate your design without building the game.
 
+**Official website** : http://exceed7.com/notch-solution/
+
 **Questions/Problems/Suggestions** : 5argon@exceed7.com
 **Discord** : https://discord.gg/J4sCcj4
 
