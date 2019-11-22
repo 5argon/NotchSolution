@@ -18,7 +18,9 @@ In iOS is such a hassle to distribute a TestFlight build so you better build it 
 
 ### With Unity Package Manager (2019.1+)
 
-You can see the scene in Unity and build it.
+You can see the scene in Unity and build it. If you want to rebuild, please use Mono instead of IL2CPP as it contains use of reflections over `SystemInfo` class. With IL2CPP dead code will be eliminated and we cannot reflect the class to scan for all properties that would be debugged on the screen.
+
+If you get Notch Solution from Asset Store, you have to unzip `Samples~.zip` first, then take the package out from project, then use UPM to link to the package. If pulled from GitHub, you already have this `Samples~` folder. Take the package out from project and link with UPM.
 
 After you use UPM to link to the package, you can see the import samples button. Press it and you will get the sample in your own project. You may [read this](https://forum.unity.com/threads/samples-in-packages-manual-setup.623080/) for details how it works.
 
@@ -36,6 +38,6 @@ The plugin package itself can still be linked via UPM without polluting your gam
 
 ### Without Unity Package Manager
 
-Unity skips importing `/Samples~` folder [because of trailing `~`](https://docs.unity3d.com/Manual/SpecialFolders.html). You can go inside here **with your file explorer** in your OS and copy the content out to your project.
+After unzipping `Samples~.zip` if you get it from Asset Store, or do nothing if pulled from GitHub, Unity skips importing the `/Samples~` folder you see [because of trailing `~`](https://docs.unity3d.com/Manual/SpecialFolders.html), which is great so you won't have to spend time importing unrelated assets. You can go inside here **with your file explorer** in your OS and copy the content out to your project.
 
 ![Samples copy](images/samples-copy.png)

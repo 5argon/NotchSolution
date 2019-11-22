@@ -27,7 +27,13 @@ Sincerely, thank you! - Sirawat Pitaksarit / 5argon
 ### 1. Install
 
 - Using [the Asset Store version](http://u3d.as/1FEw), install and update using the usual way. Soon [Unity Package Manager (UPM)](https://docs.unity3d.com/Manual/upm-ui.html) will be able to go directly to Asset Store. After installed you can also take the package out of project and use [local UPM feature](https://docs.unity3d.com/Manual/upm-ui-local.html) to link to `package.json`, freeing your `Assets` folder from things that aren't your game.
-- You can pull from GitHub's `master` branch with UPM's Git functionality. Add this line `"com.e7.notch-solution":` `"git://github.com/5argon/NotchSolution.git",` to your `manifest.json`. However it will not update automatically when I push fixes to this repo. You must remove the lock line that appears in you `manifest.json` file to refetch.
+- You can pull from GitHub's `master` branch with UPM's Git functionality. Add the line below to your `manifest.json` : 
+
+  ```
+  "com.e7.notch-solution": "git://github.com/5argon/NotchSolution.git",
+  ```
+
+  However it will not update automatically when I push fixes to this repo. You must remove the lock line that appears in you `manifest.json` file to refetch.
 
 The package is properly "UPM shaped" with [assembly definition files](https://docs.unity3d.com/Manual/ScriptCompilationAssemblyDefinitionFiles.html). If you also use one, the name of an assembly to link is `E7.NotchSolution` (GUID : `06dd7692457a446f7a9de9613998f95d`). C# namespace is also `E7.NotchSolution` if you want to extend the built-in components.
 
