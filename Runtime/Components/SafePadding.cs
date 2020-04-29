@@ -91,10 +91,32 @@ namespace E7.NotchSolution
                 1 - (safeAreaRelative.yMin + safeAreaRelative.height),
                 1 - (safeAreaRelative.xMin + safeAreaRelative.width),
             };
-
+			
 #if DEBUG_NOTCH_SOLUTION
             Debug.Log($"SafeLDUR {string.Join(" ", relativeLDUR.Select(x => x.ToString()))}");
 #endif
+
+			// fixed: sometimes relativeLDUR will be NAN when start at some android devices. 
+			// if relativeLDUR is NAN then sizeDelta will be NAN, the safe area will be wrong.
+			if (float.IsNaN(relativeLDUR[0]))
+            {
+                relativeLDUR[0] = 0;
+            }
+
+            if (float.IsNaN(relativeLDUR[1]))
+            {
+                relativeLDUR[1] = 0;
+            }
+
+            if (float.IsNaN(relativeLDUR[2]))
+            {
+                relativeLDUR[2] = 0;
+            }
+
+            if (float.IsNaN(relativeLDUR[3]))
+            {
+                relativeLDUR[3] = 0;
+            }
 
             var currentRect = rectTransform.rect;
 
