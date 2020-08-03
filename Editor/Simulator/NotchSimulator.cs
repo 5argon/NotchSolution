@@ -385,11 +385,10 @@ namespace E7.NotchSolution.Editor
                         {
                             DontDestroyOnLoad(canvasObject);
                         }
+                        canvasObject.PrefabStage = prefabMode;
+                        if (prefabMode) prefabMockupCanvas = canvasObject;
+                        else mockupCanvas = canvasObject;
                     }
-
-                    canvasObject.PrefabStage = prefabMode;
-                    if (prefabMode) prefabMockupCanvas = canvasObject;
-                    else mockupCanvas = canvasObject;
 
                     if (eventAdded == false)
                     {
