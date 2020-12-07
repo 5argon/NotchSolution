@@ -25,6 +25,8 @@ namespace E7.NotchSolution.Editor
         private static NotchSimulator win;
         private static Vector2 gameviewResolution;
 
+        private Vector2 scrollPos;
+
         internal static bool IsOpen { get { return win; } }
 
         [MenuItem("Window/General/Notch Simulator")]
@@ -121,6 +123,7 @@ namespace E7.NotchSolution.Editor
             //Sometimes even with flag I can see it in hierarchy until I move a mouse over it??
             EditorApplication.RepaintHierarchyWindow();
 
+            scrollPos = EditorGUILayout.BeginScrollView(scrollPos);
             EditorGUI.BeginChangeCheck();
 
             var settings = Settings.Instance;
@@ -152,6 +155,14 @@ namespace E7.NotchSolution.Editor
             //Draw warning about wrong aspect ratio
             if (settings.EnableSimulation && simulationDevice != null)
             {
+#if !UNITY_2019_3_OR_NEWER
+                if (!NotchSolutionUtilityEditor.PlayModeViewOpen)
+                    EditorGUILayout.HelpBox("Device preview won't resize automatically because Game window isn't open.", MessageType.Warning);
+#else
+                if (NotchSolutionUtilityEditor.UnityDeviceSimulatorActive)
+                    EditorGUILayout.HelpBox("Device preview won't resize automatically because Unity Device Simulator window is open.", MessageType.Warning);
+#endif
+
                 ScreenOrientation gameViewOrientation = NotchSimulatorUtility.GetGameViewOrientation();
 
                 Vector2 gameViewSize = NotchSimulatorUtility.GetMainGameViewSize();
@@ -179,6 +190,8 @@ namespace E7.NotchSolution.Editor
                 UpdateAllMockups();
                 settings.Save();
             }
+
+            EditorGUILayout.EndScrollView();
 
             UpdateSimulatorTargets();
         }
