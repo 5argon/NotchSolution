@@ -73,7 +73,19 @@ namespace E7.NotchSolution.Editor
         internal static Vector2 GetMainGameViewSize()
         {
 #if UNITY_2019_3_OR_NEWER
-            return (Vector2)GetSizeOfMainGameView.Invoke(null, null);
+            Vector2 result = (Vector2)GetSizeOfMainGameView.Invoke(null, null);
+            if (result == new Vector2(640f, 480f) && !NotchSolutionUtilityEditor.PlayModeViewOpen)
+			{
+                // Neither Game window nor Unity Device Simulator window is open (can happen if Scene view is maximized)
+                // In this case, the last open game window's size can be determined by looking at the mockup canvas' size
+                foreach (MockupCanvas mockupCanvas in NotchSimulator.AllMockupCanvases)
+				{
+                    result = ((RectTransform) mockupCanvas.GetComponent<Canvas>().transform).sizeDelta;
+                    break;
+				}
+			}
+
+            return result;
 #else
             System.Object Res = GetSizeOfMainGameView.Invoke(null, argsForOut);
             return (Vector2)argsForOut[0];

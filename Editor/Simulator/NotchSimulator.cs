@@ -23,7 +23,9 @@ namespace E7.NotchSolution.Editor
     internal class NotchSimulator : EditorWindow, IHasCustomMenu, IPreprocessBuildWithReport //For bugfix hack
     {
         private static NotchSimulator win;
-        Vector2 gameviewResolution;
+        private static Vector2 gameviewResolution;
+
+        internal static bool IsOpen { get { return win; } }
 
         [MenuItem("Window/General/Notch Simulator")]
         public static void ShowWindow()
@@ -35,17 +37,6 @@ namespace E7.NotchSolution.Editor
         //IHasCustomMenu
         public void AddItemsToMenu(GenericMenu menu)
         {
-            var flip = Settings.Instance.FlipOrientation;
-            menu.AddItem(new GUIContent("Flip Orientation"), on: flip, () =>
-            {
-                var settings = Settings.Instance;
-                settings.FlipOrientation = !settings.FlipOrientation;
-                settings.Save();
-                UpdateAllMockups();
-                UpdateSimulatorTargets();
-            });
-
-            menu.AddSeparator(string.Empty);
             menu.AddItem(new GUIContent("Reset Settings"), on: false, ResetSettings);
             menu.AddItem(new GUIContent("Refresh Device List"), on: false, SimulationDatabase.Refresh);
         }
@@ -64,15 +55,15 @@ namespace E7.NotchSolution.Editor
         }
 
         [ExecuteInEditMode] private void OnDisable() { EditorApplication.update -= RespawnMockup; }
-        void RespawnMockup()
+        internal static void RespawnMockup()
         {
             //When the game view is changed, the mockup sometimes disappears or isn't scaled correctly
-            if (gameviewResolution != Handles.GetMainGameViewSize())
+            if (gameviewResolution != NotchSimulatorUtility.GetMainGameViewSize())
             {
                 DestroyHiddenCanvas(); //So we delete the old canvas
                 UpdateAllMockups(); //And we respawn it
                 UpdateSimulatorTargets();
-                gameviewResolution = Handles.GetMainGameViewSize(); //Update the saved game view
+                gameviewResolution = NotchSimulatorUtility.GetMainGameViewSize(); //Update the saved game view
             }
         }
 
@@ -145,6 +136,9 @@ namespace E7.NotchSolution.Editor
             int currentIndex = Mathf.Clamp(settings.ActiveConfiguration.DeviceIndex, 0, SimulationDatabase.KeyList.Length - 1);
 
             int selectedIndex = EditorGUILayout.Popup(currentIndex, SimulationDatabase.KeyList);
+            settings.ActiveConfiguration.Orientation = (PreviewOrientation)EditorGUILayout.EnumPopup("Orientation", settings.ActiveConfiguration.Orientation);
+            settings.ActiveConfiguration.GameViewSize = (GameViewSizePolicy)EditorGUILayout.EnumPopup("Game View Size", settings.ActiveConfiguration.GameViewSize);
+
             if (GUILayout.Button($"{settings.ActiveConfiguration.ConfigurationName} ({switchConfigShortcut})", EditorStyles.helpBox))
             {
                 NotchSolutionShortcuts.SwitchConfiguration();
@@ -228,7 +222,7 @@ namespace E7.NotchSolution.Editor
         /// <summary>
         /// This need to return both from normal scene and prefab environment scene.
         /// </summary>
-        private static IEnumerable<MockupCanvas> AllMockupCanvases
+        internal static IEnumerable<MockupCanvas> AllMockupCanvases
         {
             get
             {
@@ -300,9 +294,13 @@ namespace E7.NotchSolution.Editor
             var settings = Settings.Instance;
             bool enableSimulation = settings.EnableSimulation;
             var selectedDevice = SimulationDatabase.ByIndex(Settings.Instance.ActiveConfiguration.DeviceIndex);
+            bool landscape = Settings.Instance.ActiveConfiguration.Orientation == PreviewOrientation.LandscapeLeft || Settings.Instance.ActiveConfiguration.Orientation == PreviewOrientation.LandscapeRight;
 
             if (enableSimulation && selectedDevice != null)
             {
+                var screen = selectedDevice.Screens.FirstOrDefault();
+                GameViewResolution.SetResolution(landscape ? screen.height : screen.width, landscape ? screen.width : screen.height, Settings.Instance.ActiveConfiguration.GameViewSize == GameViewSizePolicy.MatchAspectRatio);
+
                 var name = selectedDevice.Meta.overlay;
                 Sprite mockupSprite = null;
                 if (!string.IsNullOrEmpty(name))
@@ -321,7 +319,6 @@ namespace E7.NotchSolution.Editor
                     }
                 }
 
-
                 foreach (var mockup in AllMockupCanvases)
                 {
                     mockup.UpdateMockupSprite(
@@ -333,7 +330,11 @@ namespace E7.NotchSolution.Editor
                      );
                 }
             }
-            else DestroyHiddenCanvas();
+            else
+            {
+                DestroyHiddenCanvas();
+                GameViewResolution.ClearResolution();
+            }
         }
 
         private static void DebugTransitions(string s)

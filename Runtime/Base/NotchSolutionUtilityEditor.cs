@@ -15,9 +15,17 @@ namespace E7.NotchSolution
 #if UNITY_EDITOR
 
 #if UNITY_2019_3_OR_NEWER
-        static System.Type T = System.Type.GetType("UnityEditor.PlayModeView,UnityEditor");
-        static System.Reflection.MethodInfo GetMainPlayModeView = T.GetMethod("GetMainPlayModeView", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
+        internal static System.Reflection.MethodInfo GetMainPlayModeView = System.Type.GetType("UnityEditor.PlayModeView,UnityEditor").GetMethod("GetMainPlayModeView", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
+#else
+        internal static System.Reflection.MethodInfo GetMainPlayModeView = System.Type.GetType("UnityEditor.GameView,UnityEditor").GetMethod("GetMainGameView", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
+#endif
 
+        /// <summary>
+        /// Returns true if Game window, Unity Device Simulator window or any other PlayModeView window is open in the Editor.
+        /// </summary>
+        internal static bool PlayModeViewOpen { get { return GetMainPlayModeView.Invoke(null, null) as EditorWindow; } }
+
+#if UNITY_2019_3_OR_NEWER
         /// <summary>
         /// With [Device Simulator](https://docs.unity3d.com/Packages/com.unity.device-simulator@latest) installed it can use a secondary
         /// game view (also a new internal feature in 2019.3) and take control of the screen size and etc. If we detect that active, disable our
@@ -27,6 +35,9 @@ namespace E7.NotchSolution
         {
             get
             {
+                if (!PlayModeViewOpen)
+                    return false;
+
                 var mainPlayModeView = GetMainPlayModeView.Invoke(null,null);
                 var name = mainPlayModeView.GetType().FullName;
                 //I am lazy so I will simply do a class name check with the one in that package.
