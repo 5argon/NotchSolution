@@ -40,7 +40,7 @@ namespace E7.NotchSolution
         [SerializeField] bool flipPadding = false;
 #pragma warning restore 0649
 
-        private protected override void UpdateRect()
+        protected override void UpdateRect()
         {
             PerEdgeEvaluationModes selectedOrientation =
             orientationType == SupportedOrientations.Dual ?
