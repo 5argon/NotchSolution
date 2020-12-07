@@ -21,9 +21,9 @@ namespace E7.NotchSolution
     [RequireComponent(typeof(RectTransform))]
     public abstract class NotchSolutionUIBehaviourBase : UIBehaviour, ILayoutSelfController, INotchSimulatorTarget
     {
-        private protected abstract void UpdateRect();
+        protected abstract void UpdateRect();
 
-        private protected Rect GetCanvasRect()
+        protected Rect GetCanvasRect()
         {
             var topLevelCanvas = GetTopLevelCanvas();
             Vector2 topRectSize = topLevelCanvas.GetComponent<RectTransform>().sizeDelta;
@@ -53,7 +53,7 @@ namespace E7.NotchSolution
 
         [System.NonSerialized]
         private RectTransform m_Rect;
-        private protected RectTransform rectTransform
+        protected RectTransform rectTransform
         {
             get
             {
@@ -63,7 +63,7 @@ namespace E7.NotchSolution
             }
         }
 
-        private protected DrivenRectTransformTracker m_Tracker;
+        protected DrivenRectTransformTracker m_Tracker;
 
         /// <summary>
         /// Overrides <see cref="UIBehaviour"/>
