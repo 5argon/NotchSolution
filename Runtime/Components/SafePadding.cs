@@ -84,13 +84,13 @@ namespace E7.NotchSolution
             Debug.Log($"Top {topRect} safe {safeAreaRelative} min {safeAreaRelative.xMin} {safeAreaRelative.yMin}");
 #endif
 
-            var relativeLDUR = new float[4]
-            {
+            var relativeLDUR = new Vector4(
+            
                 safeAreaRelative.xMin,
                 safeAreaRelative.yMin,
                 1 - (safeAreaRelative.yMin + safeAreaRelative.height),
-                1 - (safeAreaRelative.xMin + safeAreaRelative.width),
-            };
+                1 - (safeAreaRelative.xMin + safeAreaRelative.width)
+            );
 			
 #if DEBUG_NOTCH_SOLUTION
             Debug.Log($"SafeLDUR {string.Join(" ", relativeLDUR.Select(x => x.ToString()))}");
@@ -121,10 +121,7 @@ namespace E7.NotchSolution
             var currentRect = rectTransform.rect;
 
             //TODO : Calculate the current padding relative, to enable "Unlocked" mode. (Not forcing zero padding)
-            var finalPaddingsLDUR = new float[4]
-            {
-                0,0,0,0
-            };
+            var finalPaddingsLDUR = new Vector4();
 
             switch (selectedOrientation.left)
             {
