@@ -18,6 +18,9 @@ namespace E7.NotchSolution
 
         public void UpdateMockupSprite(Sprite sprite, ScreenOrientation orientation, bool simulate, bool flipped, Color prefabModeOverlayColor)
         {
+            if(mockupImage == null)
+                return;
+                
             if (!simulate)
             {
                 mockupImage.enabled = false;
