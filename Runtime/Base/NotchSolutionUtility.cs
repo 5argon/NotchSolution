@@ -65,8 +65,13 @@ namespace E7.NotchSolution
 
         private static Rect ToScreenRelativeRect(Rect absoluteRect)
         {
+#if UNITY_STANDALONE
+            var w = absoluteRect.width;
+            var h = absoluteRect.height;
+#else
             int w = Screen.currentResolution.width;
             int h = Screen.currentResolution.height;
+#endif
             //Debug.Log($"{w} {h} {Screen.currentResolution} {absoluteRect}");
             return new Rect(
                 absoluteRect.x / w,
