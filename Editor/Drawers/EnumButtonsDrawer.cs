@@ -1,6 +1,6 @@
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
-using System.Linq;
 
 namespace E7.NotchSolution.Editor
 {
@@ -18,7 +18,8 @@ namespace E7.NotchSolution.Editor
 
             var contents = property.enumDisplayNames.Select(x => new GUIContent(x)).ToArray();
 
-            property.enumValueIndex = GUI.Toolbar(insideRect, property.enumValueIndex, contents, EditorStyles.miniButton, GUI.ToolbarButtonSize.Fixed);
+            property.enumValueIndex = GUI.Toolbar(insideRect, property.enumValueIndex, contents,
+                EditorStyles.miniButton, GUI.ToolbarButtonSize.Fixed);
             EditorGUI.EndProperty();
         }
 
@@ -67,6 +68,4 @@ namespace E7.NotchSolution.Editor
         }
         */
     }
-
-
 }

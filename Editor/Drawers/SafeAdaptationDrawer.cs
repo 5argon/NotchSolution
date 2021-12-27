@@ -11,7 +11,7 @@ namespace E7.NotchSolution.Editor
             var adaptToEdgeProp = serializedObject.FindProperty("adaptToEdge");
             var evalModeProp = serializedObject.FindProperty("evaluationMode");
 
-            var rect = EditorGUILayout.GetControlRect(hasLabel:true);
+            var rect = EditorGUILayout.GetControlRect(true);
             EditorGUI.BeginProperty(rect, new GUIContent(adaptToEdgeProp.displayName), adaptToEdgeProp);
             EnumButtonsDrawer.DrawEnumAsButtons(rect, adaptToEdgeProp);
             EditorGUI.EndProperty();
@@ -39,6 +39,4 @@ namespace E7.NotchSolution.Editor
             //serializedObject.ApplyModifiedProperties();
         }
     }
-
-
 }

@@ -12,16 +12,18 @@ namespace E7.NotchSolution.Editor
             var animator = ab.GetComponent<Animator>();
             if (ab.TryGetLinkedControllerAsset(forPortrait, out var controllerAsset))
             {
-                bool controllerNull = animator.runtimeAnimatorController == null || animator.runtimeAnimatorController != controllerAsset;
+                var controllerNull = animator.runtimeAnimatorController == null ||
+                                     animator.runtimeAnimatorController != controllerAsset;
 
                 var miniMod = new GUIStyle(EditorStyles.miniButton);
 
                 GUI.backgroundColor = !controllerNull ? Color.red : Color.white;
-                string toggleText = !controllerNull ? "Editing Adaptation..." : "Edit Adaptation";
+                var toggleText = !controllerNull ? "Editing Adaptation..." : "Edit Adaptation";
 
-                bool newToggle = GUILayout.Toggle(
-                    value: !controllerNull,
-                    content: new GUIContent(toggleText, "Toggle on to assign an animator controller asset temporarily, so you could edit its clips in the Animation panel."),
+                var newToggle = GUILayout.Toggle(
+                    !controllerNull,
+                    new GUIContent(toggleText, "Toggle on to assign an animator controller asset temporarily, " +
+                                               "so you could edit its clips in the Animation panel."),
                     EditorStyles.miniButton
                 );
 
@@ -45,15 +47,20 @@ namespace E7.NotchSolution.Editor
             }
         }
 
-        void CreateAnimator(bool forPortrait)
+        private void CreateAnimator(bool forPortrait)
         {
-            AdaptationBase adaptation = (AdaptationBase)target;
-            Animator animator = adaptation.gameObject.GetComponent<Animator>();
+            var adaptation = (AdaptationBase) target;
+            var animator = adaptation.gameObject.GetComponent<Animator>();
 
             var incompletePath = GetSaveControllerPath(adaptation.gameObject);
-            if (string.IsNullOrEmpty(incompletePath)) return;
+            if (string.IsNullOrEmpty(incompletePath))
+            {
+                return;
+            }
+
             var prefix = Path.GetFileNameWithoutExtension(incompletePath);
-            var path = $"{Path.GetDirectoryName(incompletePath)}{Path.DirectorySeparatorChar}{prefix}Adaptation.controller";
+            var path =
+                $"{Path.GetDirectoryName(incompletePath)}{Path.DirectorySeparatorChar}{prefix}Adaptation.controller";
             var controller = AnimatorController.CreateAnimatorControllerAtPath(path);
             AssetDatabase.ImportAsset(path);
 
@@ -79,23 +86,25 @@ namespace E7.NotchSolution.Editor
             string GetSaveControllerPath(GameObject go)
             {
                 var defaultName = go.name;
-                var message = $"Create a new adaptation assets for the game object '{defaultName}'\nThis name will be a prefix for all assets.";
+                var message =
+                    $"Create a new adaptation assets for the game object '{defaultName}'\nThis name will be a prefix for all assets.";
                 return EditorUtility.SaveFilePanelInProject("New Animation Contoller", defaultName, "", message);
             }
         }
 
         /// <summary>
-        /// Draw the part of fields in <see cref="AdaptationBase"/>.
+        ///     Draw the part of fields in <see cref="AdaptationBase"/>.
         /// </summary>
         //public static void Draw(SerializedObject serializedObject)
         public override void OnInspectorGUI()
         {
-            AdaptationBase adaptation = (AdaptationBase)target;
+            var adaptation = (AdaptationBase) target;
             var supportedProp = serializedObject.FindProperty("supportedOrientations");
             var portraitProp = serializedObject.FindProperty("portraitOrDefaultAdaptation");
             var landscapeProp = serializedObject.FindProperty("landscapeAdaptation");
 
-            (bool landscapeCompatible, bool portraitCompatible) = NotchSolutionUtilityEditor.GetOrientationCompatibility();
+            var (landscapeCompatible, portraitCompatible) =
+                NotchSolutionUtilityEditor.GetOrientationCompatibility();
 
             if (portraitCompatible && landscapeCompatible)
             {
@@ -103,45 +112,50 @@ namespace E7.NotchSolution.Editor
                 EditorGUILayout.Separator();
             }
 
-            bool dual = supportedProp.enumValueIndex == (int)SupportedOrientations.Dual;
+            var dual = supportedProp.enumValueIndex == (int) SupportedOrientations.Dual;
 
             if (dual)
             {
                 EditorGUILayout.LabelField("Portrait Orientation", EditorStyles.boldLabel);
             }
 
-            portraitProp.Next(enterChildren: true);
+            portraitProp.Next(true);
 
-            if (portraitCompatible && landscapeCompatible) EditorGUI.indentLevel++;
-
-            DrawGenButton(adaptation, forPortrait: true);
-
-            for (int i = 0; i < 3; i++)
+            if (portraitCompatible && landscapeCompatible)
             {
-                EditorGUILayout.PropertyField(portraitProp);
-                portraitProp.Next(enterChildren: false);
+                EditorGUI.indentLevel++;
             }
 
-            if (portraitCompatible && landscapeCompatible) EditorGUI.indentLevel--;
+            DrawGenButton(adaptation, true);
+
+            for (var i = 0; i < 3; i++)
+            {
+                EditorGUILayout.PropertyField(portraitProp);
+                portraitProp.Next(false);
+            }
+
+            if (portraitCompatible && landscapeCompatible)
+            {
+                EditorGUI.indentLevel--;
+            }
 
             if (dual)
             {
                 EditorGUILayout.Separator();
                 EditorGUILayout.LabelField("Landscape Orientation", EditorStyles.boldLabel);
-                landscapeProp.Next(enterChildren: true);
+                landscapeProp.Next(true);
                 EditorGUI.indentLevel++;
-                DrawGenButton(adaptation, forPortrait: false);
-                for (int i = 0; i < 3; i++)
+                DrawGenButton(adaptation, false);
+                for (var i = 0; i < 3; i++)
                 {
                     EditorGUILayout.PropertyField(landscapeProp);
-                    landscapeProp.Next(enterChildren: false);
+                    landscapeProp.Next(false);
                 }
+
                 EditorGUI.indentLevel--;
             }
 
             serializedObject.ApplyModifiedProperties();
         }
     }
-
-
 }

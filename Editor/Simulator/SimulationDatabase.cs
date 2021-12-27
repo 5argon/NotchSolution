@@ -1,11 +1,12 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using UnityEngine;
 
 namespace E7.NotchSolution.Editor
 {
     /// <summary>
-    /// Please add more! [How to get device's safe area and cutouts](https://github.com/5argon/NotchSolution/issues/2).
+    ///     Please add more! [How to get device's safe area and cutouts](https://github.com/5argon/NotchSolution/issues/2).
     /// </summary>
     internal static class SimulationDatabase
     {
@@ -14,12 +15,19 @@ namespace E7.NotchSolution.Editor
 
         internal static void Refresh()
         {
-            if (db == null) db = new Dictionary<string, SimulationDevice>();
+            if (db == null)
+            {
+                db = new Dictionary<string, SimulationDevice>();
+            }
 
             db.Clear();
 
-            var deviceDirectory = new System.IO.DirectoryInfo(NotchSimulatorUtility.DevicesFolder);
-            if (!deviceDirectory.Exists) return;
+            var deviceDirectory = new DirectoryInfo(NotchSimulatorUtility.DevicesFolder);
+            if (!deviceDirectory.Exists)
+            {
+                return;
+            }
+
             var deviceDefinitions = deviceDirectory.GetFiles("*.device.json");
 
             foreach (var deviceDefinition in deviceDefinitions)
@@ -29,20 +37,30 @@ namespace E7.NotchSolution.Editor
                 {
                     deviceInfo = JsonUtility.FromJson<SimulationDevice>(sr.ReadToEnd());
                 }
+
                 db.Add(deviceInfo.Meta.friendlyName, deviceInfo);
             }
+
             KeyList = db.Keys.ToArray();
         }
 
-        internal static SimulationDevice Get(string device) 
+        internal static SimulationDevice Get(string device)
         {
-            if(db == null) Refresh();
+            if (db == null)
+            {
+                Refresh();
+            }
+
             return db.TryGetValue(device, out var found) ? found : default;
         }
 
         internal static SimulationDevice ByIndex(int index)
         {
-            if(KeyList == null) Refresh();
+            if (KeyList == null)
+            {
+                Refresh();
+            }
+
             return index < KeyList.Length ? db[KeyList[index]] : default;
         }
     }

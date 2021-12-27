@@ -15,7 +15,8 @@ namespace E7.NotchSolution.Editor
             var influence = serializedObject.FindProperty("influence");
             var flipPadding = serializedObject.FindProperty("flipPadding");
 
-            (bool landscapeCompatible, bool portraitCompatible) = NotchSolutionUtilityEditor.GetOrientationCompatibility();
+            var (landscapeCompatible, portraitCompatible) =
+                NotchSolutionUtilityEditor.GetOrientationCompatibility();
 
             if (portraitCompatible && landscapeCompatible)
             {
@@ -23,33 +24,40 @@ namespace E7.NotchSolution.Editor
                 EditorGUILayout.Separator();
             }
 
-            bool dual = orientationType.enumValueIndex == (int)SupportedOrientations.Dual;
+            var dual = orientationType.enumValueIndex == (int) SupportedOrientations.Dual;
 
             if (dual)
             {
                 EditorGUILayout.LabelField("Portrait Orientation", EditorStyles.boldLabel);
             }
 
-            if (portraitCompatible && landscapeCompatible) EditorGUI.indentLevel++;
-
-            for (int i = 0; i < 4; i++)
+            if (portraitCompatible && landscapeCompatible)
             {
-                portrait.Next(enterChildren: true);
+                EditorGUI.indentLevel++;
+            }
+
+            for (var i = 0; i < 4; i++)
+            {
+                portrait.Next(true);
                 EditorGUILayout.PropertyField(portrait, new GUIContent(portrait.displayName));
             }
-            
-            if (portraitCompatible && landscapeCompatible) EditorGUI.indentLevel--;
+
+            if (portraitCompatible && landscapeCompatible)
+            {
+                EditorGUI.indentLevel--;
+            }
 
             if (dual)
             {
                 EditorGUILayout.Separator();
                 EditorGUILayout.LabelField("Landscape Orientation", EditorStyles.boldLabel);
                 EditorGUI.indentLevel++;
-                for (int i = 0; i < 4; i++)
+                for (var i = 0; i < 4; i++)
                 {
-                    landscape.Next(enterChildren: true);
+                    landscape.Next(true);
                     EditorGUILayout.PropertyField(landscape);
                 }
+
                 EditorGUI.indentLevel--;
             }
 
@@ -60,6 +68,4 @@ namespace E7.NotchSolution.Editor
             serializedObject.ApplyModifiedProperties();
         }
     }
-
-
 }

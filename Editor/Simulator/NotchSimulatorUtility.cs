@@ -1,6 +1,9 @@
-﻿using UnityEngine;
-using UnityEditor;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using UnityEditor;
+using UnityEngine;
 
 namespace E7.NotchSolution.Editor
 {
@@ -8,24 +11,43 @@ namespace E7.NotchSolution.Editor
     {
         internal static Rect CalculateSimulatorSafeAreaRelative(SimulationDevice device)
         {
+            var firstScreen = device.Screens.FirstOrDefault();
+            // Should not happen, but just to be safe.
+            if (firstScreen == null)
+            {
+                return default;
+            }
+
             var orientation = GetGameViewOrientation();
-            var safe = device.Screens.FirstOrDefault().orientations[orientation].safeArea;
-            var screenSize = new Vector2(device.Screens.FirstOrDefault().width, device.Screens.FirstOrDefault().height);
+            var safe = firstScreen.orientations[orientation].safeArea;
+            var screenSize = new Vector2(firstScreen.width, firstScreen.height);
             if (orientation == ScreenOrientation.Landscape)
             {
                 var swap = screenSize.x;
                 screenSize.x = screenSize.y;
                 screenSize.y = swap;
             }
+
             return GetRectRelativeToScreenSize(safe, screenSize);
         }
 
         internal static Rect[] CalculateSimulatorCutoutsRelative(SimulationDevice device)
         {
+            var firstScreen = device.Screens.FirstOrDefault();
+            // Should not happen, but just to be safe.
+            if (firstScreen == null)
+            {
+                return default;
+            }
+
             var orientation = GetGameViewOrientation();
-            var cutouts = device.Screens.FirstOrDefault().orientations[orientation].cutouts;
-            if (cutouts is null) return new Rect[0];
-            var screenSize = new Vector2(device.Screens.FirstOrDefault().width, device.Screens.FirstOrDefault().height);
+            var cutouts = firstScreen.orientations[orientation].cutouts;
+            if (cutouts is null)
+            {
+                return new Rect[0];
+            }
+
+            var screenSize = new Vector2(firstScreen.width, firstScreen.height);
             if (orientation == ScreenOrientation.Landscape)
             {
                 var swap = screenSize.x;
@@ -33,15 +55,20 @@ namespace E7.NotchSolution.Editor
                 screenSize.y = swap;
             }
 
-            System.Collections.Generic.List<Rect> rects = new System.Collections.Generic.List<Rect>();
-            foreach (var cutout in cutouts) rects.Add(GetRectRelativeToScreenSize(cutout, screenSize));
+            var rects = new List<Rect>();
+            foreach (var cutout in cutouts)
+            {
+                rects.Add(GetRectRelativeToScreenSize(cutout, screenSize));
+            }
+
             return rects.ToArray();
         }
 
         /// <param name="original">Must be inside of a rect positioned at 0,0 that has width and height as <paramref name="screenSize"></param>
-        static Rect GetRectRelativeToScreenSize(Rect original, Vector2 screenSize)
+        private static Rect GetRectRelativeToScreenSize(Rect original, Vector2 screenSize)
         {
-            var relativeCutout = new Rect(original.xMin / screenSize.x, original.yMin / screenSize.y, original.width / screenSize.x, original.height / screenSize.y);
+            var relativeCutout = new Rect(original.xMin / screenSize.x, original.yMin / screenSize.y,
+                original.width / screenSize.x, original.height / screenSize.y);
             //Debug.Log($"Calc relative {original} {screenSize} {relativeCutout}");
             if (Settings.Instance.FlipOrientation)
             {
@@ -52,7 +79,8 @@ namespace E7.NotchSolution.Editor
                     relativeCutout.height
                 );
             }
-            else return relativeCutout;
+
+            return relativeCutout;
         }
 
         internal static ScreenOrientation GetGameViewOrientation()
@@ -62,28 +90,31 @@ namespace E7.NotchSolution.Editor
         }
 
 #if UNITY_2019_3_OR_NEWER
-        static System.Type T = System.Type.GetType("UnityEditor.PlayModeView,UnityEditor");
-        static System.Reflection.MethodInfo GetSizeOfMainGameView = T.GetMethod("GetMainPlayModeViewTargetSize", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
+        private static readonly Type T = Type.GetType("UnityEditor.PlayModeView,UnityEditor");
+        private static readonly MethodInfo GetSizeOfMainGameView =
+            T.GetMethod("GetMainPlayModeViewTargetSize", BindingFlags.NonPublic | BindingFlags.Static);
 #else
         static System.Type T = System.Type.GetType("UnityEditor.GameView,UnityEditor");
-        static System.Reflection.MethodInfo GetSizeOfMainGameView = T.GetMethod("GetMainGameViewTargetSizeNoBox", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
+        static System.Reflection.MethodInfo GetSizeOfMainGameView =
+ T.GetMethod("GetMainGameViewTargetSizeNoBox", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
 #endif
 
         private static object[] argsForOut = new object[1];
+
         internal static Vector2 GetMainGameViewSize()
         {
 #if UNITY_2019_3_OR_NEWER
-            Vector2 result = (Vector2)GetSizeOfMainGameView.Invoke(null, null);
+            var result = (Vector2) GetSizeOfMainGameView.Invoke(null, null);
             if (result == new Vector2(640f, 480f) && !NotchSolutionUtilityEditor.PlayModeViewOpen)
-			{
+            {
                 // Neither Game window nor Unity Device Simulator window is open (can happen if Scene view is maximized)
                 // In this case, the last open game window's size can be determined by looking at the mockup canvas' size
-                foreach (MockupCanvas mockupCanvas in NotchSimulator.AllMockupCanvases)
-				{
+                foreach (var mockupCanvas in NotchSimulator.AllMockupCanvases)
+                {
                     result = ((RectTransform) mockupCanvas.GetComponent<Canvas>().transform).sizeDelta;
                     break;
-				}
-			}
+                }
+            }
 
             return result;
 #else
@@ -93,6 +124,7 @@ namespace E7.NotchSolution.Editor
         }
 
         internal static string devicesFolderCached;
+
         internal static string DevicesFolder
         {
             get
@@ -101,6 +133,7 @@ namespace E7.NotchSolution.Editor
                 {
                     devicesFolderCached = AssetDatabase.GUIDToAssetPath("e6ee4d37d64882c4fac2dc0b3aad29cb");
                 }
+
                 return devicesFolderCached;
             }
         }

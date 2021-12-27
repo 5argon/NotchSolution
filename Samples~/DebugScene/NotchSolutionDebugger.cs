@@ -49,7 +49,6 @@ class NotchSolutionDebugger : MonoBehaviour, INotchSimulatorTarget
                     safeArea.Set(Screen.width - safeArea.x, Screen.height - safeArea.y, safeArea.width, safeArea.height);
                 sb.AppendLine($"Safe area : {safeArea}\n");
 
-#if UNITY_2019_2_OR_NEWER
 #if UNITY_EDITOR
                 var relativeCutouts = NotchSolutionUtility.ShouldUseNotchSimulatorValue ? storedSimulatedCutoutsRelative : NotchSolutionUtility.ScreenCutoutsRelative;
                 List<Rect> rectCutouts = new List<Rect>();
@@ -65,7 +64,6 @@ class NotchSolutionDebugger : MonoBehaviour, INotchSimulatorTarget
                     foreach (Rect rect in cutouts) rect.Set(Screen.width - rect.x, Screen.height - rect.y, rect.width, rect.height);
                 }
                 sb.AppendLine($"Cutouts : {string.Join(" / ", cutouts.Select(x => x.ToString()))} \n");
-#endif
 
                 sb.AppendLine($"Current resolution : {Screen.currentResolution}\n");
                 sb.AppendLine($"All Resolutions : {string.Join(" / ", Screen.resolutions.Select(x => x.ToString()))}\n");
@@ -168,9 +166,7 @@ class NotchSolutionDebugger : MonoBehaviour, INotchSimulatorTarget
                 var data = new OrientationDependentData()
                 {
                     safeArea = Screen.safeArea,
-#if UNITY_2019_2_OR_NEWER
                     cutouts = Screen.cutouts
-#endif
                 };
                 screen.orientations.Add(Screen.orientation, data);
             }

@@ -7,7 +7,6 @@ using UnityEngine.UI;
 public class DebugRect : MonoBehaviour
 {
     public Text debugText;
-    //public Rect rect;
     public RectTransform rectTransform;
     public Image borderColor;
 

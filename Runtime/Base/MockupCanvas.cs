@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -10,17 +9,19 @@ namespace E7.NotchSolution
 #if UNITY_EDITOR
     public class MockupCanvas : MonoBehaviour
     {
+        private const float proColor = 40 / 255f;
+        private const float personalColor = 49 / 255f;
         public Image mockupImage;
         public bool PrefabStage { private get; set; }
 
-        const float proColor = 40 / 255f;
-        const float personalColor = 49 / 255f;
-
-        public void UpdateMockupSprite(Sprite sprite, ScreenOrientation orientation, bool simulate, bool flipped, Color prefabModeOverlayColor)
+        public void UpdateMockupSprite(Sprite sprite, ScreenOrientation orientation, bool simulate, bool flipped,
+            Color prefabModeOverlayColor)
         {
-            if(mockupImage == null)
+            if (mockupImage == null)
+            {
                 return;
-                
+            }
+
             if (!simulate)
             {
                 mockupImage.enabled = false;
@@ -29,12 +30,25 @@ namespace E7.NotchSolution
             {
                 mockupImage.enabled = true;
 
-                if (sprite == null) mockupImage.color = new Color(0, 0, 0, 0);
-                else if (PrefabStage) mockupImage.color = prefabModeOverlayColor;
-                else if (EditorGUIUtility.isProSkin) mockupImage.color = new Color(proColor, proColor, proColor, 1);
-                else mockupImage.color = new Color(personalColor, personalColor, personalColor, 1);
+                if (sprite == null)
+                {
+                    mockupImage.color = new Color(0, 0, 0, 0);
+                }
+                else if (PrefabStage)
+                {
+                    mockupImage.color = prefabModeOverlayColor;
+                }
+                else if (EditorGUIUtility.isProSkin)
+                {
+                    mockupImage.color = new Color(proColor, proColor, proColor, 1);
+                }
+                else
+                {
+                    mockupImage.color = new Color(personalColor, personalColor, personalColor, 1);
+                }
 
-                mockupImage.transform.rotation = Quaternion.Euler(0, 0, orientation == ScreenOrientation.Landscape ? 90 : 0);
+                mockupImage.transform.rotation =
+                    Quaternion.Euler(0, 0, orientation == ScreenOrientation.Landscape ? 90 : 0);
                 mockupImage.sprite = sprite;
                 mockupImage.transform.localScale = new Vector3(
                     flipped ? -1 : 1,

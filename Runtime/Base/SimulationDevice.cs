@@ -38,13 +38,16 @@ namespace E7.NotchSolution
         public int height;
         public int navigationBarHeight;
         public float dpi;
-        public Dictionary<ScreenOrientation, OrientationDependentData> orientations;
         [SerializeField] private ScreenOrientation[] orientationKeys;
         [SerializeField] private OrientationDependentData[] orientationValues;
+        public Dictionary<ScreenOrientation, OrientationDependentData> orientations;
 
         public void OnBeforeSerialize()
         {
-            if (orientations == null) return;
+            if (orientations == null)
+            {
+                return;
+            }
 
             orientationKeys = orientations.Keys.ToArray();
             orientationValues = orientations.Values.ToArray();
@@ -54,8 +57,10 @@ namespace E7.NotchSolution
         {
             Assert.AreEqual(orientationKeys.Length, orientationValues.Length);
             orientations = new Dictionary<ScreenOrientation, OrientationDependentData>();
-            for (int i = 0; i < orientationKeys.Length; i++)
+            for (var i = 0; i < orientationKeys.Length; i++)
+            {
                 orientations.Add(orientationKeys[i], orientationValues[i]);
+            }
         }
     }
 
@@ -98,7 +103,9 @@ namespace E7.NotchSolution
         public bool graphicsUVStartsAtTop;
         public string graphicsDeviceVersion;
         public int graphicsShaderLevel;
+
         public bool graphicsMultiThreaded;
+
         //public RenderingThreadingMode renderingThreadingMode;
         public bool hasHiddenSurfaceRemovalOnGPU;
         public bool hasDynamicUniformArrayIndexingInFragmentShaders;

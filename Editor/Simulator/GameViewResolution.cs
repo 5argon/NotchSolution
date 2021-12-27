@@ -5,261 +5,291 @@ using UnityEngine;
 
 namespace E7.NotchSolution.Editor
 {
-	public static class GameViewResolution
-	{
-		private const string TEMPORARY_RESOLUTION_LABEL = "Notch Simulator Device";
-		private const string PREVIOUS_RESOLUTION_PREF = "NotchSimPrevRes";
+    public static class GameViewResolution
+    {
+        private const string TEMPORARY_RESOLUTION_LABEL = "Notch Simulator Device";
+        private const string PREVIOUS_RESOLUTION_PREF = "NotchSimPrevRes";
 
-		private static object GameViewSizes { get { return GetType( "GameViewSizes" ).FetchProperty( "instance" ).FetchProperty( "currentGroup" ); } }
+        private static object m_customResolution;
 
-		private static object FixedResolutionMode { get { return Enum.Parse( GetType( "GameViewSizeType" ), "FixedResolution" ); } }
-		private static object AspectRatioMode { get { return Enum.Parse( GetType( "GameViewSizeType" ), "AspectRatio" ); } }
+        private static int mockupRefreshTime;
 
-		private static object m_customResolution;
-		private static object CustomResolution
-		{
-			get
-			{
-				if( m_customResolution != null )
-				{
-					if( (int) GameViewSizes.CallMethod( "IndexOf", m_customResolution ) < 0 )
-						m_customResolution = null;
-				}
-				else
-				{
-					int totalSizeCount = (int) GameViewSizes.CallMethod( "GetTotalCount" );
-					int builtinSizeCount = (int) GameViewSizes.CallMethod( "GetBuiltinCount" );
-					for( int i = totalSizeCount - 1; i >= builtinSizeCount; i-- )
-					{
-						object size = GameViewSizes.CallMethod( "GetGameViewSize", i );
-						if( (string) size.FetchProperty( "baseText" ) == TEMPORARY_RESOLUTION_LABEL )
-						{
-							m_customResolution = size;
-							break;
-						}
-					}
-				}
+        private static object GameViewSizes =>
+            GetType("GameViewSizes").FetchProperty("instance").FetchProperty("currentGroup");
 
-				return m_customResolution;
-			}
-			set { m_customResolution = value; }
-		}
+        private static object FixedResolutionMode => Enum.Parse(GetType("GameViewSizeType"), "FixedResolution");
+        private static object AspectRatioMode => Enum.Parse(GetType("GameViewSizeType"), "AspectRatio");
 
-		private static int CustomResolutionIndex { get { return m_customResolution == null ? -1 : (int) GameViewSizes.CallMethod( "IndexOf", m_customResolution ) + (int) GameViewSizes.CallMethod( "GetBuiltinCount" ); } }
+        private static object CustomResolution
+        {
+            get
+            {
+                if (m_customResolution != null)
+                {
+                    if ((int) GameViewSizes.CallMethod("IndexOf", m_customResolution) < 0)
+                    {
+                        m_customResolution = null;
+                    }
+                }
+                else
+                {
+                    var totalSizeCount = (int) GameViewSizes.CallMethod("GetTotalCount");
+                    var builtinSizeCount = (int) GameViewSizes.CallMethod("GetBuiltinCount");
+                    for (var i = totalSizeCount - 1; i >= builtinSizeCount; i--)
+                    {
+                        var size = GameViewSizes.CallMethod("GetGameViewSize", i);
+                        if ((string) size.FetchProperty("baseText") == TEMPORARY_RESOLUTION_LABEL)
+                        {
+                            m_customResolution = size;
+                            break;
+                        }
+                    }
+                }
 
-		public static void SetResolution( int width, int height, bool aspectRatioMode )
-		{
-			EditorWindow gameView = GetGameView();
-			if( !gameView )
-			{
-#if UNITY_2019_3_OR_NEWER
-				// On 2019.3 and later, we can resize canvases even when there is no open Game window. On earlier versions, unfortunately it is not possible
-				if( !NotchSolutionUtilityEditor.UnityDeviceSimulatorActive )
-				{
-					SceneView sceneView = SceneView.lastActiveSceneView ?? SceneView.currentDrawingSceneView;
-					if( sceneView )
-					{
-						sceneView.CallMethod( "SetMainPlayModeViewSize", new Vector2( width, height ) );
-						RefreshMockups();
-					}
-				}
-#endif
+                return m_customResolution;
+            }
+            set => m_customResolution = value;
+        }
 
-				return;
-			}
+        private static int CustomResolutionIndex => m_customResolution == null
+            ? -1
+            : (int) GameViewSizes.CallMethod("IndexOf", m_customResolution) +
+              (int) GameViewSizes.CallMethod("GetBuiltinCount");
 
-			object customResolution = CustomResolution;
-			if( customResolution != null )
-			{
-				bool isModified = false;
+        public static void SetResolution(int width, int height, bool aspectRatioMode)
+        {
+            var gameView = GetGameView();
+            if (!gameView)
+            {
+                if (!NotchSolutionUtilityEditor.UnityDeviceSimulatorActive)
+                {
+                    var sceneView = SceneView.lastActiveSceneView
+                        ? SceneView.lastActiveSceneView
+                        : SceneView.currentDrawingSceneView;
+                    if (sceneView)
+                    {
+                        sceneView.CallMethod("SetMainPlayModeViewSize", new Vector2(width, height));
+                        RefreshMockups();
+                    }
+                }
 
-				if( ( customResolution.FetchProperty( "sizeType" ).Equals( AspectRatioMode ) ) != aspectRatioMode )
-				{
-					customResolution.ModifyProperty( "sizeType", aspectRatioMode ? AspectRatioMode : FixedResolutionMode );
-					isModified = true;
-				}
+                return;
+            }
 
-				if( (int) customResolution.FetchProperty( "width" ) != width )
-				{
-					customResolution.ModifyProperty( "width", width );
-					isModified = true;
-				}
+            var customResolution = CustomResolution;
+            if (customResolution != null)
+            {
+                var isModified = false;
 
-				if( (int) customResolution.FetchProperty( "height" ) != height )
-				{
-					customResolution.ModifyProperty( "height", height );
-					isModified = true;
-				}
+                if (customResolution.FetchProperty("sizeType").Equals(AspectRatioMode) != aspectRatioMode)
+                {
+                    customResolution.ModifyProperty("sizeType",
+                        aspectRatioMode ? AspectRatioMode : FixedResolutionMode);
+                    isModified = true;
+                }
 
-				if( !isModified )
-					return;
-				else if( CustomResolutionIndex == (int) gameView.FetchProperty( "selectedSizeIndex" ) )
-				{
-					ZoomOutGameView();
-					RefreshMockups();
+                if ((int) customResolution.FetchProperty("width") != width)
+                {
+                    customResolution.ModifyProperty("width", width);
+                    isModified = true;
+                }
 
-					return;
-				}
-			}
-			else
-			{
-				CustomResolution = customResolution = GetType( "GameViewSize" ).CreateInstance( aspectRatioMode ? AspectRatioMode : FixedResolutionMode, width, height, TEMPORARY_RESOLUTION_LABEL );
-				GameViewSizes.CallMethod( "AddCustomSize", customResolution );
-			}
+                if ((int) customResolution.FetchProperty("height") != height)
+                {
+                    customResolution.ModifyProperty("height", height);
+                    isModified = true;
+                }
 
-			PlayerPrefs.SetInt( PREVIOUS_RESOLUTION_PREF, (int) gameView.FetchProperty( "selectedSizeIndex" ) );
-			gameView.CallMethod( "SizeSelectionCallback", CustomResolutionIndex, null );
+                if (!isModified)
+                {
+                    return;
+                }
 
-			ZoomOutGameView();
-			RefreshMockups();
-		}
+                if (CustomResolutionIndex == (int) gameView.FetchProperty("selectedSizeIndex"))
+                {
+                    ZoomOutGameView();
+                    RefreshMockups();
 
-		public static void ClearResolution()
-		{
-			if( CustomResolution != null )
-			{
-				EditorWindow gameView = GetGameView();
-				bool customResolutionActive = gameView && CustomResolutionIndex == (int) gameView.FetchProperty( "selectedSizeIndex" );
+                    return;
+                }
+            }
+            else
+            {
+                CustomResolution = customResolution = GetType("GameViewSize")
+                    .CreateInstance(aspectRatioMode ? AspectRatioMode : FixedResolutionMode, width, height,
+                        TEMPORARY_RESOLUTION_LABEL);
+                GameViewSizes.CallMethod("AddCustomSize", customResolution);
+            }
 
-				GameViewSizes.CallMethod( "RemoveCustomSize", CustomResolutionIndex );
-				CustomResolution = null;
+            PlayerPrefs.SetInt(PREVIOUS_RESOLUTION_PREF, (int) gameView.FetchProperty("selectedSizeIndex"));
+            gameView.CallMethod("SizeSelectionCallback", CustomResolutionIndex, null);
 
-				if( customResolutionActive )
-				{
-					gameView.CallMethod( "SizeSelectionCallback", Mathf.Clamp( PlayerPrefs.GetInt( PREVIOUS_RESOLUTION_PREF ), 0, (int) GameViewSizes.CallMethod( "GetTotalCount" ) - 1 ), null );
+            ZoomOutGameView();
+            RefreshMockups();
+        }
 
-					ZoomOutGameView();
-					RefreshMockups();
-				}
-			}
-		}
+        public static void ClearResolution()
+        {
+            if (CustomResolution != null)
+            {
+                var gameView = GetGameView();
+                var customResolutionActive =
+                    gameView && CustomResolutionIndex == (int) gameView.FetchProperty("selectedSizeIndex");
 
-		private static EditorWindow GetGameView()
-		{
-			UnityEngine.Object[] windows = Resources.FindObjectsOfTypeAll( GetType( "GameView" ) );
-			return windows.Length > 0 ? (EditorWindow) windows[0] : null;
-		}
+                GameViewSizes.CallMethod("RemoveCustomSize", CustomResolutionIndex);
+                CustomResolution = null;
 
-		private static void ZoomOutGameView()
-		{
-			EditorWindow gameView = GetGameView();
+                if (customResolutionActive)
+                {
+                    gameView.CallMethod("SizeSelectionCallback",
+                        Mathf.Clamp(PlayerPrefs.GetInt(PREVIOUS_RESOLUTION_PREF), 0,
+                            (int) GameViewSizes.CallMethod("GetTotalCount") - 1), null);
 
-			// Find the currently active tab on Game view's panel
-			EditorWindow activeTab = gameView.FetchField( "m_Parent" )?.FetchProperty( "actualView" ) as EditorWindow;
+                    ZoomOutGameView();
+                    RefreshMockups();
+                }
+            }
+        }
 
-			gameView.Focus();
-			gameView.CallMethod( "UpdateZoomAreaAndParent" );
-			gameView.CallMethod( "SnapZoom", (float) gameView.FetchProperty( "minScale" ) );
+        private static EditorWindow GetGameView()
+        {
+            var windows = Resources.FindObjectsOfTypeAll(GetType("GameView"));
+            return windows.Length > 0 ? (EditorWindow) windows[0] : null;
+        }
 
-			// Restore the active tab
-			if( activeTab && activeTab != gameView )
-				activeTab.Focus();
-		}
+        private static void ZoomOutGameView()
+        {
+            var gameView = GetGameView();
 
-		private static int mockupRefreshTime;
+            // Find the currently active tab on Game view's panel
+            var activeTab = gameView.FetchField("m_Parent")?.FetchProperty("actualView") as EditorWindow;
 
-		private static void RefreshMockups()
-		{
-			// Sometimes we need to respawn the mockups after a couple of frames in order to synchronize the mockups
-			// with the new game view resolution
-			if( !NotchSimulator.IsOpen )
-			{
-				mockupRefreshTime = 2;
+            gameView.Focus();
+            gameView.CallMethod("UpdateZoomAreaAndParent");
+            gameView.CallMethod("SnapZoom", (float) gameView.FetchProperty("minScale"));
 
-				EditorApplication.update -= RefreshMockupsInternal;
-				EditorApplication.update += RefreshMockupsInternal;
-			}
-		}
+            // Restore the active tab
+            if (activeTab && activeTab != gameView)
+            {
+                activeTab.Focus();
+            }
+        }
 
-		private static void RefreshMockupsInternal()
-		{
-			if( --mockupRefreshTime <= 0 )
-			{
-				EditorApplication.update -= RefreshMockupsInternal;
-				NotchSimulator.RespawnMockup();
-			}
-		}
+        private static void RefreshMockups()
+        {
+            // Sometimes we need to respawn the mockups after a couple of frames in order to synchronize the mockups
+            // with the new game view resolution
+            if (!NotchSimulator.IsOpen)
+            {
+                mockupRefreshTime = 2;
 
-		#region Reflection Functions
-		private static Type GetType( string type )
-		{
-			return typeof( EditorWindow ).Assembly.GetType( "UnityEditor." + type );
-		}
+                EditorApplication.update -= RefreshMockupsInternal;
+                EditorApplication.update += RefreshMockupsInternal;
+            }
+        }
 
-		private static object FetchField( this Type type, string field )
-		{
-			return type.GetFieldRecursive( field, true ).GetValue( null );
-		}
+        private static void RefreshMockupsInternal()
+        {
+            if (--mockupRefreshTime <= 0)
+            {
+                EditorApplication.update -= RefreshMockupsInternal;
+                NotchSimulator.RespawnMockup();
+            }
+        }
 
-		private static object FetchField( this object obj, string field )
-		{
-			return obj.GetType().GetFieldRecursive( field, false ).GetValue( obj );
-		}
+        #region Reflection Functions
 
-		private static object FetchProperty( this Type type, string property )
-		{
-			return type.GetPropertyRecursive( property, true ).GetValue( null, null );
-		}
+        private static Type GetType(string type)
+        {
+            return typeof(EditorWindow).Assembly.GetType("UnityEditor." + type);
+        }
 
-		private static object FetchProperty( this object obj, string property )
-		{
-			return obj.GetType().GetPropertyRecursive( property, false ).GetValue( obj, null );
-		}
+        private static object FetchField(this Type type, string field)
+        {
+            return type.GetFieldRecursive(field, true).GetValue(null);
+        }
 
-		private static void ModifyProperty( this object obj, string property, object value )
-		{
-			obj.GetType().GetPropertyRecursive( property, false ).SetValue( obj, value, null );
-		}
+        private static object FetchField(this object obj, string field)
+        {
+            return obj.GetType().GetFieldRecursive(field, false).GetValue(obj);
+        }
 
-		private static object CallMethod( this object obj, string method, params object[] parameters )
-		{
-			return obj.GetType().GetMethod( method, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance ).Invoke( obj, parameters );
-		}
+        private static object FetchProperty(this Type type, string property)
+        {
+            return type.GetPropertyRecursive(property, true).GetValue(null, null);
+        }
 
-		private static object CreateInstance( this Type type, params object[] parameters )
-		{
-			Type[] parameterTypes;
-			if( parameters == null )
-				parameterTypes = null;
-			else
-			{
-				parameterTypes = new Type[parameters.Length];
-				for( int i = 0; i < parameters.Length; i++ )
-					parameterTypes[i] = parameters[i].GetType();
-			}
+        private static object FetchProperty(this object obj, string property)
+        {
+            return obj.GetType().GetPropertyRecursive(property, false).GetValue(obj, null);
+        }
 
-			return type.GetConstructor( parameterTypes ).Invoke( parameters );
-		}
+        private static void ModifyProperty(this object obj, string property, object value)
+        {
+            obj.GetType().GetPropertyRecursive(property, false).SetValue(obj, value, null);
+        }
 
-		private static FieldInfo GetFieldRecursive( this Type type, string field, bool isStatic )
-		{
-			BindingFlags flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly | ( isStatic ? BindingFlags.Static : BindingFlags.Instance );
-			do
-			{
-				FieldInfo fieldInfo = type.GetField( field, flags );
-				if( fieldInfo != null )
-					return fieldInfo;
+        private static object CallMethod(this object obj, string method, params object[] parameters)
+        {
+            return obj.GetType().GetMethod(method, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
+                .Invoke(obj, parameters);
+        }
 
-				type = type.BaseType;
-			} while( type != null );
+        private static object CreateInstance(this Type type, params object[] parameters)
+        {
+            Type[] parameterTypes;
+            if (parameters == null)
+            {
+                parameterTypes = null;
+            }
+            else
+            {
+                parameterTypes = new Type[parameters.Length];
+                for (var i = 0; i < parameters.Length; i++)
+                {
+                    parameterTypes[i] = parameters[i].GetType();
+                }
+            }
 
-			return null;
-		}
+            return type.GetConstructor(parameterTypes).Invoke(parameters);
+        }
 
-		private static PropertyInfo GetPropertyRecursive( this Type type, string property, bool isStatic )
-		{
-			BindingFlags flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly | ( isStatic ? BindingFlags.Static : BindingFlags.Instance );
-			do
-			{
-				PropertyInfo propertyInfo = type.GetProperty( property, flags );
-				if( propertyInfo != null )
-					return propertyInfo;
+        private static FieldInfo GetFieldRecursive(this Type type, string field, bool isStatic)
+        {
+            var flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly |
+                        (isStatic ? BindingFlags.Static : BindingFlags.Instance);
+            do
+            {
+                var fieldInfo = type.GetField(field, flags);
+                if (fieldInfo != null)
+                {
+                    return fieldInfo;
+                }
 
-				type = type.BaseType;
-			} while( type != null );
+                type = type.BaseType;
+            } while (type != null);
 
-			return null;
-		}
-		#endregion
-	}
+            return null;
+        }
+
+        private static PropertyInfo GetPropertyRecursive(this Type type, string property, bool isStatic)
+        {
+            var flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly |
+                        (isStatic ? BindingFlags.Static : BindingFlags.Instance);
+            do
+            {
+                var propertyInfo = type.GetProperty(property, flags);
+                if (propertyInfo != null)
+                {
+                    return propertyInfo;
+                }
+
+                type = type.BaseType;
+            } while (type != null);
+
+            return null;
+        }
+
+        #endregion
+    }
 }

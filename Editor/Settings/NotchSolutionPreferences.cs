@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -8,8 +9,8 @@ namespace E7.NotchSolution.Editor
 {
     internal class NotchSolutionPreferences : SettingsProvider
     {
-
-        public NotchSolutionPreferences(string path, SettingsScope scopes, IEnumerable<string> keywords = null) : base(path, scopes, keywords)
+        public NotchSolutionPreferences(string path, SettingsScope scopes, IEnumerable<string> keywords = null) : base(
+            path, scopes, keywords)
         {
         }
 
@@ -21,7 +22,7 @@ namespace E7.NotchSolution.Editor
         public override void OnActivate(string searchContext, VisualElement root)
         {
             var padRect = new VisualElement();
-            int padding = 10;
+            var padding = 10;
             padRect.style.paddingBottom = padding;
             padRect.style.paddingLeft = padding;
             padRect.style.paddingRight = padding;
@@ -36,10 +37,7 @@ namespace E7.NotchSolution.Editor
             var repo = new Label("https://github.com/5argon/NotchSolution");
             repo.style.paddingBottom = 15;
             repo.style.unityFontStyleAndWeight = FontStyle.Bold;
-            repo.RegisterCallback((MouseDownEvent ev) =>
-            {
-                System.Diagnostics.Process.Start("https://github.com/5argon/NotchSolution");
-            });
+            repo.RegisterCallback((MouseDownEvent ev) => { Process.Start("https://github.com/5argon/NotchSolution"); });
             padRect.Add(repo);
 
             var devicesPath = new TextField("Device Directory");
@@ -63,8 +61,7 @@ namespace E7.NotchSolution.Editor
         [SettingsProvider]
         public static SettingsProvider Pref()
         {
-            return new NotchSolutionPreferences("Preferences/Notch Solution", SettingsScope.User, new string[] { "UI" });
+            return new NotchSolutionPreferences("Preferences/Notch Solution", SettingsScope.User, new[] {"UI"});
         }
-
     }
 }
