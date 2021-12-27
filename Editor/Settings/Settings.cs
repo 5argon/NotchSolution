@@ -20,8 +20,9 @@ namespace E7.NotchSolution.Editor
         [SerializeField] private List<PerPlatformConfigurations> perPlatformConfigurations;
 
         [field: SerializeField] internal bool EnableSimulation { get; set; }
-        [field: SerializeField] internal bool FlipOrientation { get; set; }
         [field: SerializeField] internal Color PrefabModeOverlayColor { get; set; }
+
+        internal bool FlipOrientation { get { return ActiveConfiguration.Orientation == PreviewOrientation.LandscapeRight || ActiveConfiguration.Orientation == PreviewOrientation.PortraitUpsideDown; } }
 
         public Settings()
         {
