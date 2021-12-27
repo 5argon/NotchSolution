@@ -1,14 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 [ExecuteAlways]
 public class DebugRect : MonoBehaviour
 {
-    public Text debugText;
-    public RectTransform rectTransform;
-    public Image borderColor;
+    [SerializeField] private Text debugText;
+    [SerializeField] private RectTransform rectTransform;
+    [SerializeField] private Image borderColor;
 
     // public void Update()
     // {
@@ -18,17 +16,18 @@ public class DebugRect : MonoBehaviour
     public void PlaceItselfAtScreenRect(Rect screenRect, Color color = default)
     {
         borderColor.color = color == default ? Color.red : color;
-        var parentRect = this.transform.parent.GetComponent<RectTransform>();
+        var parentRect = transform.parent.GetComponent<RectTransform>();
 
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(parentRect, screenRect.position, Camera.main, out Vector2 localPoint);
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(parentRect, screenRect.size, Camera.main, out Vector2 localSize);
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(parentRect, screenRect.position, Camera.main,
+            out var localPoint);
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(parentRect, screenRect.size, Camera.main,
+            out var localSize);
 
-        localSize = localSize + (parentRect.sizeDelta / 2);
+        localSize = localSize + parentRect.sizeDelta / 2;
 
         debugText.text = $"{screenRect}";
 
         rectTransform.localPosition = localPoint;
         rectTransform.sizeDelta = localSize;
-
     }
 }

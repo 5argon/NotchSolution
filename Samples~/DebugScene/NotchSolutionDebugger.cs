@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -7,31 +8,29 @@ using E7.NotchSolution;
 using UnityEngine;
 using UnityEngine.UI;
 
-class NotchSolutionDebugger : MonoBehaviour, INotchSimulatorTarget
+internal class NotchSolutionDebugger : MonoBehaviour, INotchSimulatorTarget
 {
-#pragma warning disable 0649
-    public Text debugText;
-    public GameObject debugRectPrefab;
-    public RectTransform rootRect;
-    public Transform export;
-#pragma warning restore 0649
-
-    private StringBuilder sb = new StringBuilder();
-
-    public SimulationDevice device;
-
-    public enum Menu { Home, Extracting }
-    public Menu menu;
-
-    private Rect storedSimulatedSafeAreaRelative = NotchSolutionUtility.defaultSafeArea;
-    private Rect[] storedSimulatedCutoutsRelative = NotchSolutionUtility.defaultCutouts;
-    public void SimulatorUpdate(Rect simulatedSafeAreaRelative, Rect[] simulatedCutoutsRelative)
+    public enum Menu
     {
-        this.storedSimulatedSafeAreaRelative = simulatedSafeAreaRelative;
-        this.storedSimulatedCutoutsRelative = simulatedCutoutsRelative;
+        Home,
+        Extracting,
     }
 
-    void Update()
+    public SimulationDevice device;
+    public Menu menu;
+    [SerializeField] private Text debugText;
+    [SerializeField] private GameObject debugRectPrefab;
+    [SerializeField] private RectTransform rootRect;
+    [SerializeField] private Transform export;
+
+    private readonly List<DebugRect> debugRects = new List<DebugRect>();
+
+    private readonly StringBuilder sb = new StringBuilder();
+    private Rect[] storedSimulatedCutoutsRelative = NotchSolutionUtility.defaultCutouts;
+
+    private Rect storedSimulatedSafeAreaRelative = NotchSolutionUtility.defaultSafeArea;
+
+    private void Update()
     {
         sb.Clear();
         ClearRects();
@@ -40,35 +39,58 @@ class NotchSolutionDebugger : MonoBehaviour, INotchSimulatorTarget
         {
             case Menu.Home:
                 export.gameObject.SetActive(true);
-                sb.AppendLine($"<b>-- PLEASE ROTATE THE DEVICE TO GET BOTH ORIENTATION'S DETAILS! --</b>\n");
+                sb.AppendLine("<b>-- PLEASE ROTATE THE DEVICE TO GET BOTH ORIENTATION'S DETAILS! --</b>\n");
 
-                var safeArea = RelativeToReal(NotchSolutionUtility.ShouldUseNotchSimulatorValue ? storedSimulatedSafeAreaRelative : NotchSolutionUtility.ScreenSafeAreaRelative);
+                var safeArea = RelativeToReal(NotchSolutionUtility.ShouldUseNotchSimulatorValue
+                    ? storedSimulatedSafeAreaRelative
+                    : NotchSolutionUtility.ScreenSafeAreaRelative);
 
                 PlaceRect(safeArea, Color.red);
                 if (Screen.orientation != NotchSolutionUtility.GetCurrentOrientation())
-                    safeArea.Set(Screen.width - safeArea.x, Screen.height - safeArea.y, safeArea.width, safeArea.height);
+                {
+                    safeArea.Set(Screen.width - safeArea.x, Screen.height - safeArea.y, safeArea.width,
+                        safeArea.height);
+                }
+
                 sb.AppendLine($"Safe area : {safeArea}\n");
 
 #if UNITY_EDITOR
-                var relativeCutouts = NotchSolutionUtility.ShouldUseNotchSimulatorValue ? storedSimulatedCutoutsRelative : NotchSolutionUtility.ScreenCutoutsRelative;
-                List<Rect> rectCutouts = new List<Rect>();
-                foreach (Rect rect in relativeCutouts) rectCutouts.Add(RelativeToReal(rect));
+                var relativeCutouts = NotchSolutionUtility.ShouldUseNotchSimulatorValue
+                    ? storedSimulatedCutoutsRelative
+                    : NotchSolutionUtility.ScreenCutoutsRelative;
+                var rectCutouts = new List<Rect>();
+                foreach (var rect in relativeCutouts)
+                {
+                    rectCutouts.Add(RelativeToReal(rect));
+                }
+
                 var cutouts = rectCutouts.ToArray();
 #else
                 var cutouts = Screen.cutouts;
 #endif
-                foreach (Rect r in cutouts) PlaceRect(r, Color.blue);
+                foreach (var r in cutouts)
+                {
+                    PlaceRect(r, Color.blue);
+                }
 
                 if (Screen.orientation != NotchSolutionUtility.GetCurrentOrientation())
                 {
-                    foreach (Rect rect in cutouts) rect.Set(Screen.width - rect.x, Screen.height - rect.y, rect.width, rect.height);
+                    foreach (var rect in cutouts)
+                    {
+                        rect.Set(Screen.width - rect.x, Screen.height - rect.y, rect.width, rect.height);
+                    }
                 }
+
                 sb.AppendLine($"Cutouts : {string.Join(" / ", cutouts.Select(x => x.ToString()))} \n");
 
                 sb.AppendLine($"Current resolution : {Screen.currentResolution}\n");
-                sb.AppendLine($"All Resolutions : {string.Join(" / ", Screen.resolutions.Select(x => x.ToString()))}\n");
-                sb.AppendLine($"DPI : {Screen.dpi} WxH : {Screen.width}x{Screen.height} Orientation : {Screen.orientation}\n");
-                var joinedProps = string.Join(" / ", typeof(SystemInfo).GetProperties(BindingFlags.Public | BindingFlags.Static).Select(x => $"{x.Name} : {x.GetValue(null)}"));
+                sb.AppendLine(
+                    $"All Resolutions : {string.Join(" / ", Screen.resolutions.Select(x => x.ToString()))}\n");
+                sb.AppendLine(
+                    $"DPI : {Screen.dpi} WxH : {Screen.width}x{Screen.height} Orientation : {Screen.orientation}\n");
+                var joinedProps = string.Join(" / ",
+                    typeof(SystemInfo).GetProperties(BindingFlags.Public | BindingFlags.Static)
+                        .Select(x => $"{x.Name} : {x.GetValue(null)}"));
                 sb.AppendLine(joinedProps);
 
                 break;
@@ -78,21 +100,31 @@ class NotchSolutionDebugger : MonoBehaviour, INotchSimulatorTarget
 
                 if (screen.orientations.Count == 4)
                 {
-                    string path = Application.persistentDataPath + "/" + device.Meta.friendlyName + ".device.json";
-                    System.IO.File.WriteAllText(path, JsonUtility.ToJson(device));
+                    var path = Application.persistentDataPath + "/" + device.Meta.friendlyName + ".device.json";
+                    File.WriteAllText(path, JsonUtility.ToJson(device));
                     sb.AppendLine("<b>Done</b>");
                     sb.AppendLine("");
                     sb.AppendLine($"File saved at <i>{path}</i>");
                     StartCoroutine(exportDone());
                 }
-                else sb.AppendLine("Extracting...");
+                else
+                {
+                    sb.AppendLine("Extracting...");
+                }
 
                 break;
         }
+
         debugText.text = sb.ToString();
     }
 
-    Rect RelativeToReal(Rect relative)
+    public void SimulatorUpdate(Rect simulatedSafeAreaRelative, Rect[] simulatedCutoutsRelative)
+    {
+        storedSimulatedSafeAreaRelative = simulatedSafeAreaRelative;
+        storedSimulatedCutoutsRelative = simulatedCutoutsRelative;
+    }
+
+    private Rect RelativeToReal(Rect relative)
     {
         return new Rect(
             relative.x * Screen.width,
@@ -102,10 +134,13 @@ class NotchSolutionDebugger : MonoBehaviour, INotchSimulatorTarget
         );
     }
 
-    private List<DebugRect> debugRects = new List<DebugRect>();
     public void ClearRects()
     {
-        foreach (var dbr in debugRects) Destroy(dbr.gameObject);
+        foreach (var dbr in debugRects)
+        {
+            Destroy(dbr.gameObject);
+        }
+
         debugRects.Clear();
     }
 
@@ -126,20 +161,27 @@ class NotchSolutionDebugger : MonoBehaviour, INotchSimulatorTarget
         device.Meta = new MetaData();
         device.Meta.friendlyName = export.GetComponentInChildren<InputField>().text;
 
-        device.SystemInfo = new SystemInfoData() { GraphicsDependentData = new GraphicsDependentSystemInfoData[1] { new GraphicsDependentSystemInfoData() } };
+        device.SystemInfo = new SystemInfoData
+            {GraphicsDependentData = new GraphicsDependentSystemInfoData[1] {new GraphicsDependentSystemInfoData()}};
         foreach (var property in typeof(SystemInfo).GetProperties(BindingFlags.Public | BindingFlags.Static))
         {
             var prop = typeof(SystemInfoData).GetField(property.Name);
-            if (prop != null) prop.SetValue(device.SystemInfo, property.GetValue(null));
+            if (prop != null)
+            {
+                prop.SetValue(device.SystemInfo, property.GetValue(null));
+            }
             else
             {
                 prop = typeof(GraphicsDependentSystemInfoData).GetField(property.Name);
-                if (prop != null) prop.SetValue(device.SystemInfo.GraphicsDependentData[0], property.GetValue(null));
+                if (prop != null)
+                {
+                    prop.SetValue(device.SystemInfo.GraphicsDependentData[0], property.GetValue(null));
+                }
             }
         }
 
         device.Screens = new ScreenData[1];
-        for (int i = 0; i < device.Screens.Length; i++)
+        for (var i = 0; i < device.Screens.Length; i++)
         {
             var screen = new ScreenData();
             screen.width = Screen.width;
@@ -154,27 +196,28 @@ class NotchSolutionDebugger : MonoBehaviour, INotchSimulatorTarget
         menu = Menu.Extracting;
     }
 
-    IEnumerator screenData(ScreenData screen)
+    private IEnumerator screenData(ScreenData screen)
     {
         var orientation = Screen.orientation;
-        for (int i = 1; i < 5; i++)
+        for (var i = 1; i < 5; i++)
         {
-            Screen.orientation = (ScreenOrientation)i;
+            Screen.orientation = (ScreenOrientation) i;
             yield return new WaitForSeconds(1);
             if (!screen.orientations.ContainsKey(Screen.orientation))
             {
-                var data = new OrientationDependentData()
+                var data = new OrientationDependentData
                 {
                     safeArea = Screen.safeArea,
-                    cutouts = Screen.cutouts
+                    cutouts = Screen.cutouts,
                 };
                 screen.orientations.Add(Screen.orientation, data);
             }
         }
+
         Screen.orientation = orientation;
     }
 
-    IEnumerator exportDone()
+    private IEnumerator exportDone()
     {
         yield return new WaitForSeconds(5);
         menu = Menu.Home;
