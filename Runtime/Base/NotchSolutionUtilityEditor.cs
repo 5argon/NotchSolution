@@ -2,6 +2,7 @@
 using UnityEditor;
 #endif
 
+using System.Text.RegularExpressions;
 using UnityEngine;
 
 namespace E7.NotchSolution
@@ -41,7 +42,7 @@ namespace E7.NotchSolution
                 var mainPlayModeView = GetMainPlayModeView.Invoke(null,null);
                 var name = mainPlayModeView.GetType().FullName;
                 //I am lazy so I will simply do a class name check with the one in that package.
-                return name == "Unity.DeviceSimulator.SimulatorWindow";
+                return Regex.IsMatch(name, "Unity(Editor).DeviceSimulat(ion|or).SimulatorWindow");
             }
         }
 #endif
