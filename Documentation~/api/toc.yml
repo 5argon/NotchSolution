@@ -16,3 +16,12 @@
     name: SafeAdaptation
   - uid: E7.NotchSolution.SafePadding
     name: SafePadding
+- uid: E7.NotchSolution.Editor
+  name: E7.NotchSolution.Editor
+  items:
+  - uid: E7.NotchSolution.Editor.GameViewResolution
+    name: GameViewResolution
+  - uid: E7.NotchSolution.Editor.GameViewSizePolicy
+    name: GameViewSizePolicy
+  - uid: E7.NotchSolution.Editor.PreviewOrientation
+    name: PreviewOrientation

@@ -15,7 +15,7 @@ Whether you like it or not, the time has come for us designers to design in cont
 
 Are you looking for a way to say thanks to this open source work other than code contribution?
 
-It is easy! You can take a look at my myraid of niche Unity Asset Store **audio plugins** in [my publisher page](https://assetstore.unity.com/publishers/18007), grab something for your game, or tell your audio-caring friends about them. Thank you!
+It is easy! You can take a look at my myriad of niche Unity Asset Store **audio plugins** in [my publisher page](https://assetstore.unity.com/publishers/18007), grab something for your game, or tell your audio-caring friends about them. Thank you!
 
 ## How to use
 

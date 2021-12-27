@@ -9,9 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Minimum version is now 2019.4 LTS, eliminates all scripting defines in the code. (Previously, .1 is the minimum, .2 enables `cutouts` API, and .3 enables Unity device simulator integration.) Being on LTS version positions this package for better future.
+- Minimum version is now 2019.4 LTS, eliminating all Unity version scripting defines in the code. (Previously, .1 is the minimum, .2 enables `cutouts` API, and .3 enables Unity device simulator integration.) Being on LTS version positions this package for better future. This is a **breaking change** for those on lower than 2019.4 LTS.
 - Author name in `package.json` changed from "Sirawat Pitaksarit / 5argon - Exceed7 Experiments" to just "Exceed7 Experiments". I found that Unity Package Manager has a drop down that group by this string. Now it is consistent with my other works and is also shorter.
 - `Unity.ugui` removed from `E7.NotchSolution.asmdef` and `E7.NotchSolution.Editor.asmdef`. It is no longer needed to be explicitly referenced in 2019.4. (Thank god)
+- XML code documentation refactors. API tab in the Website is also reflected.
 
 ## [1.9.0] - 2019-11-25
 

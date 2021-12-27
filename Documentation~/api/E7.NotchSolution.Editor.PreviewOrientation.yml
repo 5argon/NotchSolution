@@ -1,0 +1,158 @@
+### YamlMime:ManagedReference
+items:
+- uid: E7.NotchSolution.Editor.PreviewOrientation
+  commentId: T:E7.NotchSolution.Editor.PreviewOrientation
+  id: PreviewOrientation
+  parent: E7.NotchSolution.Editor
+  children:
+  - E7.NotchSolution.Editor.PreviewOrientation.LandscapeLeft
+  - E7.NotchSolution.Editor.PreviewOrientation.LandscapeRight
+  - E7.NotchSolution.Editor.PreviewOrientation.Portrait
+  - E7.NotchSolution.Editor.PreviewOrientation.PortraitUpsideDown
+  langs:
+  - csharp
+  - vb
+  name: PreviewOrientation
+  nameWithType: PreviewOrientation
+  fullName: E7.NotchSolution.Editor.PreviewOrientation
+  type: Enum
+  source:
+    id: PreviewOrientation
+    path: /Users/Sargon/Documents/Unity Projects/Open Sources/NotchSolution/Assets/NotchSolution/Editor/Simulator/NotchSimulatorConfiguration.cs
+    startLine: 5
+  assemblies:
+  - E7.NotchSolution.Editor
+  namespace: E7.NotchSolution.Editor
+  syntax:
+    content: public enum PreviewOrientation
+    content.vb: Public Enum PreviewOrientation
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: E7.NotchSolution.Editor.PreviewOrientation.Portrait
+  commentId: F:E7.NotchSolution.Editor.PreviewOrientation.Portrait
+  id: Portrait
+  parent: E7.NotchSolution.Editor.PreviewOrientation
+  langs:
+  - csharp
+  - vb
+  name: Portrait
+  nameWithType: PreviewOrientation.Portrait
+  fullName: E7.NotchSolution.Editor.PreviewOrientation.Portrait
+  type: Field
+  source:
+    id: Portrait
+    path: /Users/Sargon/Documents/Unity Projects/Open Sources/NotchSolution/Assets/NotchSolution/Editor/Simulator/NotchSimulatorConfiguration.cs
+    startLine: 7
+  assemblies:
+  - E7.NotchSolution.Editor
+  namespace: E7.NotchSolution.Editor
+  syntax:
+    content: Portrait = 0
+    return:
+      type: E7.NotchSolution.Editor.PreviewOrientation
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: E7.NotchSolution.Editor.PreviewOrientation.PortraitUpsideDown
+  commentId: F:E7.NotchSolution.Editor.PreviewOrientation.PortraitUpsideDown
+  id: PortraitUpsideDown
+  parent: E7.NotchSolution.Editor.PreviewOrientation
+  langs:
+  - csharp
+  - vb
+  name: PortraitUpsideDown
+  nameWithType: PreviewOrientation.PortraitUpsideDown
+  fullName: E7.NotchSolution.Editor.PreviewOrientation.PortraitUpsideDown
+  type: Field
+  source:
+    id: PortraitUpsideDown
+    path: /Users/Sargon/Documents/Unity Projects/Open Sources/NotchSolution/Assets/NotchSolution/Editor/Simulator/NotchSimulatorConfiguration.cs
+    startLine: 8
+  assemblies:
+  - E7.NotchSolution.Editor
+  namespace: E7.NotchSolution.Editor
+  syntax:
+    content: PortraitUpsideDown = 1
+    return:
+      type: E7.NotchSolution.Editor.PreviewOrientation
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: E7.NotchSolution.Editor.PreviewOrientation.LandscapeLeft
+  commentId: F:E7.NotchSolution.Editor.PreviewOrientation.LandscapeLeft
+  id: LandscapeLeft
+  parent: E7.NotchSolution.Editor.PreviewOrientation
+  langs:
+  - csharp
+  - vb
+  name: LandscapeLeft
+  nameWithType: PreviewOrientation.LandscapeLeft
+  fullName: E7.NotchSolution.Editor.PreviewOrientation.LandscapeLeft
+  type: Field
+  source:
+    id: LandscapeLeft
+    path: /Users/Sargon/Documents/Unity Projects/Open Sources/NotchSolution/Assets/NotchSolution/Editor/Simulator/NotchSimulatorConfiguration.cs
+    startLine: 9
+  assemblies:
+  - E7.NotchSolution.Editor
+  namespace: E7.NotchSolution.Editor
+  syntax:
+    content: LandscapeLeft = 2
+    return:
+      type: E7.NotchSolution.Editor.PreviewOrientation
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: E7.NotchSolution.Editor.PreviewOrientation.LandscapeRight
+  commentId: F:E7.NotchSolution.Editor.PreviewOrientation.LandscapeRight
+  id: LandscapeRight
+  parent: E7.NotchSolution.Editor.PreviewOrientation
+  langs:
+  - csharp
+  - vb
+  name: LandscapeRight
+  nameWithType: PreviewOrientation.LandscapeRight
+  fullName: E7.NotchSolution.Editor.PreviewOrientation.LandscapeRight
+  type: Field
+  source:
+    id: LandscapeRight
+    path: /Users/Sargon/Documents/Unity Projects/Open Sources/NotchSolution/Assets/NotchSolution/Editor/Simulator/NotchSimulatorConfiguration.cs
+    startLine: 10
+  assemblies:
+  - E7.NotchSolution.Editor
+  namespace: E7.NotchSolution.Editor
+  syntax:
+    content: LandscapeRight = 3
+    return:
+      type: E7.NotchSolution.Editor.PreviewOrientation
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: E7.NotchSolution.Editor
+  commentId: N:E7.NotchSolution.Editor
+  name: E7.NotchSolution.Editor
+  nameWithType: E7.NotchSolution.Editor
+  fullName: E7.NotchSolution.Editor
+- uid: E7.NotchSolution.Editor.PreviewOrientation
+  commentId: T:E7.NotchSolution.Editor.PreviewOrientation
+  parent: E7.NotchSolution.Editor
+  name: PreviewOrientation
+  nameWithType: PreviewOrientation
+  fullName: E7.NotchSolution.Editor.PreviewOrientation

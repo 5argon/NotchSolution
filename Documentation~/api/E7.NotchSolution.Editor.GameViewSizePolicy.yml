@@ -1,0 +1,100 @@
+### YamlMime:ManagedReference
+items:
+- uid: E7.NotchSolution.Editor.GameViewSizePolicy
+  commentId: T:E7.NotchSolution.Editor.GameViewSizePolicy
+  id: GameViewSizePolicy
+  parent: E7.NotchSolution.Editor
+  children:
+  - E7.NotchSolution.Editor.GameViewSizePolicy.MatchAspectRatio
+  - E7.NotchSolution.Editor.GameViewSizePolicy.MatchResolution
+  langs:
+  - csharp
+  - vb
+  name: GameViewSizePolicy
+  nameWithType: GameViewSizePolicy
+  fullName: E7.NotchSolution.Editor.GameViewSizePolicy
+  type: Enum
+  source:
+    id: GameViewSizePolicy
+    path: /Users/Sargon/Documents/Unity Projects/Open Sources/NotchSolution/Assets/NotchSolution/Editor/Simulator/NotchSimulatorConfiguration.cs
+    startLine: 13
+  assemblies:
+  - E7.NotchSolution.Editor
+  namespace: E7.NotchSolution.Editor
+  syntax:
+    content: public enum GameViewSizePolicy
+    content.vb: Public Enum GameViewSizePolicy
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: E7.NotchSolution.Editor.GameViewSizePolicy.MatchResolution
+  commentId: F:E7.NotchSolution.Editor.GameViewSizePolicy.MatchResolution
+  id: MatchResolution
+  parent: E7.NotchSolution.Editor.GameViewSizePolicy
+  langs:
+  - csharp
+  - vb
+  name: MatchResolution
+  nameWithType: GameViewSizePolicy.MatchResolution
+  fullName: E7.NotchSolution.Editor.GameViewSizePolicy.MatchResolution
+  type: Field
+  source:
+    id: MatchResolution
+    path: /Users/Sargon/Documents/Unity Projects/Open Sources/NotchSolution/Assets/NotchSolution/Editor/Simulator/NotchSimulatorConfiguration.cs
+    startLine: 15
+  assemblies:
+  - E7.NotchSolution.Editor
+  namespace: E7.NotchSolution.Editor
+  syntax:
+    content: MatchResolution = 0
+    return:
+      type: E7.NotchSolution.Editor.GameViewSizePolicy
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: E7.NotchSolution.Editor.GameViewSizePolicy.MatchAspectRatio
+  commentId: F:E7.NotchSolution.Editor.GameViewSizePolicy.MatchAspectRatio
+  id: MatchAspectRatio
+  parent: E7.NotchSolution.Editor.GameViewSizePolicy
+  langs:
+  - csharp
+  - vb
+  name: MatchAspectRatio
+  nameWithType: GameViewSizePolicy.MatchAspectRatio
+  fullName: E7.NotchSolution.Editor.GameViewSizePolicy.MatchAspectRatio
+  type: Field
+  source:
+    id: MatchAspectRatio
+    path: /Users/Sargon/Documents/Unity Projects/Open Sources/NotchSolution/Assets/NotchSolution/Editor/Simulator/NotchSimulatorConfiguration.cs
+    startLine: 16
+  assemblies:
+  - E7.NotchSolution.Editor
+  namespace: E7.NotchSolution.Editor
+  syntax:
+    content: MatchAspectRatio = 1
+    return:
+      type: E7.NotchSolution.Editor.GameViewSizePolicy
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: E7.NotchSolution.Editor
+  commentId: N:E7.NotchSolution.Editor
+  name: E7.NotchSolution.Editor
+  nameWithType: E7.NotchSolution.Editor
+  fullName: E7.NotchSolution.Editor
+- uid: E7.NotchSolution.Editor.GameViewSizePolicy
+  commentId: T:E7.NotchSolution.Editor.GameViewSizePolicy
+  parent: E7.NotchSolution.Editor
+  name: GameViewSizePolicy
+  nameWithType: GameViewSizePolicy
+  fullName: E7.NotchSolution.Editor.GameViewSizePolicy

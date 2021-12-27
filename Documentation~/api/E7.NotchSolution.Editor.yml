@@ -1,0 +1,41 @@
+### YamlMime:ManagedReference
+items:
+- uid: E7.NotchSolution.Editor
+  commentId: N:E7.NotchSolution.Editor
+  id: E7.NotchSolution.Editor
+  children:
+  - E7.NotchSolution.Editor.GameViewResolution
+  - E7.NotchSolution.Editor.GameViewSizePolicy
+  - E7.NotchSolution.Editor.PreviewOrientation
+  langs:
+  - csharp
+  - vb
+  name: E7.NotchSolution.Editor
+  nameWithType: E7.NotchSolution.Editor
+  fullName: E7.NotchSolution.Editor
+  type: Namespace
+  assemblies:
+  - E7.NotchSolution.Editor
+references:
+- uid: E7.NotchSolution.Editor.GameViewResolution
+  commentId: T:E7.NotchSolution.Editor.GameViewResolution
+  name: GameViewResolution
+  nameWithType: GameViewResolution
+  fullName: E7.NotchSolution.Editor.GameViewResolution
+- uid: E7.NotchSolution.Editor.PreviewOrientation
+  commentId: T:E7.NotchSolution.Editor.PreviewOrientation
+  parent: E7.NotchSolution.Editor
+  name: PreviewOrientation
+  nameWithType: PreviewOrientation
+  fullName: E7.NotchSolution.Editor.PreviewOrientation
+- uid: E7.NotchSolution.Editor.GameViewSizePolicy
+  commentId: T:E7.NotchSolution.Editor.GameViewSizePolicy
+  parent: E7.NotchSolution.Editor
+  name: GameViewSizePolicy
+  nameWithType: GameViewSizePolicy
+  fullName: E7.NotchSolution.Editor.GameViewSizePolicy
+- uid: E7.NotchSolution.Editor
+  commentId: N:E7.NotchSolution.Editor
+  name: E7.NotchSolution.Editor
+  nameWithType: E7.NotchSolution.Editor
+  fullName: E7.NotchSolution.Editor

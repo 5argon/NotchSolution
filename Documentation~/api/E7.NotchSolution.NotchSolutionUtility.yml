@@ -16,7 +16,7 @@ items:
   source:
     id: NotchSolutionUtility
     path: /Users/Sargon/Documents/Unity Projects/Open Sources/NotchSolution/Assets/NotchSolution/Runtime/Base/NotchSolutionUtility.cs
-    startLine: 10
+    startLine: 7
   assemblies:
   - E7.NotchSolution
   namespace: E7.NotchSolution
@@ -48,11 +48,11 @@ items:
   source:
     id: ShouldUseNotchSimulatorValue
     path: /Users/Sargon/Documents/Unity Projects/Open Sources/NotchSolution/Assets/NotchSolution/Runtime/Base/NotchSolutionUtility.cs
-    startLine: 26
+    startLine: 33
   assemblies:
   - E7.NotchSolution
   namespace: E7.NotchSolution
-  summary: "\nYou can use it in any of your component that uses <xref href=\"E7.NotchSolution.INotchSimulatorTarget\" data-throw-if-not-resolved=\"false\"></xref>.\n\n- If `true`, should trust the values sent to <xref href=\"E7.NotchSolution.INotchSimulatorTarget\" data-throw-if-not-resolved=\"false\"></xref>.\n- If `false`, should trust <xref href=\"UnityEngine.Screen\" data-throw-if-not-resolved=\"false\"></xref> API because we detected something like\n[Device Simulator package](https://docs.unity3d.com/Packages/com.unity.device-simulator@latest/) is\ncontrolling the <xref href=\"UnityEngine.Screen\" data-throw-if-not-resolved=\"false\"></xref> value and it is now useful in editor.\n"
+  summary: "\nYou can use it in any of your component that uses <xref href=\"E7.NotchSolution.INotchSimulatorTarget\" data-throw-if-not-resolved=\"false\"></xref>.\n<ul><li></li><li></li></ul>\n"
   example: []
   syntax:
     content: public static bool ShouldUseNotchSimulatorValue { get; }
@@ -94,9 +94,6 @@ references:
   name: INotchSimulatorTarget
   nameWithType: INotchSimulatorTarget
   fullName: E7.NotchSolution.INotchSimulatorTarget
-- uid: UnityEngine.Screen
-  commentId: T:UnityEngine.Screen
-  isExternal: true
 - uid: E7.NotchSolution.NotchSolutionUtility.ShouldUseNotchSimulatorValue*
   commentId: Overload:E7.NotchSolution.NotchSolutionUtility.ShouldUseNotchSimulatorValue
   name: ShouldUseNotchSimulatorValue

@@ -8,15 +8,11 @@ Whether you like it or not, the time has come for us designers to design in cont
 - [Components](components/overview.md) to attach to your `GameObject`, they will stay safe by staying inside [`safeArea`](https://docs.unity3d.com/ScriptReference/Screen-safeArea.html) and out of the way of any [`cutouts`](https://docs.unity3d.com/ScriptReference/Screen-cutouts.html).
 - [Notch Simulator](simulator/notch-simulator.md) to iterate your design in editor with various devices available. See the components react immediately without building the game or access to real devices.
 
-## Donations accepted : Ways to pay for this software
+## Easy way to pay for this software
 
-**This software is an open sourced** [**donationware**](https://en.wikipedia.org/wiki/Donationware), which complies with Unity's [Asset Store Provider Agreement, section 4.9](https://unity3d.com/legal/as_provider). You can use it first, then if it is truly benefitting to your project or saved days and weeks of your time, you should pay for this software to keep the development alive.
+Are you looking for a way to say thanks to this open source work other than code contribution?
 
-- **Have Unity assets in return** : You can purchase my other products [in my publisher page](https://assetstore.unity.com/publishers/18007).
-- **One time or recurring contribution with exposure** : [Repository](https://github.com/5argon/NotchSolution) with over 100 stars could start an [Open Collective](https://opencollective.com/notch-solution). Contributors are listed on that page, and potentially could be shown in the homepage and GitHub page later. If you think that's cool, it is a nice option.
-- **You want to just donate directly to me** : I have [PayPal.me](http://paypal.me/5argon) and [Ko-fi](https://ko-fi.com/5argon) set up.
-
-Sincerely, thank you! - Sirawat Pitaksarit / 5argon
+It is easy! You can take a look at my myriad of niche Unity Asset Store **audio plugins** in [my publisher page](https://assetstore.unity.com/publishers/18007), grab something for your game, or tell your audio-caring friends about them. Thank you!
 
 ## Getting started
 

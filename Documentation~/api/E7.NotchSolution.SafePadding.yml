@@ -4,7 +4,8 @@ items:
   commentId: T:E7.NotchSolution.SafePadding
   id: SafePadding
   parent: E7.NotchSolution
-  children: []
+  children:
+  - E7.NotchSolution.SafePadding.UpdateRect
   langs:
   - csharp
   - vb
@@ -15,12 +16,12 @@ items:
   source:
     id: SafePadding
     path: /Users/Sargon/Documents/Unity Projects/Open Sources/NotchSolution/Assets/NotchSolution/Runtime/Components/SafePadding.cs
-    startLine: 22
+    startLine: 35
   assemblies:
   - E7.NotchSolution
   namespace: E7.NotchSolution
-  summary: "\nMake the <xref href=\"UnityEngine.RectTransform\" data-throw-if-not-resolved=\"false\"></xref> of object with this component driven into full stretch to its immediate parent, \nthen apply padding according to device&apos;s reported <xref href=\"UnityEngine.Screen.safeArea\" data-throw-if-not-resolved=\"false\"></xref>.\nTherefore makes an area inside this object safe for input-receiving components.\n\nThen it is possible to make other objects safe area responsive by anchoring thier positions to this object&apos;s edges while being a child object.\n"
-  remarks: "\nSafe area defines an area on the phone&apos;s screen where it is safe to place your game-related input receiving components without colliding with\nother on-screen features on the phone. Usually this means it is also &quot;visually safe&quot; as all possible notches should be outside of safe area.\n\nThe amount of padding is a <xref href=\"UnityEngine.Screen.safeArea\" data-throw-if-not-resolved=\"false\"></xref> interpolated into <xref href=\"UnityEngine.RectTransform\" data-throw-if-not-resolved=\"false\"></xref> of root <xref href=\"UnityEngine.Canvas\" data-throw-if-not-resolved=\"false\"></xref> found traveling up from this object.\n\nIt should be a direct child of top canvas, or deeper child of some similarly full stretch rect in order to look right,\nalthough in reality it just pad in the shape of <xref href=\"UnityEngine.Screen.safeArea\" data-throw-if-not-resolved=\"false\"></xref> regardless of its parent rectangle size.\n"
+  summary: "\n<p>\n    Make the <xref href=\"UnityEngine.RectTransform\" data-throw-if-not-resolved=\"false\"></xref> of object with this component\n    driven into full stretch to its immediate parent, then apply padding according to\n    device&apos;s reported <xref href=\"UnityEngine.Screen.safeArea\" data-throw-if-not-resolved=\"false\"></xref>.\n</p>\n<p>\n    Therefore makes an area inside this object safe for input-receiving components.\n    Then it is possible to make other objects safe area responsive by anchoring their\n    positions to this object&apos;s edges while being a child object.\n</p>\n"
+  remarks: "\n<p>\n    Safe area defines an area on the phone&apos;s screen where it is safe to place your game-related input\n    receiving components without colliding with other on-screen features on the phone.\n    Usually this means it is also &quot;visually safe&quot; as all possible notches should be outside of safe area.\n</p>\n<p>\n    The amount of padding is a <xref href=\"UnityEngine.Screen.safeArea\" data-throw-if-not-resolved=\"false\"></xref> interpolated into <xref href=\"UnityEngine.RectTransform\" data-throw-if-not-resolved=\"false\"></xref>\n    of root <xref href=\"UnityEngine.Canvas\" data-throw-if-not-resolved=\"false\"></xref> found traveling up from this object. It should be a direct child of\n    top canvas, or deeper child of some similarly full stretch rect in order to look right,\n    although in reality it just pad in the shape of <xref href=\"UnityEngine.Screen.safeArea\" data-throw-if-not-resolved=\"false\"></xref>\n    regardless of its parent rectangle size.\n</p>\n"
   example: []
   syntax:
     content: >-
@@ -28,7 +29,7 @@ items:
 
       [RequireComponent(typeof(RectTransform))]
 
-      [HelpURL("http://exceed7.com/notch-solution/components/ui-behaviour/safe-padding.html")]
+      [HelpURL("https://exceed7.com/notch-solution/components/ui-behaviour/safe-padding.html")]
 
       public class SafePadding : NotchSolutionUIBehaviourBase, ILayoutSelfController, ILayoutController, INotchSimulatorTarget
     content.vb: >-
@@ -36,7 +37,7 @@ items:
 
       <RequireComponent(GetType(RectTransform))>
 
-      <HelpURL("http://exceed7.com/notch-solution/components/ui-behaviour/safe-padding.html")>
+      <HelpURL("https://exceed7.com/notch-solution/components/ui-behaviour/safe-padding.html")>
 
       Public Class SafePadding
           Inherits NotchSolutionUIBehaviourBase
@@ -54,13 +55,16 @@ items:
   - UnityEngine.UI.ILayoutController
   - E7.NotchSolution.INotchSimulatorTarget
   inheritedMembers:
-  - E7.NotchSolution.NotchSolutionUIBehaviourBase.E7#NotchSolution#INotchSimulatorTarget#SimulatorUpdate(UnityEngine.Rect,UnityEngine.Rect[])
+  - E7.NotchSolution.NotchSolutionUIBehaviourBase.m_Tracker
   - E7.NotchSolution.NotchSolutionUIBehaviourBase.SafeAreaRelative
+  - E7.NotchSolution.NotchSolutionUIBehaviourBase.rectTransform
   - E7.NotchSolution.NotchSolutionUIBehaviourBase.OnEnable
   - E7.NotchSolution.NotchSolutionUIBehaviourBase.OnDisable
   - E7.NotchSolution.NotchSolutionUIBehaviourBase.OnRectTransformDimensionsChange
   - E7.NotchSolution.NotchSolutionUIBehaviourBase.UnityEngine#UI#ILayoutController#SetLayoutHorizontal
   - E7.NotchSolution.NotchSolutionUIBehaviourBase.UnityEngine#UI#ILayoutController#SetLayoutVertical
+  - E7.NotchSolution.NotchSolutionUIBehaviourBase.E7#NotchSolution#INotchSimulatorTarget#SimulatorUpdate(UnityEngine.Rect,UnityEngine.Rect[])
+  - E7.NotchSolution.NotchSolutionUIBehaviourBase.GetCanvasRect
   attributes:
   - type: UnityEngine.DisallowMultipleComponent
     ctor: UnityEngine.DisallowMultipleComponent.#ctor
@@ -69,17 +73,50 @@ items:
     ctor: UnityEngine.HelpURLAttribute.#ctor(System.String)
     arguments:
     - type: System.String
-      value: http://exceed7.com/notch-solution/components/ui-behaviour/safe-padding.html
+      value: https://exceed7.com/notch-solution/components/ui-behaviour/safe-padding.html
   modifiers.csharp:
   - public
   - class
   modifiers.vb:
   - Public
   - Class
+- uid: E7.NotchSolution.SafePadding.UpdateRect
+  commentId: M:E7.NotchSolution.SafePadding.UpdateRect
+  id: UpdateRect
+  parent: E7.NotchSolution.SafePadding
+  langs:
+  - csharp
+  - vb
+  name: UpdateRect()
+  nameWithType: SafePadding.UpdateRect()
+  fullName: E7.NotchSolution.SafePadding.UpdateRect()
+  type: Method
+  source:
+    id: UpdateRect
+    path: /Users/Sargon/Documents/Unity Projects/Open Sources/NotchSolution/Assets/NotchSolution/Runtime/Components/SafePadding.cs
+    startLine: 40
+  assemblies:
+  - E7.NotchSolution
+  namespace: E7.NotchSolution
+  syntax:
+    content: protected override void UpdateRect()
+    content.vb: Protected Overrides Sub UpdateRect
+  overridden: E7.NotchSolution.NotchSolutionUIBehaviourBase.UpdateRect
+  overload: E7.NotchSolution.SafePadding.UpdateRect*
+  modifiers.csharp:
+  - protected
+  - override
+  modifiers.vb:
+  - Protected
+  - Overrides
 references:
 - uid: UnityEngine.RectTransform
   commentId: T:UnityEngine.RectTransform
+  parent: UnityEngine
   isExternal: true
+  name: RectTransform
+  nameWithType: RectTransform
+  fullName: UnityEngine.RectTransform
 - uid: UnityEngine.Screen.safeArea
   commentId: P:UnityEngine.Screen.safeArea
   isExternal: true
@@ -159,76 +196,24 @@ references:
   name: INotchSimulatorTarget
   nameWithType: INotchSimulatorTarget
   fullName: E7.NotchSolution.INotchSimulatorTarget
-- uid: E7.NotchSolution.NotchSolutionUIBehaviourBase.E7#NotchSolution#INotchSimulatorTarget#SimulatorUpdate(UnityEngine.Rect,UnityEngine.Rect[])
-  commentId: M:E7.NotchSolution.NotchSolutionUIBehaviourBase.E7#NotchSolution#INotchSimulatorTarget#SimulatorUpdate(UnityEngine.Rect,UnityEngine.Rect[])
+- uid: E7.NotchSolution.NotchSolutionUIBehaviourBase.m_Tracker
+  commentId: F:E7.NotchSolution.NotchSolutionUIBehaviourBase.m_Tracker
   parent: E7.NotchSolution.NotchSolutionUIBehaviourBase
-  isExternal: true
-  name: INotchSimulatorTarget.SimulatorUpdate(Rect, Rect[])
-  nameWithType: NotchSolutionUIBehaviourBase.INotchSimulatorTarget.SimulatorUpdate(Rect, Rect[])
-  fullName: E7.NotchSolution.NotchSolutionUIBehaviourBase.E7.NotchSolution.INotchSimulatorTarget.SimulatorUpdate(UnityEngine.Rect, UnityEngine.Rect[])
-  nameWithType.vb: NotchSolutionUIBehaviourBase.E7.NotchSolution.INotchSimulatorTarget.SimulatorUpdate(Rect, Rect())
-  fullName.vb: E7.NotchSolution.NotchSolutionUIBehaviourBase.E7.NotchSolution.INotchSimulatorTarget.SimulatorUpdate(UnityEngine.Rect, UnityEngine.Rect())
-  name.vb: E7.NotchSolution.INotchSimulatorTarget.SimulatorUpdate(Rect, Rect())
-  spec.csharp:
-  - uid: E7.NotchSolution.NotchSolutionUIBehaviourBase.E7#NotchSolution#INotchSimulatorTarget#SimulatorUpdate(UnityEngine.Rect,UnityEngine.Rect[])
-    name: INotchSimulatorTarget.SimulatorUpdate
-    nameWithType: NotchSolutionUIBehaviourBase.INotchSimulatorTarget.SimulatorUpdate
-    fullName: E7.NotchSolution.NotchSolutionUIBehaviourBase.E7.NotchSolution.INotchSimulatorTarget.SimulatorUpdate
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: UnityEngine.Rect
-    name: Rect
-    nameWithType: Rect
-    fullName: UnityEngine.Rect
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: UnityEngine.Rect
-    name: Rect
-    nameWithType: Rect
-    fullName: UnityEngine.Rect
-    isExternal: true
-  - name: '[]'
-    nameWithType: '[]'
-    fullName: '[]'
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: E7.NotchSolution.NotchSolutionUIBehaviourBase.E7#NotchSolution#INotchSimulatorTarget#SimulatorUpdate(UnityEngine.Rect,UnityEngine.Rect[])
-    name: E7.NotchSolution.INotchSimulatorTarget.SimulatorUpdate
-    nameWithType: NotchSolutionUIBehaviourBase.E7.NotchSolution.INotchSimulatorTarget.SimulatorUpdate
-    fullName: E7.NotchSolution.NotchSolutionUIBehaviourBase.E7.NotchSolution.INotchSimulatorTarget.SimulatorUpdate
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: UnityEngine.Rect
-    name: Rect
-    nameWithType: Rect
-    fullName: UnityEngine.Rect
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: UnityEngine.Rect
-    name: Rect
-    nameWithType: Rect
-    fullName: UnityEngine.Rect
-    isExternal: true
-  - name: ()
-    nameWithType: ()
-    fullName: ()
-  - name: )
-    nameWithType: )
-    fullName: )
+  name: m_Tracker
+  nameWithType: NotchSolutionUIBehaviourBase.m_Tracker
+  fullName: E7.NotchSolution.NotchSolutionUIBehaviourBase.m_Tracker
 - uid: E7.NotchSolution.NotchSolutionUIBehaviourBase.SafeAreaRelative
   commentId: P:E7.NotchSolution.NotchSolutionUIBehaviourBase.SafeAreaRelative
   parent: E7.NotchSolution.NotchSolutionUIBehaviourBase
   name: SafeAreaRelative
   nameWithType: NotchSolutionUIBehaviourBase.SafeAreaRelative
   fullName: E7.NotchSolution.NotchSolutionUIBehaviourBase.SafeAreaRelative
+- uid: E7.NotchSolution.NotchSolutionUIBehaviourBase.rectTransform
+  commentId: P:E7.NotchSolution.NotchSolutionUIBehaviourBase.rectTransform
+  parent: E7.NotchSolution.NotchSolutionUIBehaviourBase
+  name: rectTransform
+  nameWithType: NotchSolutionUIBehaviourBase.rectTransform
+  fullName: E7.NotchSolution.NotchSolutionUIBehaviourBase.rectTransform
 - uid: E7.NotchSolution.NotchSolutionUIBehaviourBase.OnEnable
   commentId: M:E7.NotchSolution.NotchSolutionUIBehaviourBase.OnEnable
   parent: E7.NotchSolution.NotchSolutionUIBehaviourBase
@@ -373,18 +358,110 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: System
-  commentId: N:System
+- uid: E7.NotchSolution.NotchSolutionUIBehaviourBase.E7#NotchSolution#INotchSimulatorTarget#SimulatorUpdate(UnityEngine.Rect,UnityEngine.Rect[])
+  commentId: M:E7.NotchSolution.NotchSolutionUIBehaviourBase.E7#NotchSolution#INotchSimulatorTarget#SimulatorUpdate(UnityEngine.Rect,UnityEngine.Rect[])
+  parent: E7.NotchSolution.NotchSolutionUIBehaviourBase
   isExternal: true
-  name: System
-  nameWithType: System
-  fullName: System
+  name: INotchSimulatorTarget.SimulatorUpdate(Rect, Rect[])
+  nameWithType: NotchSolutionUIBehaviourBase.INotchSimulatorTarget.SimulatorUpdate(Rect, Rect[])
+  fullName: E7.NotchSolution.NotchSolutionUIBehaviourBase.E7.NotchSolution.INotchSimulatorTarget.SimulatorUpdate(UnityEngine.Rect, UnityEngine.Rect[])
+  nameWithType.vb: NotchSolutionUIBehaviourBase.E7.NotchSolution.INotchSimulatorTarget.SimulatorUpdate(Rect, Rect())
+  fullName.vb: E7.NotchSolution.NotchSolutionUIBehaviourBase.E7.NotchSolution.INotchSimulatorTarget.SimulatorUpdate(UnityEngine.Rect, UnityEngine.Rect())
+  name.vb: E7.NotchSolution.INotchSimulatorTarget.SimulatorUpdate(Rect, Rect())
+  spec.csharp:
+  - uid: E7.NotchSolution.NotchSolutionUIBehaviourBase.E7#NotchSolution#INotchSimulatorTarget#SimulatorUpdate(UnityEngine.Rect,UnityEngine.Rect[])
+    name: INotchSimulatorTarget.SimulatorUpdate
+    nameWithType: NotchSolutionUIBehaviourBase.INotchSimulatorTarget.SimulatorUpdate
+    fullName: E7.NotchSolution.NotchSolutionUIBehaviourBase.E7.NotchSolution.INotchSimulatorTarget.SimulatorUpdate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Rect
+    name: Rect
+    nameWithType: Rect
+    fullName: UnityEngine.Rect
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.Rect
+    name: Rect
+    nameWithType: Rect
+    fullName: UnityEngine.Rect
+    isExternal: true
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: E7.NotchSolution.NotchSolutionUIBehaviourBase.E7#NotchSolution#INotchSimulatorTarget#SimulatorUpdate(UnityEngine.Rect,UnityEngine.Rect[])
+    name: E7.NotchSolution.INotchSimulatorTarget.SimulatorUpdate
+    nameWithType: NotchSolutionUIBehaviourBase.E7.NotchSolution.INotchSimulatorTarget.SimulatorUpdate
+    fullName: E7.NotchSolution.NotchSolutionUIBehaviourBase.E7.NotchSolution.INotchSimulatorTarget.SimulatorUpdate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Rect
+    name: Rect
+    nameWithType: Rect
+    fullName: UnityEngine.Rect
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.Rect
+    name: Rect
+    nameWithType: Rect
+    fullName: UnityEngine.Rect
+    isExternal: true
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: E7.NotchSolution.NotchSolutionUIBehaviourBase.GetCanvasRect
+  commentId: M:E7.NotchSolution.NotchSolutionUIBehaviourBase.GetCanvasRect
+  parent: E7.NotchSolution.NotchSolutionUIBehaviourBase
+  name: GetCanvasRect()
+  nameWithType: NotchSolutionUIBehaviourBase.GetCanvasRect()
+  fullName: E7.NotchSolution.NotchSolutionUIBehaviourBase.GetCanvasRect()
+  spec.csharp:
+  - uid: E7.NotchSolution.NotchSolutionUIBehaviourBase.GetCanvasRect
+    name: GetCanvasRect
+    nameWithType: NotchSolutionUIBehaviourBase.GetCanvasRect
+    fullName: E7.NotchSolution.NotchSolutionUIBehaviourBase.GetCanvasRect
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: E7.NotchSolution.NotchSolutionUIBehaviourBase.GetCanvasRect
+    name: GetCanvasRect
+    nameWithType: NotchSolutionUIBehaviourBase.GetCanvasRect
+    fullName: E7.NotchSolution.NotchSolutionUIBehaviourBase.GetCanvasRect
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: UnityEngine
   commentId: N:UnityEngine
   isExternal: true
   name: UnityEngine
   nameWithType: UnityEngine
   fullName: UnityEngine
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
 - uid: UnityEngine.EventSystems
   commentId: N:UnityEngine.EventSystems
   isExternal: true
@@ -397,3 +474,36 @@ references:
   name: UnityEngine.UI
   nameWithType: UnityEngine.UI
   fullName: UnityEngine.UI
+- uid: E7.NotchSolution.NotchSolutionUIBehaviourBase.UpdateRect
+  commentId: M:E7.NotchSolution.NotchSolutionUIBehaviourBase.UpdateRect
+  parent: E7.NotchSolution.NotchSolutionUIBehaviourBase
+  name: UpdateRect()
+  nameWithType: NotchSolutionUIBehaviourBase.UpdateRect()
+  fullName: E7.NotchSolution.NotchSolutionUIBehaviourBase.UpdateRect()
+  spec.csharp:
+  - uid: E7.NotchSolution.NotchSolutionUIBehaviourBase.UpdateRect
+    name: UpdateRect
+    nameWithType: NotchSolutionUIBehaviourBase.UpdateRect
+    fullName: E7.NotchSolution.NotchSolutionUIBehaviourBase.UpdateRect
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: E7.NotchSolution.NotchSolutionUIBehaviourBase.UpdateRect
+    name: UpdateRect
+    nameWithType: NotchSolutionUIBehaviourBase.UpdateRect
+    fullName: E7.NotchSolution.NotchSolutionUIBehaviourBase.UpdateRect
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: E7.NotchSolution.SafePadding.UpdateRect*
+  commentId: Overload:E7.NotchSolution.SafePadding.UpdateRect
+  name: UpdateRect
+  nameWithType: SafePadding.UpdateRect
+  fullName: E7.NotchSolution.SafePadding.UpdateRect

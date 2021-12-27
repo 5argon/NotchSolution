@@ -19,11 +19,11 @@ items:
   source:
     id: AdaptationBase
     path: /Users/Sargon/Documents/Unity Projects/Open Sources/NotchSolution/Assets/NotchSolution/Runtime/Base/Adaptation/AdaptationBase.cs
-    startLine: 11
+    startLine: 12
   assemblies:
   - E7.NotchSolution
   namespace: E7.NotchSolution
-  summary: "\nA base class which use the first frame of 2 <xref href=\"UnityEngine.AnimationClip\" data-throw-if-not-resolved=\"false\"></xref>, and a blend value, to control an <xref href=\"UnityEngine.Animator\" data-throw-if-not-resolved=\"false\"></xref>\nwith Playables API once on `Start()`. Those information are all in <xref href=\"E7.NotchSolution.BlendedClipsAdaptor\" data-throw-if-not-resolved=\"false\"></xref> serialized together with this class.\n"
+  summary: "\nA base class which use the first frame of 2 <xref href=\"UnityEngine.AnimationClip\" data-throw-if-not-resolved=\"false\"></xref>, and a blend value,\nto control an <xref href=\"UnityEngine.Animator\" data-throw-if-not-resolved=\"false\"></xref> with Playables API once on `Start()`.\nThose information are all in <xref href=\"E7.NotchSolution.BlendedClipsAdaptor\" data-throw-if-not-resolved=\"false\"></xref> serialized together with this class.\n"
   remarks: "\nYou can create other kinds of adaptation component by subclassing this.\n"
   example: []
   syntax:
@@ -64,6 +64,72 @@ items:
   - Public
   - MustInherit
   - Class
+- uid: E7.NotchSolution.AdaptationBase.SafeAreaRelative
+  commentId: P:E7.NotchSolution.AdaptationBase.SafeAreaRelative
+  id: SafeAreaRelative
+  parent: E7.NotchSolution.AdaptationBase
+  langs:
+  - csharp
+  - vb
+  name: SafeAreaRelative
+  nameWithType: AdaptationBase.SafeAreaRelative
+  fullName: E7.NotchSolution.AdaptationBase.SafeAreaRelative
+  type: Property
+  source:
+    id: SafeAreaRelative
+    path: /Users/Sargon/Documents/Unity Projects/Open Sources/NotchSolution/Assets/NotchSolution/Runtime/Base/Adaptation/AdaptationBase.cs
+    startLine: 32
+  assemblies:
+  - E7.NotchSolution
+  namespace: E7.NotchSolution
+  summary: "\nProvide safe area in 0~1 value related to the screen size,\nalready taken account of simulated or runtime value.\n"
+  example: []
+  syntax:
+    content: protected Rect SafeAreaRelative { get; }
+    parameters: []
+    return:
+      type: UnityEngine.Rect
+    content.vb: Protected ReadOnly Property SafeAreaRelative As Rect
+  overload: E7.NotchSolution.AdaptationBase.SafeAreaRelative*
+  modifiers.csharp:
+  - protected
+  - get
+  modifiers.vb:
+  - Protected
+  - ReadOnly
+- uid: E7.NotchSolution.AdaptationBase.E7#NotchSolution#INotchSimulatorTarget#SimulatorUpdate(UnityEngine.Rect,UnityEngine.Rect[])
+  commentId: M:E7.NotchSolution.AdaptationBase.E7#NotchSolution#INotchSimulatorTarget#SimulatorUpdate(UnityEngine.Rect,UnityEngine.Rect[])
+  id: E7#NotchSolution#INotchSimulatorTarget#SimulatorUpdate(UnityEngine.Rect,UnityEngine.Rect[])
+  isEii: true
+  parent: E7.NotchSolution.AdaptationBase
+  langs:
+  - csharp
+  - vb
+  name: INotchSimulatorTarget.SimulatorUpdate(Rect, Rect[])
+  nameWithType: AdaptationBase.INotchSimulatorTarget.SimulatorUpdate(Rect, Rect[])
+  fullName: E7.NotchSolution.AdaptationBase.E7.NotchSolution.INotchSimulatorTarget.SimulatorUpdate(UnityEngine.Rect, UnityEngine.Rect[])
+  type: Method
+  source:
+    id: E7.NotchSolution.INotchSimulatorTarget.SimulatorUpdate
+    path: /Users/Sargon/Documents/Unity Projects/Open Sources/NotchSolution/Assets/NotchSolution/Runtime/Base/Adaptation/AdaptationBase.cs
+    startLine: 50
+  assemblies:
+  - E7.NotchSolution
+  namespace: E7.NotchSolution
+  syntax:
+    content: void INotchSimulatorTarget.SimulatorUpdate(Rect simulatedSafeAreaRelative, Rect[] simulatedCutoutsRelative)
+    parameters:
+    - id: simulatedSafeAreaRelative
+      type: UnityEngine.Rect
+    - id: simulatedCutoutsRelative
+      type: UnityEngine.Rect[]
+    content.vb: Sub E7.NotchSolution.INotchSimulatorTarget.SimulatorUpdate(simulatedSafeAreaRelative As Rect, simulatedCutoutsRelative As Rect()) Implements INotchSimulatorTarget.SimulatorUpdate
+  overload: E7.NotchSolution.AdaptationBase.E7#NotchSolution#INotchSimulatorTarget#SimulatorUpdate*
+  implements:
+  - E7.NotchSolution.INotchSimulatorTarget.SimulatorUpdate(UnityEngine.Rect,UnityEngine.Rect[])
+  nameWithType.vb: AdaptationBase.E7.NotchSolution.INotchSimulatorTarget.SimulatorUpdate(Rect, Rect())
+  fullName.vb: E7.NotchSolution.AdaptationBase.E7.NotchSolution.INotchSimulatorTarget.SimulatorUpdate(UnityEngine.Rect, UnityEngine.Rect())
+  name.vb: E7.NotchSolution.INotchSimulatorTarget.SimulatorUpdate(Rect, Rect())
 - uid: E7.NotchSolution.AdaptationBase.Adapt(System.Single)
   commentId: M:E7.NotchSolution.AdaptationBase.Adapt(System.Single)
   id: Adapt(System.Single)
@@ -78,18 +144,18 @@ items:
   source:
     id: Adapt
     path: /Users/Sargon/Documents/Unity Projects/Open Sources/NotchSolution/Assets/NotchSolution/Runtime/Base/Adaptation/AdaptationBase.cs
-    startLine: 77
+    startLine: 73
   assemblies:
   - E7.NotchSolution
   namespace: E7.NotchSolution
-  summary: "\nDrive <xref href=\"UnityEngine.Animator\" data-throw-if-not-resolved=\"false\"></xref> with playable graph, based on a blend between the first frame of 2 <xref href=\"UnityEngine.AnimationClip\" data-throw-if-not-resolved=\"false\"></xref>.\n"
+  summary: "\nDrive <xref href=\"UnityEngine.Animator\" data-throw-if-not-resolved=\"false\"></xref> with playable graph, based on a blend\nbetween the first frame of 2 <xref href=\"UnityEngine.AnimationClip\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
     content: protected void Adapt(float valueForAdaptationCurve)
     parameters:
     - id: valueForAdaptationCurve
       type: System.Single
-      description: Adaptation curve evaluates this value into a 0-1 blend between 2 clips.
+      description: "\nAdaptation curve evaluates this value into a 0-1 blend between 2 clips.\n"
     content.vb: Protected Sub Adapt(valueForAdaptationCurve As Single)
   overload: E7.NotchSolution.AdaptationBase.Adapt*
   modifiers.csharp:
@@ -110,11 +176,11 @@ items:
   source:
     id: Adapt
     path: /Users/Sargon/Documents/Unity Projects/Open Sources/NotchSolution/Assets/NotchSolution/Runtime/Base/Adaptation/AdaptationBase.cs
-    startLine: 96
+    startLine: 85
   assemblies:
   - E7.NotchSolution
   namespace: E7.NotchSolution
-  summary: "\nAny adaptation component will be &quot;adapted&quot; **only once** on `Start()`, but\nthis call could make that happen again on-demand.\n"
+  summary: "\nAny adaptation component will be &quot;adapted&quot; <strong>only once</strong> on <code>Start()</code>, but\nthis call could make that happen again on-demand.\n"
   remarks: "\nThis should ended up calling <xref href=\"E7.NotchSolution.AdaptationBase.Adapt(System.Single)\" data-throw-if-not-resolved=\"false\"></xref> somehow in the implementation.\n"
   example: []
   syntax:
@@ -127,72 +193,6 @@ items:
   modifiers.vb:
   - Public
   - MustOverride
-- uid: E7.NotchSolution.AdaptationBase.E7#NotchSolution#INotchSimulatorTarget#SimulatorUpdate(UnityEngine.Rect,UnityEngine.Rect[])
-  commentId: M:E7.NotchSolution.AdaptationBase.E7#NotchSolution#INotchSimulatorTarget#SimulatorUpdate(UnityEngine.Rect,UnityEngine.Rect[])
-  id: E7#NotchSolution#INotchSimulatorTarget#SimulatorUpdate(UnityEngine.Rect,UnityEngine.Rect[])
-  isEii: true
-  parent: E7.NotchSolution.AdaptationBase
-  langs:
-  - csharp
-  - vb
-  name: INotchSimulatorTarget.SimulatorUpdate(Rect, Rect[])
-  nameWithType: AdaptationBase.INotchSimulatorTarget.SimulatorUpdate(Rect, Rect[])
-  fullName: E7.NotchSolution.AdaptationBase.E7.NotchSolution.INotchSimulatorTarget.SimulatorUpdate(UnityEngine.Rect, UnityEngine.Rect[])
-  type: Method
-  source:
-    id: E7.NotchSolution.INotchSimulatorTarget.SimulatorUpdate
-    path: /Users/Sargon/Documents/Unity Projects/Open Sources/NotchSolution/Assets/NotchSolution/Runtime/Base/Adaptation/AdaptationBase.cs
-    startLine: 101
-  assemblies:
-  - E7.NotchSolution
-  namespace: E7.NotchSolution
-  syntax:
-    content: void INotchSimulatorTarget.SimulatorUpdate(Rect simulatedSafeAreaRelative, Rect[] simulatedCutoutsRelative)
-    parameters:
-    - id: simulatedSafeAreaRelative
-      type: UnityEngine.Rect
-    - id: simulatedCutoutsRelative
-      type: UnityEngine.Rect[]
-    content.vb: Sub E7.NotchSolution.INotchSimulatorTarget.SimulatorUpdate(simulatedSafeAreaRelative As Rect, simulatedCutoutsRelative As Rect()) Implements INotchSimulatorTarget.SimulatorUpdate
-  overload: E7.NotchSolution.AdaptationBase.E7#NotchSolution#INotchSimulatorTarget#SimulatorUpdate*
-  implements:
-  - E7.NotchSolution.INotchSimulatorTarget.SimulatorUpdate(UnityEngine.Rect,UnityEngine.Rect[])
-  nameWithType.vb: AdaptationBase.E7.NotchSolution.INotchSimulatorTarget.SimulatorUpdate(Rect, Rect())
-  fullName.vb: E7.NotchSolution.AdaptationBase.E7.NotchSolution.INotchSimulatorTarget.SimulatorUpdate(UnityEngine.Rect, UnityEngine.Rect())
-  name.vb: E7.NotchSolution.INotchSimulatorTarget.SimulatorUpdate(Rect, Rect())
-- uid: E7.NotchSolution.AdaptationBase.SafeAreaRelative
-  commentId: P:E7.NotchSolution.AdaptationBase.SafeAreaRelative
-  id: SafeAreaRelative
-  parent: E7.NotchSolution.AdaptationBase
-  langs:
-  - csharp
-  - vb
-  name: SafeAreaRelative
-  nameWithType: AdaptationBase.SafeAreaRelative
-  fullName: E7.NotchSolution.AdaptationBase.SafeAreaRelative
-  type: Property
-  source:
-    id: SafeAreaRelative
-    path: /Users/Sargon/Documents/Unity Projects/Open Sources/NotchSolution/Assets/NotchSolution/Runtime/Base/Adaptation/AdaptationBase.cs
-    startLine: 111
-  assemblies:
-  - E7.NotchSolution
-  namespace: E7.NotchSolution
-  summary: "\nProvide safe area in 0~1 value related to the screen size, already taken account of simulated or runtime value.\n"
-  example: []
-  syntax:
-    content: protected Rect SafeAreaRelative { get; }
-    parameters: []
-    return:
-      type: UnityEngine.Rect
-    content.vb: Protected ReadOnly Property SafeAreaRelative As Rect
-  overload: E7.NotchSolution.AdaptationBase.SafeAreaRelative*
-  modifiers.csharp:
-  - protected
-  - get
-  modifiers.vb:
-  - Protected
-  - ReadOnly
 references:
 - uid: UnityEngine.AnimationClip
   commentId: T:UnityEngine.AnimationClip
@@ -261,63 +261,18 @@ references:
   name: UnityEngine
   nameWithType: UnityEngine
   fullName: UnityEngine
-- uid: E7.NotchSolution.AdaptationBase.Adapt*
-  commentId: Overload:E7.NotchSolution.AdaptationBase.Adapt
-  name: Adapt
-  nameWithType: AdaptationBase.Adapt
-  fullName: E7.NotchSolution.AdaptationBase.Adapt
-- uid: System.Single
-  commentId: T:System.Single
-  parent: System
+- uid: E7.NotchSolution.AdaptationBase.SafeAreaRelative*
+  commentId: Overload:E7.NotchSolution.AdaptationBase.SafeAreaRelative
+  name: SafeAreaRelative
+  nameWithType: AdaptationBase.SafeAreaRelative
+  fullName: E7.NotchSolution.AdaptationBase.SafeAreaRelative
+- uid: UnityEngine.Rect
+  commentId: T:UnityEngine.Rect
+  parent: UnityEngine
   isExternal: true
-  name: Single
-  nameWithType: Single
-  fullName: System.Single
-- uid: E7.NotchSolution.AdaptationBase.Adapt(System.Single)
-  commentId: M:E7.NotchSolution.AdaptationBase.Adapt(System.Single)
-  parent: E7.NotchSolution.AdaptationBase
-  isExternal: true
-  name: Adapt(Single)
-  nameWithType: AdaptationBase.Adapt(Single)
-  fullName: E7.NotchSolution.AdaptationBase.Adapt(System.Single)
-  spec.csharp:
-  - uid: E7.NotchSolution.AdaptationBase.Adapt(System.Single)
-    name: Adapt
-    nameWithType: AdaptationBase.Adapt
-    fullName: E7.NotchSolution.AdaptationBase.Adapt
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.Single
-    name: Single
-    nameWithType: Single
-    fullName: System.Single
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: E7.NotchSolution.AdaptationBase.Adapt(System.Single)
-    name: Adapt
-    nameWithType: AdaptationBase.Adapt
-    fullName: E7.NotchSolution.AdaptationBase.Adapt
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.Single
-    name: Single
-    nameWithType: Single
-    fullName: System.Single
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: E7.NotchSolution.AdaptationBase
-  commentId: T:E7.NotchSolution.AdaptationBase
-  parent: E7.NotchSolution
-  name: AdaptationBase
-  nameWithType: AdaptationBase
-  fullName: E7.NotchSolution.AdaptationBase
+  name: Rect
+  nameWithType: Rect
+  fullName: UnityEngine.Rect
 - uid: E7.NotchSolution.AdaptationBase.E7#NotchSolution#INotchSimulatorTarget#SimulatorUpdate*
   commentId: Overload:E7.NotchSolution.AdaptationBase.E7#NotchSolution#INotchSimulatorTarget#SimulatorUpdate
   name: INotchSimulatorTarget.SimulatorUpdate
@@ -389,13 +344,6 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: UnityEngine.Rect
-  commentId: T:UnityEngine.Rect
-  parent: UnityEngine
-  isExternal: true
-  name: Rect
-  nameWithType: Rect
-  fullName: UnityEngine.Rect
 - uid: UnityEngine.Rect[]
   isExternal: true
   name: Rect[]
@@ -422,8 +370,60 @@ references:
   - name: ()
     nameWithType: ()
     fullName: ()
-- uid: E7.NotchSolution.AdaptationBase.SafeAreaRelative*
-  commentId: Overload:E7.NotchSolution.AdaptationBase.SafeAreaRelative
-  name: SafeAreaRelative
-  nameWithType: AdaptationBase.SafeAreaRelative
-  fullName: E7.NotchSolution.AdaptationBase.SafeAreaRelative
+- uid: E7.NotchSolution.AdaptationBase.Adapt*
+  commentId: Overload:E7.NotchSolution.AdaptationBase.Adapt
+  name: Adapt
+  nameWithType: AdaptationBase.Adapt
+  fullName: E7.NotchSolution.AdaptationBase.Adapt
+- uid: System.Single
+  commentId: T:System.Single
+  parent: System
+  isExternal: true
+  name: Single
+  nameWithType: Single
+  fullName: System.Single
+- uid: E7.NotchSolution.AdaptationBase.Adapt(System.Single)
+  commentId: M:E7.NotchSolution.AdaptationBase.Adapt(System.Single)
+  parent: E7.NotchSolution.AdaptationBase
+  isExternal: true
+  name: Adapt(Single)
+  nameWithType: AdaptationBase.Adapt(Single)
+  fullName: E7.NotchSolution.AdaptationBase.Adapt(System.Single)
+  spec.csharp:
+  - uid: E7.NotchSolution.AdaptationBase.Adapt(System.Single)
+    name: Adapt
+    nameWithType: AdaptationBase.Adapt
+    fullName: E7.NotchSolution.AdaptationBase.Adapt
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Single
+    name: Single
+    nameWithType: Single
+    fullName: System.Single
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: E7.NotchSolution.AdaptationBase.Adapt(System.Single)
+    name: Adapt
+    nameWithType: AdaptationBase.Adapt
+    fullName: E7.NotchSolution.AdaptationBase.Adapt
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Single
+    name: Single
+    nameWithType: Single
+    fullName: System.Single
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: E7.NotchSolution.AdaptationBase
+  commentId: T:E7.NotchSolution.AdaptationBase
+  parent: E7.NotchSolution
+  name: AdaptationBase
+  nameWithType: AdaptationBase
+  fullName: E7.NotchSolution.AdaptationBase

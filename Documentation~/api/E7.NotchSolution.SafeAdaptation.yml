@@ -16,20 +16,20 @@ items:
   source:
     id: SafeAdaptation
     path: /Users/Sargon/Documents/Unity Projects/Open Sources/NotchSolution/Assets/NotchSolution/Runtime/Components/SafeAdaptation.cs
-    startLine: 28
+    startLine: 45
   assemblies:
   - E7.NotchSolution
   namespace: E7.NotchSolution
-  summary: "\nAdapt anything according to how much a screen space was taken by a single side of safe area.\nIt uses Playables API and animation playables to blend between **the first frame** of 2 <xref href=\"UnityEngine.AnimationClip\" data-throw-if-not-resolved=\"false\"></xref>, \nwhich represent normal state and fully-adapted state. As long as something is keyable by the animation system, it could be adapted to the safe area.\n"
-  remarks: "\nBlend amount is 0 ~ 1, calculated from 0 ~ 1 relative screen space taken of a single side that is then\nevaluated through configurable <xref href=\"E7.NotchSolution.BlendedClipsAdaptor.adaptationCurve\" data-throw-if-not-resolved=\"false\"></xref>.\n\nBy using animation system, the modification won&apos;t count as dirtying the scene which is great \nwhen you want to switching the simulator on and off just to observe its effect.\n\nAnimator is needed for its field binding power but no need for the controller asset, because we don&apos;t need the costly state machine, \njust like how <xref href=\"UnityEngine.Playables.PlayableDirector\" data-throw-if-not-resolved=\"false\"></xref> works with animation playables. However since Unity can&apos;t design <xref href=\"UnityEngine.AnimationClip\" data-throw-if-not-resolved=\"false\"></xref> on \nthe Animation pane without <xref href=\"UnityEngine.Animation\" data-throw-if-not-resolved=\"false\"></xref> **with** controllers, you may need to temporarily add a controller when \nyou are making the clip + add clips as some states in the animation graph, then remove the controller once you finished making the clip...\n\nAt runtime it only take effect on `Start`, since safe area is not expected to change dynamically, and unlike uGUI layout system + <xref href=\"E7.NotchSolution.SafePadding\" data-throw-if-not-resolved=\"false\"></xref>, \na frequent recalculation is not expected. Call <xref href=\"E7.NotchSolution.SafeAdaptation.Adapt\" data-throw-if-not-resolved=\"false\"></xref> if you wish to apply the adaptation manually again.\n\nIn edit mode, it also apply on notch simulator update. So it is almost like the adaptation always lock your fields. \nIn real play it is possible to adjust these adapted fields later freely since it&apos;s only on `Start`.\n"
+  summary: "\n<p>\n    Adapt anything according to how much a screen space was taken by a single side of safe area.\n</p>\n<p>\n    It uses Playables API and animation playables to blend between <strong>the first frame</strong>\n    of 2 <xref href=\"UnityEngine.AnimationClip\" data-throw-if-not-resolved=\"false\"></xref>, which represent normal state and fully-adapted state.\n    As long as something is keyable by the animation system, it could be adapted to the safe area.\n</p>\n"
+  remarks: "\n<p>\n    Blend amount is 0 ~ 1, calculated from 0 ~ 1 relative screen space taken of a single side that is then\n    evaluated through configurable <xref href=\"E7.NotchSolution.BlendedClipsAdaptor.adaptationCurve\" data-throw-if-not-resolved=\"false\"></xref>.\n</p>\n<p>\n    By using animation system, the modification won&apos;t count as dirtying the scene which is great\n    when you want to switching the simulator on and off just to observe its effect.\n</p>\n<p>\n    Animator is needed for its field binding power but no need for the controller asset,\n    because we don&apos;t need the costly state machine, just like how <xref href=\"UnityEngine.Playables.PlayableDirector\" data-throw-if-not-resolved=\"false\"></xref> works with\n    animation playables.\n</p>\n<p>\n    However since Unity can&apos;t design <xref href=\"UnityEngine.AnimationClip\" data-throw-if-not-resolved=\"false\"></xref> on\n    the Animation pane without <xref href=\"UnityEngine.Animation\" data-throw-if-not-resolved=\"false\"></xref> <strong>with</strong> controllers, you may need to temporarily\n    add a controller when you are making the clip + add clips as some states in the animation graph,\n    then remove the controller once you finished making the clip...\n</p>\n<p>\n    At runtime it only take effect on <code>Start</code>, since safe area is not expected to change dynamically,\n    and unlike uGUI layout system + <xref href=\"E7.NotchSolution.SafePadding\" data-throw-if-not-resolved=\"false\"></xref>, a frequent recalculation is not expected.\n    Call <xref href=\"E7.NotchSolution.SafeAdaptation.Adapt\" data-throw-if-not-resolved=\"false\"></xref> if you wish to apply the adaptation manually again.\n</p>\n<p>\n    In edit mode, it also apply on notch simulator update. So it is almost like the adaptation always lock your fields.\n    In real play it is possible to adjust these adapted fields later freely since it&apos;s only on <code>Start</code>.\n</p>\n"
   example: []
   syntax:
     content: >-
-      [HelpURL("http://exceed7.com/notch-solution/components/adaptation/safe-adaptation.html")]
+      [HelpURL("https://exceed7.com/notch-solution/components/adaptation/safe-adaptation.html")]
 
       public class SafeAdaptation : AdaptationBase, INotchSimulatorTarget
     content.vb: >-
-      <HelpURL("http://exceed7.com/notch-solution/components/adaptation/safe-adaptation.html")>
+      <HelpURL("https://exceed7.com/notch-solution/components/adaptation/safe-adaptation.html")>
 
       Public Class SafeAdaptation
           Inherits AdaptationBase
@@ -44,15 +44,15 @@ items:
   implements:
   - E7.NotchSolution.INotchSimulatorTarget
   inheritedMembers:
-  - E7.NotchSolution.AdaptationBase.Adapt(System.Single)
-  - E7.NotchSolution.AdaptationBase.E7#NotchSolution#INotchSimulatorTarget#SimulatorUpdate(UnityEngine.Rect,UnityEngine.Rect[])
   - E7.NotchSolution.AdaptationBase.SafeAreaRelative
+  - E7.NotchSolution.AdaptationBase.E7#NotchSolution#INotchSimulatorTarget#SimulatorUpdate(UnityEngine.Rect,UnityEngine.Rect[])
+  - E7.NotchSolution.AdaptationBase.Adapt(System.Single)
   attributes:
   - type: UnityEngine.HelpURLAttribute
     ctor: UnityEngine.HelpURLAttribute.#ctor(System.String)
     arguments:
     - type: System.String
-      value: http://exceed7.com/notch-solution/components/adaptation/safe-adaptation.html
+      value: https://exceed7.com/notch-solution/components/adaptation/safe-adaptation.html
   modifiers.csharp:
   - public
   - class
@@ -73,11 +73,11 @@ items:
   source:
     id: Adapt
     path: /Users/Sargon/Documents/Unity Projects/Open Sources/NotchSolution/Assets/NotchSolution/Runtime/Components/SafeAdaptation.cs
-    startLine: 50
+    startLine: 65
   assemblies:
   - E7.NotchSolution
   namespace: E7.NotchSolution
-  summary: "\nAt runtime <xref href=\"E7.NotchSolution.SafeAdaptation\" data-throw-if-not-resolved=\"false\"></xref> only take effect on `Start`, since safe area is not expected to change dynamically, \nand unlike uGUI and <xref href=\"E7.NotchSolution.SafePadding\" data-throw-if-not-resolved=\"false\"></xref>  a frequent recalculation is not expected. \n\nThis method applies that adaptation manually again.\n"
+  summary: "\nAt runtime <xref href=\"E7.NotchSolution.SafeAdaptation\" data-throw-if-not-resolved=\"false\"></xref> only take effect on `Start`, since safe area is not expected to change dynamically,\nand unlike uGUI and <xref href=\"E7.NotchSolution.SafePadding\" data-throw-if-not-resolved=\"false\"></xref>  a frequent recalculation is not expected.\nThis method applies that adaptation manually again.\n"
   example: []
   syntax:
     content: public override void Adapt()
@@ -163,45 +163,12 @@ references:
   name: INotchSimulatorTarget
   nameWithType: INotchSimulatorTarget
   fullName: E7.NotchSolution.INotchSimulatorTarget
-- uid: E7.NotchSolution.AdaptationBase.Adapt(System.Single)
-  commentId: M:E7.NotchSolution.AdaptationBase.Adapt(System.Single)
+- uid: E7.NotchSolution.AdaptationBase.SafeAreaRelative
+  commentId: P:E7.NotchSolution.AdaptationBase.SafeAreaRelative
   parent: E7.NotchSolution.AdaptationBase
-  isExternal: true
-  name: Adapt(Single)
-  nameWithType: AdaptationBase.Adapt(Single)
-  fullName: E7.NotchSolution.AdaptationBase.Adapt(System.Single)
-  spec.csharp:
-  - uid: E7.NotchSolution.AdaptationBase.Adapt(System.Single)
-    name: Adapt
-    nameWithType: AdaptationBase.Adapt
-    fullName: E7.NotchSolution.AdaptationBase.Adapt
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.Single
-    name: Single
-    nameWithType: Single
-    fullName: System.Single
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: E7.NotchSolution.AdaptationBase.Adapt(System.Single)
-    name: Adapt
-    nameWithType: AdaptationBase.Adapt
-    fullName: E7.NotchSolution.AdaptationBase.Adapt
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.Single
-    name: Single
-    nameWithType: Single
-    fullName: System.Single
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
+  name: SafeAreaRelative
+  nameWithType: AdaptationBase.SafeAreaRelative
+  fullName: E7.NotchSolution.AdaptationBase.SafeAreaRelative
 - uid: E7.NotchSolution.AdaptationBase.E7#NotchSolution#INotchSimulatorTarget#SimulatorUpdate(UnityEngine.Rect,UnityEngine.Rect[])
   commentId: M:E7.NotchSolution.AdaptationBase.E7#NotchSolution#INotchSimulatorTarget#SimulatorUpdate(UnityEngine.Rect,UnityEngine.Rect[])
   parent: E7.NotchSolution.AdaptationBase
@@ -266,12 +233,45 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: E7.NotchSolution.AdaptationBase.SafeAreaRelative
-  commentId: P:E7.NotchSolution.AdaptationBase.SafeAreaRelative
+- uid: E7.NotchSolution.AdaptationBase.Adapt(System.Single)
+  commentId: M:E7.NotchSolution.AdaptationBase.Adapt(System.Single)
   parent: E7.NotchSolution.AdaptationBase
-  name: SafeAreaRelative
-  nameWithType: AdaptationBase.SafeAreaRelative
-  fullName: E7.NotchSolution.AdaptationBase.SafeAreaRelative
+  isExternal: true
+  name: Adapt(Single)
+  nameWithType: AdaptationBase.Adapt(Single)
+  fullName: E7.NotchSolution.AdaptationBase.Adapt(System.Single)
+  spec.csharp:
+  - uid: E7.NotchSolution.AdaptationBase.Adapt(System.Single)
+    name: Adapt
+    nameWithType: AdaptationBase.Adapt
+    fullName: E7.NotchSolution.AdaptationBase.Adapt
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Single
+    name: Single
+    nameWithType: Single
+    fullName: System.Single
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: E7.NotchSolution.AdaptationBase.Adapt(System.Single)
+    name: Adapt
+    nameWithType: AdaptationBase.Adapt
+    fullName: E7.NotchSolution.AdaptationBase.Adapt
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Single
+    name: Single
+    nameWithType: Single
+    fullName: System.Single
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: System
   commentId: N:System
   isExternal: true
