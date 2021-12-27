@@ -14,6 +14,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `Unity.ugui` removed from `E7.NotchSolution.asmdef` and `E7.NotchSolution.Editor.asmdef`. It is no longer needed to be explicitly referenced in 2019.4. (Thank god)
 - XML code documentation refactors. API tab in the Website is also reflected.
 
+### Fixed
+
+Merged many PR fixes from contributors in the GitHub repository over the years where I took a break from this package. Thank you!
+
+- [Notch Simulator automatically resizes Game window and configurable device orientation in Notch Simulator Window #54](https://github.com/5argon/NotchSolution/pull/54). (Contributed by [yasirkula](https://github.com/yasirkula).)
+- [Fix GC allocation (96 byte) #55](https://github.com/5argon/NotchSolution/pull/55). (Contributed by [JohannesDeml](https://github.com/JohannesDeml).)
+- [Gracefully handle a null mockupImage on reload #57](https://github.com/5argon/NotchSolution/pull/57). (Contributed by [BenWoodford](https://github.com/BenWoodford).)
+- [Fix safe area calculations for Unity Standalone builds #60](https://github.com/5argon/NotchSolution/pull/60). (Contributed by [jollyMZ](https://github.com/jollyMZ).)
+- [Fix bug on Unity 2019.3 where SafePadding Editor Labels (Left, Bottom,Top and Right) were not being shown! #63](https://github.com/5argon/NotchSolution/pull/63). (Contributed by [wagenheimer](https://github.com/wagenheimer).)
+- [Handle new Unity Device Simulator window name #64](https://github.com/5argon/NotchSolution/pull/64). (Contributed by [robinnorth](https://github.com/robinnorth).)
+
 ## [1.9.0] - 2019-11-25
 
 ### Added
