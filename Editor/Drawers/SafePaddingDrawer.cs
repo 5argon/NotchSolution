@@ -34,7 +34,7 @@ namespace E7.NotchSolution.Editor
             for (int i = 0; i < 4; i++)
             {
                 portrait.Next(enterChildren: true);
-                EditorGUILayout.PropertyField(portrait);
+                EditorGUILayout.PropertyField(portrait, new GUIContent(portrait.displayName));
             }
             
             if (portraitCompatible && landscapeCompatible) EditorGUI.indentLevel--;
