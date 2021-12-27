@@ -1,8 +1,6 @@
 {
     "name": "E7.NotchSolution",
-    "references": [
-        "Unity.ugui"
-    ],
+    "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
@@ -10,5 +8,6 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": []
+    "versionDefines": [],
+    "noEngineReferences": false
 }

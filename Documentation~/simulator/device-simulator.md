@@ -36,7 +36,6 @@ So the "integration" is basically, there is a code to detect that if the current
 
 But wait : 
 
-- If you are before 2019.3 then you cannot use that package.
 - The overlay is drawn on the Game tab with a shader. It doesn't exist on Scene tab unlike our "hacky" [full screen hidden `Canvas` approach](notch-simulator.md). If you want to see the overlay in Scene tab too then you can still find Notch Simulator useful.
 - Notch Simulator also put overlay in prefab mode. If you design a piece of UI that is not right now visible on Game tab, or you don't want to press save in prefab mode to see the change that Device Simulator could affect in the Game tab, then Notch Simulator maybe still useful.
 - You like the A-B configuration switch or quick on-off shortcuts in Notch Simulator then you can continue using it. You maybe able to write a custom shortcuts to Device Simulator too but I have not investigate it yet.

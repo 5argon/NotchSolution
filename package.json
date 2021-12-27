@@ -1,9 +1,9 @@
 {
     "name": "com.e7.notch-solution",
-    "author": "Sirawat Pitaksarit / 5argon - Exceed7 Experiments",
+    "author": "Exceed7 Experiments",
     "displayName": "Notch Solution",
-    "version": "1.9.0",
-    "unity": "2019.1",
+    "version": "2.0.0",
+    "unity": "2019.4",
     "keywords": [
         "UI",
         "UGUI",

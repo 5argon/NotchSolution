@@ -1,8 +1,7 @@
 {
     "name": "E7.NotchSolution.Editor",
     "references": [
-        "E7.NotchSolution",
-        "Unity.ugui"
+        "E7.NotchSolution"
     ],
     "includePlatforms": [
         "Editor"
@@ -13,5 +12,6 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": []
+    "versionDefines": [],
+    "noEngineReferences": false
 }

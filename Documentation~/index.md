@@ -1,3 +1,6 @@
+> [!WARNING]
+> Requires Unity 2019.4 LTS or newer. Player's device must also be ensured to be at high enough OS version to report `safeArea`/`cutouts`.
+
 Whether you like it or not, the time has come for us designers to design in context of a notch and embrace it instead of hiding it. This tool also enables design-time preview which help you iterate your design without building the game.
 
 ![Main screenshot](images/main-screenshot.gif)
@@ -14,13 +17,6 @@ Whether you like it or not, the time has come for us designers to design in cont
 - **You want to just donate directly to me** : I have [PayPal.me](http://paypal.me/5argon) and [Ko-fi](https://ko-fi.com/5argon) set up.
 
 Sincerely, thank you! - Sirawat Pitaksarit / 5argon
-
-## Requirements
-
-- Minimum Unity version 2019.1, supports `safeArea` based components. Components that uses `cutouts` do nothing.
-- Unity version 2019.2+, additionally supports `cutouts` based components. (None yet, in developement.)
-- Unity version 2019.3+, additionally supports [integration with Device Simulator](simulator/device-simulator.md).
-- Your game's Android player has to use high enough Android version to report useful `safeArea`/`cutouts` information to Unity. Otherwise the components will not help avoiding the notches.
 
 ## Getting started
 
