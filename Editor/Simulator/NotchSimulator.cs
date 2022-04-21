@@ -8,7 +8,6 @@ using UnityEditor;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
 using UnityEditor.Callbacks;
-using UnityEditor.Experimental.SceneManagement;
 using UnityEditor.SceneManagement;
 using UnityEditor.ShortcutManagement;
 using UnityEngine;
@@ -153,7 +152,7 @@ namespace E7.NotchSolution.Editor
                 var gameViewOrientation = NotchSimulatorUtility.GetGameViewOrientation();
 
                 var gameViewSize = NotchSimulatorUtility.GetMainGameViewSize();
-                if (gameViewOrientation == ScreenOrientation.Landscape)
+                if (gameViewOrientation == ScreenOrientation.LandscapeLeft)
                 {
                     var flip = gameViewSize.x;
                     gameViewSize.x = gameViewSize.y;

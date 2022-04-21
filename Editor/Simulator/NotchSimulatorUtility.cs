@@ -21,7 +21,7 @@ namespace E7.NotchSolution.Editor
             var orientation = GetGameViewOrientation();
             var safe = firstScreen.orientations[orientation].safeArea;
             var screenSize = new Vector2(firstScreen.width, firstScreen.height);
-            if (orientation == ScreenOrientation.Landscape)
+            if (orientation == ScreenOrientation.LandscapeLeft)
             {
                 var swap = screenSize.x;
                 screenSize.x = screenSize.y;
@@ -48,7 +48,7 @@ namespace E7.NotchSolution.Editor
             }
 
             var screenSize = new Vector2(firstScreen.width, firstScreen.height);
-            if (orientation == ScreenOrientation.Landscape)
+            if (orientation == ScreenOrientation.LandscapeLeft)
             {
                 var swap = screenSize.x;
                 screenSize.x = screenSize.y;
@@ -86,7 +86,7 @@ namespace E7.NotchSolution.Editor
         internal static ScreenOrientation GetGameViewOrientation()
         {
             var gameViewSize = GetMainGameViewSize();
-            return gameViewSize.x > gameViewSize.y ? ScreenOrientation.Landscape : ScreenOrientation.Portrait;
+            return gameViewSize.x > gameViewSize.y ? ScreenOrientation.LandscapeLeft : ScreenOrientation.Portrait;
         }
 
 #if UNITY_2019_3_OR_NEWER

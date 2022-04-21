@@ -20,7 +20,7 @@ namespace E7.NotchSolution
 
         private BlendedClipsAdaptor SelectedAdaptation =>
             supportedOrientations == SupportedOrientations.Dual
-                ? NotchSolutionUtility.GetCurrentOrientation() == ScreenOrientation.Landscape ? landscapeAdaptation :
+                ? NotchSolutionUtility.GetCurrentOrientation() == ScreenOrientation.LandscapeLeft ? landscapeAdaptation :
                 portraitOrDefaultAdaptation
                 : portraitOrDefaultAdaptation;
 

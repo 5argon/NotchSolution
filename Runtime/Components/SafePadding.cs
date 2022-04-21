@@ -42,7 +42,7 @@ namespace E7.NotchSolution
         {
             var selectedOrientation =
                 orientationType == SupportedOrientations.Dual
-                    ? NotchSolutionUtility.GetCurrentOrientation() == ScreenOrientation.Landscape ? landscapePaddings :
+                    ? NotchSolutionUtility.GetCurrentOrientation() == ScreenOrientation.LandscapeLeft ? landscapePaddings :
                     portraitOrDefaultPaddings
                     : portraitOrDefaultPaddings;
 

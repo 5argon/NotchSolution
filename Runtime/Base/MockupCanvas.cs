@@ -48,7 +48,7 @@ namespace E7.NotchSolution
                 }
 
                 mockupImage.transform.rotation =
-                    Quaternion.Euler(0, 0, orientation == ScreenOrientation.Landscape ? 90 : 0);
+                    Quaternion.Euler(0, 0, orientation == ScreenOrientation.LandscapeLeft ? 90 : 0);
                 mockupImage.sprite = sprite;
                 mockupImage.transform.localScale = new Vector3(
                     flipped ? -1 : 1,
