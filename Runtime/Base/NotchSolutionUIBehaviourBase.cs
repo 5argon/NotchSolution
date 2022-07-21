@@ -126,6 +126,21 @@ namespace E7.NotchSolution
         private void DelayedUpdate()
         {
             StartCoroutine(DelayedUpdateRoutine());
+
+#if UNITY_EDITOR
+            if (!Application.isPlaying)
+            {
+                // In Edit Mode, coroutines don't always work but we also can't call UpdateRectBase directly because it spams warning messages
+                // when called directly from OnValidate. So we can wait for 1 editor frame in EditorApplication.update instead
+                UnityEditor.EditorApplication.update += DelayedEditorUpdate;
+
+                void DelayedEditorUpdate()
+                {
+                    UnityEditor.EditorApplication.update -= DelayedEditorUpdate;
+                    UpdateRectBase();
+                };
+            }
+#endif
         }
 
         private IEnumerator DelayedUpdateRoutine()
