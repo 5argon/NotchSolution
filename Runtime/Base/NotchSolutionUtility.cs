@@ -97,7 +97,7 @@ namespace E7.NotchSolution
 
         internal static ScreenOrientation GetCurrentOrientation()
         {
-            return Screen.width > Screen.height ? ScreenOrientation.Landscape : ScreenOrientation.Portrait;
+            return Screen.width > Screen.height ? ScreenOrientation.LandscapeLeft : ScreenOrientation.Portrait;
         }
 
         private static Rect ToScreenRelativeRect(Rect absoluteRect)
