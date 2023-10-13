@@ -137,6 +137,7 @@ namespace E7.NotchSolution
                 void DelayedEditorUpdate()
                 {
                     UnityEditor.EditorApplication.update -= DelayedEditorUpdate;
+                    if (this == null) return;
                     UpdateRectBase();
                 };
             }

@@ -228,10 +228,10 @@ namespace E7.NotchSolution
         private SupportedOrientations orientationType;
 
         [SerializeField]
-        private PerEdgeEvaluationModes portraitOrDefaultPaddings;
+        private PerEdgeEvaluationModes portraitOrDefaultPaddings = new PerEdgeEvaluationModes();
 
         [SerializeField]
-        private PerEdgeEvaluationModes landscapePaddings;
+        private PerEdgeEvaluationModes landscapePaddings = new PerEdgeEvaluationModes();
 
         [Tooltip("Scale down the resulting value read from an edge to be less than an actual value.")]
         [SerializeField] [Range(0f, 1f)]
