@@ -177,6 +177,19 @@ namespace E7.NotchSolution
             finalPaddingsLDUR[1] *= influence;
             finalPaddingsLDUR[2] *= influence;
             finalPaddingsLDUR[3] *= influence;
+            
+            if (minimumPadding != null)
+            {
+                //Apply minimum padding if it is set.
+                finalPaddingsLDUR[0] = selectedOrientation.left == EdgeEvaluationMode.Off 
+                    ? 0 : Mathf.Max(finalPaddingsLDUR[0], minimumPadding.left);
+                finalPaddingsLDUR[1] = selectedOrientation.bottom == EdgeEvaluationMode.Off 
+                    ? 0 : Mathf.Max(finalPaddingsLDUR[1], minimumPadding.bottom);
+                finalPaddingsLDUR[2] = selectedOrientation.top == EdgeEvaluationMode.Off 
+                    ? 0 : Mathf.Max(finalPaddingsLDUR[2], minimumPadding.top);
+                finalPaddingsLDUR[3] = selectedOrientation.right == EdgeEvaluationMode.Off 
+                    ? 0 : Mathf.Max(finalPaddingsLDUR[3], minimumPadding.right);
+            }
 
             if (flipPadding)
             {
@@ -241,6 +254,9 @@ namespace E7.NotchSolution
             "The value read from all edges are applied to the opposite side of a RectTransform instead. Useful when you have rotated or negatively scaled RectTransform.")]
         [SerializeField]
         private bool flipPadding;
+        
+        [SerializeField]
+        private PerEdgeValues<float> minimumPadding;
 #pragma warning restore 0649
     }
 }
