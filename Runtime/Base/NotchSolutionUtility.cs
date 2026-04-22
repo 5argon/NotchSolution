@@ -104,15 +104,15 @@ namespace E7.NotchSolution
         {
             float w = Screen.currentResolution.width;
             float h = Screen.currentResolution.height;
-            #if UNITY_STANDALONE && UNITY_EDITOR
-                if (!NotchSolutionUtilityEditor.UnityDeviceSimulatorActive) {
-                    w = absoluteRect.width;
-                    h = absoluteRect.height;
-                }
-            #elif UNITY_STANDALONE
+#if UNITY_STANDALONE && UNITY_EDITOR
+            if (!NotchSolutionUtilityEditor.UnityDeviceSimulatorActive) {
                 w = absoluteRect.width;
                 h = absoluteRect.height;
-            #endif
+            }
+#elif UNITY_STANDALONE
+            w = absoluteRect.width;
+            h = absoluteRect.height;
+#endif
 
             //Debug.Log($"{w} {h} {Screen.currentResolution} {absoluteRect}");
             return new Rect(
