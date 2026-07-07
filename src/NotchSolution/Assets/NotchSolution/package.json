@@ -1,0 +1,29 @@
+{
+    "name": "com.e7.notch-solution",
+    "author": "Exceed7 Experiments",
+    "displayName": "Notch Solution",
+    "version": "3.0.0",
+    "unity": "6000.3",
+    "keywords": [
+        "ui",
+        "ugui",
+        "mobile",
+        "user interface",
+        "responsive",
+        "notch",
+        "cutout",
+        "cutouts",
+        "safe area",
+        "padding",
+        "hole",
+        "punch hole"
+    ],
+    "description": "Runtime components and design tools to solve notched/cutout phones layout problems.",
+    "samples": [
+        {
+            "displayName": "Debug Scene",
+            "description": "A scene displaying safe area and cutouts, device's information, and some basic Notch Solution component doing work. You can build this scene to a real device to check runtime behaviour.",
+            "path": "Samples~/DebugScene"
+        }
+    ]
+}

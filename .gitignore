@@ -1,4 +1,37 @@
+# Packaging artifacts
 Documentation~.zip
 Documentation~.zip.meta
 Samples~.zip
 Samples~.zip.meta
+
+# Unity project generated folders (dev project at src/NotchSolution)
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]serSettings/
+[Mm]emoryCaptures/
+[Rr]ecordings/
+
+# Never ignore these even under the paths above
+!/src/NotchSolution/Assets/**
+!/src/NotchSolution/Packages/**
+!/src/NotchSolution/ProjectSettings/**
+
+# Visual Studio / Rider / VS Code
+.vs/
+.idea/
+*.csproj
+*.sln
+*.user
+*.userprefs
+.vscode/
+
+# Unity crash/log
+sysinfo.txt
+crashlytics-build.properties
+
+# macOS
+.DS_Store

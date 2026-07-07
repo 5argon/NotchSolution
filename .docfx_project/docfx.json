@@ -3,13 +3,13 @@
     {
       "src": [
         {
-          "src": "../../../",
+          "src": "../src/NotchSolution",
           "files": [
-            "NotchSolution.sln"
+            "*.sln"
           ]
         }
       ],
-      "dest": "../Documentation~/api",
+      "dest": "../src/NotchSolution/Assets/NotchSolution/Documentation~/api",
       "disableGitFeatures": true,
       "disableDefaultFilter": false,
       "filter": "filterConfig.yml"
@@ -18,13 +18,13 @@
   "build": {
     "content": [
       {
-        "src": "..",
+        "src": "../src/NotchSolution/Assets/NotchSolution",
         "files": [
           "CHANGELOG.md"
         ]
       },
       {
-        "src": "../Documentation~",
+        "src": "../src/NotchSolution/Assets/NotchSolution/Documentation~",
         "files": [
           "*.md",
           "*.yml",
@@ -42,13 +42,13 @@
         ]
       },
       {
-        "src": "../Documentation~",
+        "src": "../src/NotchSolution/Assets/NotchSolution/Documentation~",
         "files": [
           "**/images/*"
         ]
       },
       {
-        "src": "../",
+        "src": "../src/NotchSolution/Assets/NotchSolution",
         "files": [
           "Icons/*"
         ]
@@ -57,23 +57,13 @@
     "dest": "_site",
     "globalMetadataFiles": [
       "global.json",
-      "asset-store.json",
-      "/Users/Sargon/Documents/5argon Work/e7fx/cross-promotion.json",
-      "/Users/Sargon/Documents/5argon Work/e7fx/global.json"
-    ],
-    "fileMetadataFiles": [
-      "/Users/Sargon/Documents/5argon Work/e7fx/file.json"
+      "asset-store.json"
     ],
     "template": [
       "default",
-      "/Users/Sargon/Documents/5argon Work/e7fx",
-      "colorize-e7fx"
+      "modern",
+      "exc7-theme"
     ],
-    "postProcessors": [],
-    "markdownEngineName": "markdig",
-    "noLangKeyword": false,
-    "keepFileLink": false,
-    "cleanupCacheHistory": false,
     "disableGitFeatures": true
   }
 }

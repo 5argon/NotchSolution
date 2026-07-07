@@ -1,33 +1,50 @@
 # Notch Solution
 
-![Main screenshot](Documentation~/images/main-screenshot.gif)
+A set of components and tools to solve notched/cutout phones layout problems for Unity UGUI.
 
-A set of components and tools to solve notched/cutout phones layout problems for Unity.
+**Official website:** http://exceed7.com/notch-solution/
 
-Whether you like it or not, the time has come for us designers to design in context of a notch and embrace it instead of hiding it. This tool also enables design-time preview which help you iterate your design without building the game.
+## Repository layout
 
-**Official website** : http://exceed7.com/notch-solution/
+This repository is a Unity project that hosts the package in a subfolder, so the repo root is not the package itself (same approach as [UniTask](https://github.com/Cysharp/UniTask)). This lets you open the repo directly in the Unity Hub for development while still installing the package via a Git URL.
 
-**Questions/Problems/Suggestions** : 5argon@exceed7.com
-**Discord** : https://discord.gg/J4sCcj4
+```
+NotchSolution/                     # this git repo
+  src/
+    NotchSolution/                 # Unity project — open this folder in Unity Hub
+      Assets/
+        NotchSolution/             # the package — the Git URL UPM points here
+      Packages/
+      ProjectSettings/
+```
 
-## Easy way to pay for this software
+## Install via UPM (Git URL)
 
-Are you looking for a way to say thanks to this open source work other than code contribution?
+In Unity, open **Window → Package Manager → + → Add package from git URL** and enter:
 
-It is easy! You can take a look at my myriad of niche Unity Asset Store **audio plugins** in [my publisher page](https://assetstore.unity.com/publishers/18007), grab something for your game, or tell your audio-caring friends about them. Thank you!
+```
+https://github.com/5argon/NotchSolution.git?path=src/NotchSolution/Assets/NotchSolution
+```
 
-## How to use
+To pin a specific version, append a tag, e.g.:
 
-With internet connection you should visit : http://www.exceed7.com/notch-solution
+```
+https://github.com/5argon/NotchSolution.git?path=src/NotchSolution/Assets/NotchSolution#3.0.0
+```
 
-Without internet connection, the website mentioned was generated from files in [a hidden folder](./Documentation~/index.md). Currently you may see it in a zipped form `Documentation~.zip`, because Asset Store do not support publishing unimported folders yet so I have to zip them to make them go together.
+Or add it directly to `Packages/manifest.json`:
 
-Please unzip it to access the documentation. Also you can unzip `Samples~.zip` to access unimported samples, which you can copy them to your project to make them actually import.
+```json
+{
+  "dependencies": {
+    "com.e7.notch-solution": "https://github.com/5argon/NotchSolution.git?path=src/NotchSolution/Assets/NotchSolution"
+  }
+}
+```
 
-After you get a `Documentation~` folder, you can read them in their Markdown form from your code editor. Markdowns are human readable by design. They won't be imported to Unity too, as the folder [has a trailing `~`](https://docs.unity3d.com/Manual/SpecialFolders.html). It is great because Unity will not create `.meta` files for them and not import tutorial texts and images, they are not a part of your game. The same goes to unzipped `Sample~` folder, they are not supposed to import until you want to see them. This format is currently the best practice.
+## Development
 
-With an IDE like Visual Studio Code, you can use "Markdown: Open Preview to the Side" to even display a nicely rendered Markdown with images working properly. Navigate by clicking on different files on the folder tree.
+Open `src/NotchSolution/` in the Unity Hub (Unity 6.3 LTS). The package source is embedded under `Assets/NotchSolution`, so you can edit and test it in place. The full package README, changelog, documentation, and samples live inside that package folder.
 
 ## License
 

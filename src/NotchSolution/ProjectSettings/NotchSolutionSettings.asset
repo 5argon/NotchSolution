@@ -1,0 +1,30 @@
+{
+    "activeConfigurationIndex": 0,
+    "version": 1,
+    "perPlatformConfigurations": [
+        {
+            "buildTarget": 2,
+            "configurations": [
+                {
+                    "configurationName": "Config A",
+                    "<DeviceIndex>k__BackingField": 0,
+                    "<Orientation>k__BackingField": 0,
+                    "<GameViewSize>k__BackingField": 0
+                },
+                {
+                    "configurationName": "Config B",
+                    "<DeviceIndex>k__BackingField": 0,
+                    "<Orientation>k__BackingField": 0,
+                    "<GameViewSize>k__BackingField": 0
+                }
+            ]
+        }
+    ],
+    "<EnableSimulation>k__BackingField": false,
+    "<PrefabModeOverlayColor>k__BackingField": {
+        "r": 0.296999990940094,
+        "g": 0.4050000011920929,
+        "b": 0.48100000619888308,
+        "a": 1.0
+    }
+}

@@ -1,0 +1,191 @@
+/*
+ * Exceed7 brand overlay for the DocFX "modern" template (Bootstrap 5.3).
+ * Intentionally thin: override a few CSS variables and selectors and let the
+ * modern template provide the structure, dark mode, search, and responsiveness.
+ */
+
+:root {
+  /* ======================================================================
+     BRAND — edit these per product. Accent/background colours are R,G,B
+     triplets so a single value feeds both the solid colour and Bootstrap's
+     matching "-rgb" variable.
+     ====================================================================== */
+  --exc7-accent-rgb: 234, 22, 22;              /* links & accents (light mode) */
+  --exc7-accent-hover-rgb: 130, 17, 17;
+  --exc7-accent-dark-rgb: 255, 107, 107;       /* links & accents (dark mode)  */
+  --exc7-accent-hover-dark-rgb: 255, 157, 157;
+  --exc7-body-bg-dark-rgb: 28, 27, 31;         /* page background (dark mode)   */
+  --exc7-code-color: #5d307d;                  /* inline code text              */
+  --exc7-code-color-dark: #cab6d7;                  /* inline code text              */
+  --exc7-code-bg: linear-gradient(90deg, rgba(201, 174, 255, 0.15) 0%, rgba(255, 200, 236, 0.15) 100%);
+  --exc7-code-bg-dark: linear-gradient(90deg, rgba(201, 174, 255, 0.15) 0%, rgba(255, 200, 236, 0.15) 100%);
+  --exc7-separator: #f9e0a7;                   /* "|" separators                */
+  --exc7-frame: conic-gradient(#ffcb17, #f14325, #ff002f, #f044ff, #2828d4, #ffbfb1, #ffcb17); /* gradient border */
+  /* ====================================================================== */
+}
+
+/* Map the brand accent onto Bootstrap's link colours (light mode). */
+:root,
+[data-bs-theme="light"] {
+  --bs-link-color: rgb(var(--exc7-accent-rgb));
+  --bs-link-color-rgb: var(--exc7-accent-rgb);
+  --bs-link-hover-color: rgb(var(--exc7-accent-hover-rgb));
+  --bs-link-hover-color-rgb: var(--exc7-accent-hover-rgb);
+}
+
+h1 {
+  font-weight: bold;
+}
+
+h2 {
+  font-weight: bold;
+}
+
+/* Dark mode: lighter accent for contrast, plus the page background. */
+[data-bs-theme="dark"] {
+  --bs-link-color: rgb(var(--exc7-accent-dark-rgb));
+  --bs-link-color-rgb: var(--exc7-accent-dark-rgb);
+  --bs-link-hover-color: rgb(var(--exc7-accent-hover-dark-rgb));
+  --bs-link-hover-color-rgb: var(--exc7-accent-hover-dark-rgb);
+  --bs-body-bg: rgb(var(--exc7-body-bg-dark-rgb));
+  --bs-body-bg-rgb: var(--exc7-body-bg-dark-rgb);
+}
+
+/* Inline code: brand text on a soft brand wash. */
+[data-bs-theme="light"] :not(pre) > code {
+  color: var(--exc7-code-color);
+  background: var(--exc7-code-bg);
+  border-radius: 2px;
+  padding: 0rem 0.2rem;
+}
+
+[data-bs-theme="dark"] :not(pre) > code {
+  color: var(--exc7-code-color-dark);
+  background: var(--exc7-code-bg-dark);
+  border-radius: 2px;
+  padding: 0rem 0.2rem;
+}
+
+/* Do not append the external-link indicator icon after external links. */
+a.external::after {
+  content: none !important;
+}
+
+/* Constrain the navbar logo so a large source image does not blow up the header. */
+.navbar-brand img {
+  height: 1.75rem;
+  width: auto;
+}
+
+/* The GitHub star button injected into the navbar by main.js. */
+.exc7-navbar-star {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 0.75rem;
+}
+
+.exc7-navbar-star > span {
+  display: inline-flex;
+}
+
+/* --- Homepage cross-promotion header and get-it box --- */
+.fade-in-top-3 {
+  animation: exc7FadeInTop 0.4s ease both;
+}
+
+@keyframes exc7FadeInTop {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.cross-promotion {
+  text-align: center;
+  margin: 0 auto 1.5rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid transparent;
+  border-image: var(--exc7-frame) 1;
+}
+
+.cross-promotion-row {
+  font-weight: 700;
+  line-height: 2;
+}
+
+/* Lay each item out as a centered row so the text and its star button align. */
+.cross-promotion-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  vertical-align: middle;
+}
+
+.cross-promotion-item > span {
+  display: flex;
+}
+
+.cross-promotion-item + .cross-promotion-item::before {
+  content: "|";
+  color: var(--exc7-separator);
+  margin-left: 0.35rem;
+}
+
+/* Centered homepage hero: splash image, name, and description. */
+.exc7-hero {
+  text-align: center;
+  margin: 2rem auto 2.5rem;
+}
+
+.exc7-hero img {
+  max-width: 100%;
+  height: auto;
+}
+
+.exc7-hero .exc7-hero-title {
+  font-weight: 800;
+  font-size: 2.5rem;
+  margin-top: 1rem;
+}
+
+.exc7-hero .exc7-hero-desc {
+  font-weight: 700;
+  font-size: 1.5rem;
+  margin: 0.5rem auto 0;
+  max-width: 36rem;
+}
+
+.contact-list-item + .contact-list-item::before {
+  content: "|";
+  color: var(--exc7-separator);
+  margin: 0 0.5rem;
+}
+
+/* Center stand-alone images. DocFX wraps images in a lightbox link, so the image
+   sits inside an <a> that is the only child of the paragraph. */
+p:has(> img:only-child),
+p:has(> a:only-child > img) {
+  text-align: center;
+}
+
+/* Give pages without a left sidebar (e.g. the homepage) the same comfortable
+   reading width as the sidebar pages instead of stretching the full container.
+   Adjust the width to taste. */
+article {
+  max-width: 48rem;
+  margin-inline: auto;
+}
+
+/* Center the site footer content. */
+footer .container-xxl {
+  justify-content: center;
+  padding-bottom: 1rem;
+}
+
+footer {
+  text-align: center;
+}
