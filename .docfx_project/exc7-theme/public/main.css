@@ -33,6 +33,64 @@
   --bs-link-hover-color-rgb: var(--exc7-accent-hover-rgb);
 }
 
+@font-face {
+  font-family: "LT Hoop";
+  src: url("./fonts/LTHoop-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "LT Hoop";
+  src: url("./fonts/LTHoop-SemiBold.otf") format("opentype");
+  font-weight: 600;
+  font-display: swap;
+}
+@font-face {
+  font-family: "LT Hoop";
+  src: url("./fonts/LTHoop-Bold.otf") format("opentype");
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "LT Hoop Display";
+  src: url("./fonts/LTHoop-Black.otf") format("opentype");
+  font-weight: 800 900;
+  font-display: swap;
+}
+
+:root {
+  --bs-body-font-family: "LT Hoop", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+h1, h2, h3, .navbar-brand { font-family: "LT Hoop Display", "LT Hoop", sans-serif; }
+
+/* The horizontal .navbar-nav is display:flex, but the modern template leaves its
+   cross-axis at the default `stretch`, so each .nav-item is stretched to the full
+   navbar height and its block .nav-link text sits at the TOP instead of centered.
+   With the old system font the offset was ~a pixel; LTHoop's tall line box makes
+   it obvious. Centering the items is the real fix (the .navbar itself is already
+   align-items:center, but that only centers the brand and the collapse block). */
+.navbar-nav {
+  align-items: center;
+}
+
+/* The navbar brand is a flex row (logo + product name). main.js wraps the bare
+   product-name text in span.exc7-brand-text so we can trim its line box here —
+   the trim belongs only on the span (the brand <a> is the flex container and has
+   no line box to trim). This drops LTHoop's unused descender reserve so a name
+   with no descenders centers against the logo instead of sitting high. */
+.exc7-brand-text {
+  text-box-trim: trim-both;
+  text-box-edge: cap alphabetic;
+}
+
+/* Make the "♥ Asset Store" store link stand out from the other nav items. */
+.navbar-nav a.nav-link[href*="u3d.as"],
+.navbar-nav a.nav-link[href*="assetstore.unity.com"] {
+  font-weight: 700;
+}
+
 h1 {
   font-weight: bold;
 }

@@ -1,5 +1,5 @@
 <div class="exc7-hero">
-    <img src="images/splash.png" alt="Notch Solution">
+    <img src="images/splash.webp" alt="Notch Solution">
     <h1 class="exc7-hero-title">Notch Solution</h1>
     <p class="exc7-hero-desc">Runtime components and design tools to solve notched/cutout phones layout problems.</p>
 </div>
@@ -9,7 +9,7 @@
 
 Whether you like it or not, the time has come for us designers to design in context of a notch and embrace it instead of hiding it. This tool also enables design-time preview which help you iterate your design without building the game.
 
-![Main screenshot](images/main-screenshot.gif)
+![Main screenshot](images/main-screenshot.webp)
 
 - [Components](components/overview.md) to attach to your `GameObject`, they will stay safe by staying inside [`safeArea`](https://docs.unity3d.com/ScriptReference/Screen-safeArea.html) and out of the way of any [`cutouts`](https://docs.unity3d.com/ScriptReference/Screen-cutouts.html).
 - Works with Unity's built-in [Device Simulator](simulator/device-simulator.md) so you can iterate your design in the editor across many devices. The components react immediately when you switch device, with no need to build the game or reach for a physical device.
@@ -48,7 +48,7 @@ You can also see the [how-to section](how-to/index.md) for some tricks and recip
 
 ### 3. Set the Project Settings before you build
 
-![enable rendering into cutout](images/render-into-cutout.png)
+![enable rendering into cutout](images/render-into-cutout.webp)
 
 All the work for this moment. Enable **Render outside safe area** under **Resolution and Presentation** for Android. Otherwise you get black bars.
 

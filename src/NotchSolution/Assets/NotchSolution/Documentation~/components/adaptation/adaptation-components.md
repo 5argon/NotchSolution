@@ -32,11 +32,11 @@ Playables API requires an `Animator` component as a playable graph's output targ
 
 Unfortunately without the controller asset **connected** to `Animator` component, you cannot use the Animation tab to design the 2 adaptation clips. As a workaround to maintain good workflow, I have added a toggle button so that it assign the controller temporarily while it is pressed. After you are done remember to toggle it off to remove the controller asset.
 
-![Edit Adaptation](images/edit-adaptation.gif)
+![Edit Adaptation](images/edit-adaptation.webp)
 
 This button only appears if both clips are under the same controller asset parent. You could ensure that by creating all required assets with an another button that should appear around the same place, when you are still missing clips.
 
-![Clips with the same parent](images/clips-same-parent.png)
+![Clips with the same parent](images/clips-same-parent.webp)
 
 ## Problems with this approach
 

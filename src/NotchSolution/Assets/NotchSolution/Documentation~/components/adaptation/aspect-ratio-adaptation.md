@@ -1,8 +1,8 @@
-# <img src="../../../Icons/AspectRatioAdaptationIcon.png" width="30"> Aspect Ratio Adaptation
+# <img src="../../images-shared/aspect-ratio-adaptation-icon.webp" width="30"> Aspect Ratio Adaptation
 
 An adaptation where the time value for the adaptation curve came from screen aspect ratio number. The number is always assumed to be width/height regardless of game's orientation, so for example, it is always 1.3333 (4/3) for iPad. You could use this to **indirectly** fix notch problem, without knowing if the notch exists or not. (Things respond to aspect ratio and not the notch.)
 
-![Without aspect adaptation](images/without-aspect-adaptation.gif)
+![Without aspect adaptation](images/without-aspect-adaptation.webp)
 
 This gif demonstrate the problem of non uGUI objects when the aspect ratio changes. The camera shrink horizontally on narrower device when on portrait orientation. Before, I prepared a stage so that on iPad there are non-gameplay extra spaces around and could be cropped safely.
 
@@ -12,7 +12,7 @@ However this assumption is no longer safe with an arrival of notch trend, since 
 
 With `AspectRatioAdaptation`, I could dynamically change *anything* according to aspect ratio number. Notice that nothing on the scene moves with notch on or off, because it adapts to aspect ratio and **indirectly** fix notch problem.
 
-![With aspect adaptation](images/with-aspect-adaptation.gif)
+![With aspect adaptation](images/with-aspect-adaptation.webp)
 
 In this example, in addition to the camera narrowing normally by Unity, I want it move a bit backwards with `AspectRatioAdaptation` when it gets narrower. Because of perspective settings, moving a camera backwards will scale everything down, make room on the top and bottom, and in turn create a space for notch. We have avoided the notch without querying for an existence of notch this way.
 

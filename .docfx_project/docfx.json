@@ -44,13 +44,8 @@
       {
         "src": "../src/NotchSolution/Assets/NotchSolution/Documentation~",
         "files": [
-          "**/images/*"
-        ]
-      },
-      {
-        "src": "../src/NotchSolution/Assets/NotchSolution",
-        "files": [
-          "Icons/*"
+          "**/images/*",
+          "**/images-shared/*"
         ]
       }
     ],

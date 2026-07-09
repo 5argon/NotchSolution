@@ -1,6 +1,6 @@
 # Device Simulator
 
-![Device simulator presentation](images/device-simulator.png)
+![Device simulator presentation](images/device-simulator.webp)
 
 Notch Solution's [components](../components/overview.md) read the safe area and cutouts through [`UnityEngine.Device.Screen`](https://docs.unity3d.com/6000.3/Documentation/ScriptReference/Device.Screen.html). In a build this returns the real device values; in the editor it returns the values of the device selected in Unity's built-in [Device Simulator](https://docs.unity3d.com/6000.3/Documentation/Manual/device-simulator.html). The same component works in both places with no extra setup and no simulation layer of our own.
 

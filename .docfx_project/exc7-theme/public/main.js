@@ -5,6 +5,7 @@
 // ========================================================================
 const EXC7_GITHUB_REPO = 'https://github.com/5argon/NotchSolution'
 const EXC7_DISCORD_URL = 'https://discord.gg/J4sCcj4'
+const EXC7_IS_OPEN_SOURCE = true  // Asset Store products (private repo) hide the GitHub icon + star button
 // ========================================================================
 
 // Shared cross-promotion header. Injected on the homepage only, so it stays out of
@@ -23,9 +24,9 @@ const EXC7_CROSS_PROMOTION = `
   <div style="font-size:1rem;">- OPEN SOURCE -</div>
   <div class="cross-promotion-row">
     <span class="cross-promotion-item"><a href="https://exceed7.com/notch-solution/" target="_blank">Notch Solution</a><a class="github-button" href="https://github.com/5argon/NotchSolution" data-icon="octicon-star" data-show-count="true" aria-label="Star 5argon/NotchSolution on GitHub">Star</a></span>
-    <span class="cross-promotion-item"><a href="https://github.com/5argon/Minefield" target="_blank">Minefield Test Tools</a><a class="github-button" href="https://github.com/5argon/Minefield" data-icon="octicon-star" data-show-count="true" aria-label="Star 5argon/Minefield on GitHub">Star</a></span>
-    <span class="cross-promotion-item"><a href="https://github.com/5argon/NativeAudio" target="_blank">Native Audio</a><a class="github-button" href="https://github.com/5argon/NativeAudio" data-icon="octicon-star" data-show-count="true" aria-label="Star 5argon/NativeAudio on GitHub">Star</a></span>
-    <span class="cross-promotion-item"><a href="https://github.com/5argon/protobuf-unity" target="_blank">protobuf-unity</a><a class="github-button" href="https://github.com/5argon/protobuf-unity" data-icon="octicon-star" data-show-count="true" aria-label="Star 5argon/protobuf-unity on GitHub">Star</a></span>
+    <span class="cross-promotion-item"><a href="https://exceed7.com/minefield/" target="_blank">Minefield Test Tools</a><a class="github-button" href="https://github.com/5argon/Minefield" data-icon="octicon-star" data-show-count="true" aria-label="Star 5argon/Minefield on GitHub">Star</a></span>
+    <span class="cross-promotion-item"><a href="https://exceed7.com/native-audio/" target="_blank">Native Audio</a><a class="github-button" href="https://github.com/5argon/NativeAudio" data-icon="octicon-star" data-show-count="true" aria-label="Star 5argon/NativeAudio on GitHub">Star</a></span>
+    <span class="cross-promotion-item"><a href="https://exceed7.com/protobuf-unity/" target="_blank">protobuf-unity</a><a class="github-button" href="https://github.com/5argon/protobuf-unity" data-icon="octicon-star" data-show-count="true" aria-label="Star 5argon/protobuf-unity on GitHub">Star</a></span>
   </div>
 </div>`
 
@@ -41,11 +42,9 @@ function exc7IsHomepage() {
 export default {
   defaultTheme: 'auto',
   iconLinks: [
-    {
-      icon: 'github',
-      href: EXC7_GITHUB_REPO,
-      title: 'GitHub',
-    },
+    ...(EXC7_IS_OPEN_SOURCE
+      ? [{ icon: 'github', href: EXC7_GITHUB_REPO, title: 'GitHub' }]
+      : []),
     {
       icon: 'discord',
       href: EXC7_DISCORD_URL,
@@ -53,9 +52,25 @@ export default {
     },
   ],
   start: () => {
-    // Add a GitHub star button to the navbar.
+    // The brand is a flex row (logo + product name). The product name is a bare
+    // text node — an anonymous flex item that text-box-trim can't target — so with
+    // the brand font it sits high against the logo (LTHoop reserves descender space
+    // that a descenderless product name never uses). Wrap it in a span we can trim in CSS.
+    const brand = document.querySelector('a.navbar-brand')
+    if (brand) {
+      Array.from(brand.childNodes).forEach((node) => {
+        if (node.nodeType === Node.TEXT_NODE && node.textContent.trim()) {
+          const span = document.createElement('span')
+          span.className = 'exc7-brand-text'
+          span.textContent = node.textContent.trim()
+          node.replaceWith(span)
+        }
+      })
+    }
+
+    // Add a GitHub star button to the navbar (open-source products only).
     const navbar = document.getElementById('navbar')
-    if (navbar) {
+    if (EXC7_IS_OPEN_SOURCE && navbar) {
       const holder = document.createElement('div')
       holder.className = 'exc7-navbar-star'
       holder.innerHTML =

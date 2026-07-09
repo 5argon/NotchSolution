@@ -1,6 +1,6 @@
 # Debug Scene
 
-![scene](images/debug-scene.png)
+![scene](images/debug-scene.webp)
 
 A sample scene that displays the current safe area, cutouts, and device information. It works in the editor (following the [Device Simulator](device-simulator.md)) and on a physical device.
 

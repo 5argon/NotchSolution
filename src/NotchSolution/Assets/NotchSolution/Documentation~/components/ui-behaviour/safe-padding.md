@@ -1,6 +1,6 @@
-# <img src="../../../Icons/SafeAreaPaddingIcon.png" width="30"> Safe Padding
+# <img src="../../images-shared/safe-area-padding-icon.webp" width="30"> Safe Padding
 
-![screenshot](images/safe-padding.gif)
+![screenshot](images/safe-padding.webp)
 
 `SafePadding` component trust the return value of [`Screen.safeArea`](https://docs.unity3d.com/ScriptReference/Screen-safeArea.html) and pad the `RectTransform` accordingly. If you anchor your child UI game objects on the padded side of the parent with `SafePadding`, you have avoided the notched area naturally with uGUI's auto-layout system.
 
