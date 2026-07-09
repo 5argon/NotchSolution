@@ -75,6 +75,7 @@ a.external::after {
 .navbar-brand img {
   height: 1.75rem;
   width: auto;
+  margin-right: 0.55rem;
 }
 
 /* The GitHub star button injected into the navbar by main.js. */
