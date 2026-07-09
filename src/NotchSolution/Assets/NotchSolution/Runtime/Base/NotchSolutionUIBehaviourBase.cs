@@ -9,7 +9,7 @@ namespace E7.NotchSolution
     /// <summary>
     ///     A base class to derive from if you want to make a notch-aware <see cref="UIBehaviour"/> component.
     ///     <see cref="UpdateRect"/> will be called at the "correct moment".
-    ///     You change the <see cref="rectTransform"/> as you like in there.
+    ///     You change the <c>rectTransform</c> as you like in there.
     /// </summary>
     /// <remarks>
     ///     Use <see cref="GetCanvasRect"/> to travel to the closest <see cref="Canvas"/> that is this component's
