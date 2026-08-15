@@ -1,9 +1,9 @@
 {
-    "dependencies":  {
-                         "com.unity.ide.rider":  "3.0.40",
-                         "com.unity.inputsystem":  "1.19.0",
-                         "com.unity.modules.animation":  "1.0.0",
-                         "com.unity.test-framework":  "1.6.0",
-                         "com.unity.ugui":  "2.0.0"
-                     }
+  "dependencies": {
+    "com.unity.ide.rider": "3.0.40",
+    "com.unity.inputsystem": "1.19.0",
+    "com.unity.modules.animation": "1.0.0",
+    "com.unity.test-framework": "1.6.0",
+    "com.unity.ugui": "2.0.0"
+  }
 }
