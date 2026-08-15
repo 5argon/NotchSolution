@@ -14,6 +14,10 @@
 !/src/NotchSolution/Packages/**
 !/src/NotchSolution/ProjectSettings/**
 
+# Per-machine editor state, not project configuration.
+/src/NotchSolution/ProjectSettings/PackageManagerSettings.asset
+/src/NotchSolution/ProjectSettings/SceneTemplateSettings.json
+
 # Ignore .meta only when its asset is also ignored.
 !**/[Aa]ssets/**/*.meta
 
