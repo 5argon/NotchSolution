@@ -1,9 +1,0 @@
-{
-    "_appTitle": "Notch Solution",
-    "_appName": "Notch Solution",
-    "_description": "Runtime components and design tools to solve notched/cutout phones layout problems.",
-    "_appLogoPath": "logo.png",
-    "_appFaviconPath": "logo.png",
-    "_appFooter": "<div>A Unity plugin by <a href='http://5argon.info' target='_blank'>5argon</a> from <a href='http://exceed7.com' target='_blank'>Exceed7 Experiments</a>.</div><div><b>Problems/suggestions/contact</b> : <span class='contact-list'><span class='contact-list-item'>5argon@exceed7.com</span><span class='contact-list-item'><a href='https://discord.gg/J4sCcj4' target='_blank'>Discord</a></span></span></div>",
-    "rootUrl": "https://exceed7.com/notch-solution"
-}

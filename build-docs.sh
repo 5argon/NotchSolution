@@ -1,84 +1,33 @@
 #!/usr/bin/env bash
 #
-# Build and preview the Notch Solution documentation site with DocFX.
+# Build this package's documentation site.
 #
-# One-time prerequisites:
-#   1. Install the .NET SDK (8.x or 9.x): https://dotnet.microsoft.com/download
-#   2. Install DocFX as a global tool:    dotnet tool update -g docfx
-#   3. Open src/NotchSolution in Unity once so it generates the .sln / .csproj
-#      that the API-metadata step compiles against.
+# The DocFX configuration and the Exceed7 theme are NOT in this repository — they live
+# in the Exceed7Website repo, which generates a config for this package at build time.
+# That is why a font change or a header-bar change is one edit there rather than one
+# commit in every package repo.
 #
-# Usage:
-#   ./build-docs.sh           Full build (API metadata + site) and serve at http://localhost:8080
-#   ./build-docs.sh --build   Full build only, no server
-#   ./build-docs.sh --fast    Build the site WITHOUT regenerating API docs, then serve.
-#                             Much faster — use it for CSS / Markdown / TOC edits.
-#   ./build-docs.sh --watch   Like --fast, but rebuild automatically whenever a doc or
-#                             template file changes.
+# This script is identical in every package repo: it derives the package name from its
+# own directory, so there is nothing here to keep in sync.
 #
-# DocFX has no live reload: after each rebuild, hard-refresh the browser (Cmd+Shift+R),
-# because the template does not cache-bust main.css / main.js.
+# Requires: the Exceed7Website repo checked out next to the package repos, node, and
+# docfx (dotnet tool update -g docfx).
+#
+# Output lands in Exceed7Website/dist/<slug>/.
 #
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "$0")" && pwd)"
-config="$repo_root/.docfx_project/docfx.json"
-site="$repo_root/.docfx_project/_site"
+package_name="$(basename "$repo_root")"
 
-watch_dirs=(
-  "$repo_root/.docfx_project"
-  "$repo_root/src/NotchSolution/Assets/NotchSolution/Documentation~"
-  "$repo_root/src/NotchSolution/Assets/NotchSolution/CHANGELOG.md"
-)
+# Package repos sit in a flat fleet directory; Exceed7Website is a sibling of that
+# directory, so it is two levels up. EXCEED7_SITE_REPO overrides for other layouts.
+site_repo="${EXCEED7_SITE_REPO:-$repo_root/../../Exceed7Website}"
 
-if ! command -v docfx >/dev/null 2>&1; then
-  echo "docfx not found. Install it with: dotnet tool update -g docfx" >&2
+if [ ! -f "$site_repo/scripts/assemble.mjs" ]; then
+  echo "Cannot find Exceed7Website (looked in $site_repo)." >&2
+  echo "Clone it beside the fleet directory, or set EXCEED7_SITE_REPO." >&2
   exit 1
 fi
 
-case "${1:-}" in
-  --build)
-    docfx "$config"
-    ;;
-  --fast)
-    # "docfx build" runs only the build step, skipping the slow API-metadata compile.
-    docfx build "$config" --serve
-    ;;
-  --watch)
-    docfx build "$config"
-    docfx serve "$site" &
-    server_pid=$!
-    trap 'kill "$server_pid" 2>/dev/null || true' EXIT
-    echo "Watching for changes (1s poll) — hard-refresh the browser after each rebuild. Ctrl+C to stop."
-
-    # Hash the CONTENT of source files only. Generated output is pruned (_site, obj,
-    # api) and — crucially — the baseline is re-taken AFTER every build, so anything a
-    # build writes can never re-trigger the watcher. Only a real edit made after a
-    # build causes the next rebuild.
-    hash_sources() {
-      find "${watch_dirs[@]}" \
-          -type d \( -name _site -o -name obj -o -name .git -o -name api \) -prune -o \
-          -type f \( -name '*.md' -o -name '*.yml' -o -name '*.yaml' -o -name '*.css' \
-                     -o -name '*.js' -o -name '*.json' -o -name '*.png' -o -name '*.gif' -o -name '*.jpg' \) -print \
-          2>/dev/null | sort | xargs md5 2>/dev/null | md5 2>/dev/null || true
-    }
-
-    last="$(hash_sources)"
-    while true; do
-      sleep 1
-      now="$(hash_sources)"
-      if [ -n "$now" ] && [ "$now" != "$last" ]; then
-        docfx build "$config" || true
-        last="$(hash_sources)"
-      fi
-    done
-    ;;
-  "")
-    docfx "$config" --serve
-    ;;
-  *)
-    echo "Unknown option: ${1}" >&2
-    echo "Use: (no arg) | --build | --fast | --watch" >&2
-    exit 1
-    ;;
-esac
+exec node "$site_repo/scripts/assemble.mjs" --only "$package_name" --skip-site "$@"
