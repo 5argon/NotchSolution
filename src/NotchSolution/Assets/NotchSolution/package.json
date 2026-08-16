@@ -3,6 +3,7 @@
     "author": "Exceed7 Experiments",
     "displayName": "Notch Solution",
     "version": "3.0.0",
+    "license": "MIT",
     "unity": "6000.3",
     "keywords": [
         "ui",
