@@ -180,12 +180,11 @@ namespace E7.NotchSolution
 
             if (flipPadding)
             {
-                float remember = 0;
-                finalPaddingsLDUR[0] = remember;
+                float remember = finalPaddingsLDUR[0];
                 finalPaddingsLDUR[0] = finalPaddingsLDUR[3];
                 finalPaddingsLDUR[3] = remember;
 
-                finalPaddingsLDUR[1] = remember;
+                remember = finalPaddingsLDUR[1];
                 finalPaddingsLDUR[1] = finalPaddingsLDUR[2];
                 finalPaddingsLDUR[2] = remember;
             }
